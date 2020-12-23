@@ -36,6 +36,7 @@ public class RegisterUser extends HttpServlet {
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
+		System.out.println("ciao");
 		/*ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
 		this.templateEngine = new TemplateEngine();
