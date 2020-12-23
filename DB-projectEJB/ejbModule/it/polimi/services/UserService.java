@@ -12,7 +12,7 @@ import java.util.List;
 
 @Stateless
 public class UserService {
-	@PersistenceContext(unitName = "AlbumEJB")
+	@PersistenceContext(unitName = "DB-projectEJB")
 	private EntityManager em;
 
 	public UserService() {

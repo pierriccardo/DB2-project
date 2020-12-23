@@ -23,7 +23,7 @@ import javax.persistence.NonUniqueResultException;
 
 import javax.naming.*;
 
-@WebServlet("/RegisterUser")
+@WebServlet("/test")
 public class RegisterUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//private TemplateEngine templateEngine;
@@ -42,6 +42,11 @@ public class RegisterUser extends HttpServlet {
 		this.templateEngine = new TemplateEngine();
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");*/
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.getWriter().append("BELLA!!!");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
