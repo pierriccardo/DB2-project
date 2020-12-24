@@ -9,11 +9,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "DB_project")
-//@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
+@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 @NamedQuery(name = "User.checkUsernames", query = "SELECT r FROM User r  WHERE r.username = ?1")
 @NamedQuery(name = "User.checkEmails", query = "SELECT r FROM User r  WHERE r.email = ?1")
-@NamedQuery(name="user.RegisterUser", 
-query="INSERT INTO user (username, password, email) VALUES (?1, ?2, ?3)")
+@NamedQuery(name="User.RegisterUser", query="INSERT INTO User (username, password, email) VALUES (?1, ?2, ?3)")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,8 +21,15 @@ public class User implements Serializable {
 	private int id;
 
 	private String username;
-	private Boolean isAdmin;
+	private String password;
+	private String email;
 	private Boolean isBanned;
+	private Boolean isAdmin;
+	
+	
+	@OneToMany(mappedBy="idUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	private List<Log> Logs;
+	
 	/*
 	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
 	private List<Questionnaire> Questionnaires;
@@ -31,17 +37,49 @@ public class User implements Serializable {
 	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
 	private List<Review> Reviews;
 	
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
-	private List<Log> Logs;
 	
 	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
 	private List<Leaderboard> Leaderboards;
 	*/
+	
 	public User() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public Boolean getIsAdmin() {
-		return isAdmin;
+		return this.isAdmin;
 	}
 
 	public void setIsAdmin(Boolean isAdmin) {
@@ -49,7 +87,7 @@ public class User implements Serializable {
 	}
 
 	public Boolean getIsBanned() {
-		return isBanned;
+		return this.isBanned;
 	}
 
 	public void setIsBanned(Boolean isBanned) {
@@ -88,13 +126,5 @@ public class User implements Serializable {
 		Leaderboards = leaderboards;
 	}
 	*/
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 }
