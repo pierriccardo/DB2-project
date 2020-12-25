@@ -1,6 +1,7 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -24,7 +25,7 @@ import javax.persistence.NonUniqueResultException;
 
 import javax.naming.*;
 
-@WebServlet("/loginservlet")
+@WebServlet("/")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -42,6 +43,15 @@ public class LoginServlet extends HttpServlet {
 		this.templateEngine = new TemplateEngine();
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String path = "/WEB-INF/login.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		templateEngine.process(path, ctx, response.getWriter());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
