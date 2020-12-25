@@ -34,7 +34,7 @@ public class UserService {
 
 	}
 	
-	public User RegisterUser(String usrn, String email, String pwd) throws CredentialsException {
+	public User Register(String usrn, String email, String pwd) throws CredentialsException {
 		List<User> usernamesList = null;
 		List<User> emailsList = null;
 		try {
@@ -45,6 +45,7 @@ public class UserService {
 					.setParameter(1, email)
 					.getResultList();
 		} catch (PersistenceException e) {
+			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (usernamesList.size() >= 1) {

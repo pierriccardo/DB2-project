@@ -9,12 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
-/*import org.thymeleaf.context.WebContext;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;*/
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.services.UserService;
 import it.polimi.entities.User;
@@ -23,43 +23,63 @@ import javax.persistence.NonUniqueResultException;
 
 import javax.naming.*;
 
-@WebServlet("/test")
-public class RegisterUser extends HttpServlet {
+@WebServlet("/Register")
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	//private TemplateEngine templateEngine;
+	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/UserService")
 	private UserService usrService;
 
-	public RegisterUser() {
+	public RegisterServlet() {
 		super();
 	}
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		System.out.println("ciao");
-		/*ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
+		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
 		this.templateEngine = new TemplateEngine();
 		this.templateEngine.setTemplateResolver(templateResolver);
-		templateResolver.setSuffix(".html");*/
+		templateResolver.setSuffix(".html");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("BELLA!!!");
+		String path = "/WEB-INF/Register.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		templateEngine.process(path, ctx, response.getWriter());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// obtain and escape params
-		String usrn = "Piero";
-		String pwd = "Fraternali";
-		String email = "piero.fraternali@polimi.it";
+		String usrn  = null;
+		String pwd   = null;
+		String email = null;
+		try {
+			usrn = StringEscapeUtils.escapeJava(request.getParameter("usrn"));
+			pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
+			email = StringEscapeUtils.escapeJava(request.getParameter("email"));
+			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
+				throw new Exception("Missing or empty credential value");
+			}
+
+		} catch (Exception e) {
+			// for debugging only e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			return;
+		}
 	
 		User user;
 		try {
 			// query db to authenticate for user
-			user = usrService.RegisterUser(usrn, pwd, email);
+			System.out.println(usrn);
+			System.out.println(pwd);
+			System.out.println(email);
+			user = usrService.Register(usrn, pwd, email);
 		} catch (CredentialsException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username or Email are already used");
