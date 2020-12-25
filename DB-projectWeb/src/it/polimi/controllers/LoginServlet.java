@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			ctx.setVariable("errorMsg", "Incorrect username or password");
-			path = "/login.html";
+			path = "/WEB-INF/Login.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
 			/*QueryService qService = null;
