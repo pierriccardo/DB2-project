@@ -57,6 +57,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// obtain and escape params
+		String path;
 		String usrn = null;
 		String pwd = null;
 		try {
@@ -68,7 +69,11 @@ public class LoginServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", "Incorrect username or password");
+			path = "/WEB-INF/Login.html";
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 		User user;
@@ -76,22 +81,21 @@ public class LoginServlet extends HttpServlet {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
 		} catch (CredentialsException | NonUniqueResultException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			//e.printStackTrace();
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", "Incorrect username or password");
+			path = "/WEB-INF/Login.html";
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
 
-		String path;
+		//String path;
 		if (user == null) {
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Incorrect username or password");
-			path = "/WEB-INF/Login.html";
-			templateEngine.process(path, ctx, response.getWriter());
-		} else {
+					} else {
 			/*QueryService qService = null;
 			try {
 				// Get the Initial Context for the JNDI lookup for a local EJB
