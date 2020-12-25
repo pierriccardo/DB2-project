@@ -8,6 +8,10 @@ import javax.persistence.NonUniqueResultException;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Stateless
@@ -21,9 +25,13 @@ public class UserService {
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
 		try {
-			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd)
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] encodedhash = digest.digest(
+					pwd.getBytes(StandardCharsets.UTF_8));
+			
+			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
-		} catch (PersistenceException e) {
+		} catch (NoSuchAlgorithmException | PersistenceException e) {
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (uList.isEmpty())
@@ -62,5 +70,17 @@ public class UserService {
 					.get(0);
 		return null;
 			
+	}
+	
+	private String bytesToHex(byte[] hash) {
+	    StringBuilder hexString = new StringBuilder(2 * hash.length);
+	    for (int i = 0; i < hash.length; i++) {
+	        String hex = Integer.toHexString(0xff & hash[i]);
+	        if(hex.length() == 1) {
+	            hexString.append('0');
+	        }
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
 	}
 }
