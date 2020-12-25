@@ -28,7 +28,7 @@ import javax.naming.*;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "it.polimi.db2.album.services/UserService")
+	@EJB(name = "it.polimi.services/UserService")
 	private UserService usrService;
 
 	public LoginServlet() {
