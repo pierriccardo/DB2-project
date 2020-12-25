@@ -24,8 +24,10 @@ public class Log implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	/*
 	@ManyToOne
 	@JoinColumn(name = "idUser")
+	*/
 	private int idUser;
 	private Timestamp timestamp_login;
 	

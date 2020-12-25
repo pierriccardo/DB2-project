@@ -12,6 +12,30 @@ import java.util.List;
 //@NamedQuery(name = "Product.check", query = "SELECT * FROM Product")
 
 public class Product implements Serializable {
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	private static final long serialVersionUID = 1L;
 
 	@Id 	

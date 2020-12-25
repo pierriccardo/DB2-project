@@ -26,9 +26,10 @@ public class User implements Serializable {
 	private Boolean isBanned;
 	private Boolean isAdmin;
 	
-	
+	/*
 	@OneToMany(mappedBy="idUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
 	private List<Log> Logs;
+	*/
 	
 	/*
 	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
