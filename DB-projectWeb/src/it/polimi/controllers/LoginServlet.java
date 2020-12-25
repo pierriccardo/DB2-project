@@ -60,6 +60,7 @@ public class LoginServlet extends HttpServlet {
 		String path;
 		String usrn = null;
 		String pwd = null;
+		
 		try {
 			usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
@@ -67,50 +68,51 @@ public class LoginServlet extends HttpServlet {
 				throw new Exception("Missing or empty credential value");
 			}
 
-		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Incorrect username or password");
-			path = "/WEB-INF/Login.html";
-			templateEngine.process(path, ctx, response.getWriter());
-			return;
-		}
-		User user;
-		try {
-			// query db to authenticate for user
-			user = usrService.checkCredentials(usrn, pwd);
-		} catch (CredentialsException | NonUniqueResultException e) {
-			//e.printStackTrace();
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Incorrect username or password");
-			path = "/WEB-INF/Login.html";
-			templateEngine.process(path, ctx, response.getWriter());
-			return;
-		}
-
-		// If the user exists, add info to the session and go to home page, otherwise
-		// show login page with error message
-
-		//String path;
-		if (user == null) {
-					} else {
-			/*QueryService qService = null;
+			User user;
 			try {
-				// Get the Initial Context for the JNDI lookup for a local EJB
-				InitialContext ic = new InitialContext();
-				// Retrieve the EJB using JNDI lookup
-				qService = (QueryService) ic.lookup("java:/openejb/local/QueryServiceLocalBean");
-			} catch (Exception e) {
+				// query db to authenticate for user
+				//user = usrService.checkCredentials(usrn, pwd);
+				if(usrn.equals("user") && pwd.equals("pass"))
+					user = new User();
+				else
+					user = null;
+				
+			} catch (/* CredentialsException | */ NonUniqueResultException e) {
 				e.printStackTrace();
-			}*/
-			request.getSession().setAttribute("user", user);
-			//request.getSession().setAttribute("queryService", qService);
-			path = getServletContext().getContextPath() + "/GoToHomePage";
-			response.sendRedirect(path);
+				throw new Exception("Could not check credentials");
+			}
+			
+			if (user == null) {
+				ServletContext servletContext = getServletContext();
+				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+				ctx.setVariable("errorMsg", "Incorrect username or password");
+				path = "/index.html";
+				templateEngine.process(path, ctx, response.getWriter());
+			} else {
+				//QueryService qService = null;
+				try {
+					// Get the Initial Context for the JNDI lookup for a local EJB
+					InitialContext ic = new InitialContext();
+					// Retrieve the EJB using JNDI lookup
+					//qService = (QueryService) ic.lookup("java:/openejb/local/QueryServiceLocalBean");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				request.getSession().setAttribute("user", user);
+				//request.getSession().setAttribute("queryService", qService);
+				path = getServletContext().getContextPath() + "/GoToHomePage";
+				response.sendRedirect(path);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", e.toString());
+			path = "/WEB-INF/Login.html";
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
 		}
-
 	}
 
 	public void destroy() {
