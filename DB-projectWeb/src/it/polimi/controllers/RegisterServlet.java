@@ -75,7 +75,7 @@ public class RegisterServlet extends HttpServlet {
 			
 			try {
 				// query db to authenticate for user
-				usrService.Register(usrn, pwd, email);
+				usrService.Register(usrn, email, pwd);
 			} catch (CredentialsException e) {
 				e.printStackTrace();
 				throw new Exception("Username or Email are already used");

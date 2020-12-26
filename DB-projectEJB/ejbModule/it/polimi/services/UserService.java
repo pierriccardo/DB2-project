@@ -25,9 +25,15 @@ public class UserService {
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
 		try {
-			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd)
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] encodedhash = digest.digest(
+					pwd.getBytes(StandardCharsets.UTF_8));
+			System.out.println(bytesToHex(encodedhash));
+
+			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
-		} catch (PersistenceException e) {
+		} catch (PersistenceException | NoSuchAlgorithmException e) {
+			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (uList.isEmpty())
@@ -65,7 +71,6 @@ public class UserService {
 				byte[] encodedhash = digest.digest(
 						pwd.getBytes(StandardCharsets.UTF_8));
 
-				System.out.println(bytesToHex(encodedhash));
 				newUser.setPassword(bytesToHex(encodedhash));
 				
 				newUser.setEmail(email);
