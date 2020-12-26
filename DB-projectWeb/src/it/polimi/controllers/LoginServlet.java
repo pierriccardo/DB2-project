@@ -71,11 +71,11 @@ public class LoginServlet extends HttpServlet {
 			User user;
 			try {
 				// query db to authenticate for user
-				//user = usrService.checkCredentials(usrn, pwd);
-				if(usrn.equals("user") && pwd.equals("pass"))
+				user = usrService.checkCredentials(usrn, pwd);
+				/*if(usrn.equals("user") && pwd.equals("pass"))
 					user = new User();
 				else
-					user = null;
+					user = null;*/
 				
 			} catch (/* CredentialsException | */ NonUniqueResultException e) {
 				e.printStackTrace();

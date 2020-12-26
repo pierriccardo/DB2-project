@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "blacklist_word", schema = "DB_project")
 @NamedQuery(name = "BlacklistWord.isBlacklistedWord", query = "SELECT r FROM BlacklistWord r  WHERE r.word = ?1")
-@NamedQuery(name="BlacklistWord.insertBlacklistedWord", query="INSERT INTO BlacklistWord (word) VALUES (?1)")
 public class BlacklistWord implements Serializable {
 	private static final long serialVersionUID = 1L;
 
