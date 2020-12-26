@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "question", schema = "DB_project")
 @NamedQuery(name = "Question.getProductQuestions", query = "SELECT q FROM Question q  WHERE q.idProduct = ?1")
-@NamedQuery(name="Question.insertProductQuestion", query="INSERT INTO Question (idProduct, text) VALUES (?1, ?2)")
 public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
 

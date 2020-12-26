@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "leaderboard", schema = "DB_project")
 @NamedQuery(name = "Leaderboard.getUserPoints", query = "SELECT r FROM Leaderboard r  WHERE r.idUser = ?1")
-@NamedQuery(name="Leaderboard.insertUserPoints", query="INSERT INTO Leaderboard (word) VALUES (?1)")
 public class Leaderboard implements Serializable {
 	private static final long serialVersionUID = 1L;
 
