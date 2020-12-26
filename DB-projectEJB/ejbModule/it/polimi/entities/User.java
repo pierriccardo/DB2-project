@@ -12,7 +12,7 @@ import java.util.List;
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 @NamedQuery(name = "User.checkUsernames", query = "SELECT r FROM User r  WHERE r.username = ?1")
 @NamedQuery(name = "User.checkEmails", query = "SELECT r FROM User r  WHERE r.email = ?1")
-@NamedQuery(name="User.RegisterUser", query="INSERT INTO User (username, password, email) VALUES (?1, ?2, ?3)")
+//@NamedQuery(name = "User.RegisterUser", query = "INSERT INTO User (username, password, email) VALUES (?1, ?2, ?3)")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

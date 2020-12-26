@@ -8,6 +8,10 @@ import javax.persistence.NonUniqueResultException;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Stateless
@@ -34,9 +38,12 @@ public class UserService {
 
 	}
 	
-	public User RegisterUser(String usrn, String email, String pwd) throws CredentialsException {
+	public Boolean Register(String usrn, String email, String pwd) throws CredentialsException {
 		List<User> usernamesList = null;
 		List<User> emailsList = null;
+		User newUser = null;
+		Boolean success = false;
+		
 		try {
 			usernamesList = em.createNamedQuery("User.checkUsernames", User.class)
 					.setParameter(1, usrn)
@@ -44,23 +51,48 @@ public class UserService {
 			emailsList = em.createNamedQuery("User.checkEmails", User.class)
 					.setParameter(1, email)
 					.getResultList();
-		} catch (PersistenceException e) {
+			if (usernamesList.size() >= 1) {
+				throw new CredentialsException("Username already in use!");			
+			}
+			if (emailsList.size() >= 1) {
+				throw new CredentialsException("Email already in use!");			
+			}
+			else if (usernamesList.isEmpty() && emailsList.isEmpty())
+				newUser = new User();
+				newUser.setUsername(usrn);
+				
+				MessageDigest digest = MessageDigest.getInstance("SHA-256");
+				byte[] encodedhash = digest.digest(
+						pwd.getBytes(StandardCharsets.UTF_8));
+
+				System.out.println(bytesToHex(encodedhash));
+				newUser.setPassword(bytesToHex(encodedhash));
+				
+				newUser.setEmail(email);
+				newUser.setIsAdmin(false);
+				newUser.setIsBanned(false);
+				em.persist(newUser);
+				
+				success = true;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			success = false;
 			throw new CredentialsException("Could not verify credentals");
 		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		else if (usernamesList.isEmpty() && emailsList.isEmpty())
-			return em.createNamedQuery("User.RegisterUser", User.class)
-					.setParameter(1, usrn)
-					.setParameter(2, pwd)
-					.setParameter(3, email)
-					.getResultList()
-					.get(0);
-		return null;
-			
+		
+		return success;
+	}
+	
+	private String bytesToHex(byte[] hash) {
+	    StringBuilder hexString = new StringBuilder(2 * hash.length);
+	    for (int i = 0; i < hash.length; i++) {
+	        String hex = Integer.toHexString(0xff & hash[i]);
+	        if(hex.length() == 1) {
+	            hexString.append('0');
+	        }
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
 	}
 }

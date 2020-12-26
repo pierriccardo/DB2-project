@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "log", schema = "DB_project")
 @NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.idUser = ?1")
-@NamedQuery(name="Log.insert", query="INSERT INTO Log (idUser, timestamp_login) VALUES (?1, ?2)")
+//@NamedQuery(name="Log.insert", query="INSERT INTO Log (idUser, timestamp_login) VALUES (?1, ?2)")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 

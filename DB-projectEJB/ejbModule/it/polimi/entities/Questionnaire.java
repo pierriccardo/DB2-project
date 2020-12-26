@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "questionnaire", schema = "DB_project")
 @NamedQuery(name = "Questionnaire.getUserQuestionnaires", query = "SELECT q FROM Questionnaire q  WHERE q.id = ?1")
-@NamedQuery(name="Questionnaire.insertUserQuestionnaire", query="INSERT INTO Questionnaire (idProduct, idUser, sex, age, expertise_level) VALUES (?1, ?2, ?3, ?4, ?5)")
+//@NamedQuery(name="Questionnaire.insertUserQuestionnaire", query="INSERT INTO Questionnaire (idProduct, idUser, sex, age, expertise_level) VALUES (?1, ?2, ?3, ?4, ?5)")
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
