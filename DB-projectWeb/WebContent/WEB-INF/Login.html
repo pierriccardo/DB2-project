@@ -6,16 +6,14 @@
 </head>
 <body>
 	<h1>Login</h1>
-
-				<fieldset><legend>Insert data</legend>
-					<form name="login" action="#" th:action="@{/}" method="post">
-						<label for="username">Username</label> 
-							<input type="text" name="username" placeholder="username" required> <br /> 
-						<label for="password">Password</label> 
-							<input type="password" name="password" placeholder="password" required> <br /> 
-						<input type="submit" value="Login">
-						<p th:text=" ${errorMsg}"></p>
-					</form>
-
+	<fieldset><legend>Insert data</legend>
+		<form name="login" action="#" th:action="@{/}" method="post">
+			<label for="username">Username</label> 
+				<input type="text" name="username" placeholder="username" required> <br /> 
+			<label for="password">Password</label> 
+				<input type="password" name="password" placeholder="password" required> <br /> 
+			<input type="submit" value="Login">
+			<p th:text=" ${errorMsg}"></p>
+		</form>
 </body>
 </html>
