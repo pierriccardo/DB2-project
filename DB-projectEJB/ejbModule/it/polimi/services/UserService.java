@@ -34,9 +34,12 @@ public class UserService {
 
 	}
 	
-	public User Register(String usrn, String email, String pwd) throws CredentialsException {
+	public Boolean Register(String usrn, String email, String pwd) throws CredentialsException {
 		List<User> usernamesList = null;
 		List<User> emailsList = null;
+		User newUser = null;
+		Boolean success = false;
+		
 		try {
 			usernamesList = em.createNamedQuery("User.checkUsernames", User.class)
 					.setParameter(1, usrn)
@@ -44,24 +47,26 @@ public class UserService {
 			emailsList = em.createNamedQuery("User.checkEmails", User.class)
 					.setParameter(1, email)
 					.getResultList();
+			if (usernamesList.size() >= 1) {
+				throw new CredentialsException("Username already in use!");			
+			}
+			if (emailsList.size() >= 1) {
+				throw new CredentialsException("Email already in use!");			
+			}
+			else if (usernamesList.isEmpty() && emailsList.isEmpty())
+				newUser = new User();
+				newUser.setUsername(usrn);
+				newUser.setPassword(pwd);
+				newUser.setEmail(email);
+				em.persist(newUser);
+				
+				success = true;
+				
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		else if (usernamesList.isEmpty() && emailsList.isEmpty())
-			return em.createNamedQuery("User.RegisterUser", User.class)
-					.setParameter(1, usrn)
-					.setParameter(2, pwd)
-					.setParameter(3, email)
-					.getResultList()
-					.get(0);
-		return null;
-			
+		
+		return success;
 	}
 }

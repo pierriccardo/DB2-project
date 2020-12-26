@@ -73,13 +73,9 @@ public class RegisterServlet extends HttpServlet {
 			return;
 		}
 	
-		User user;
 		try {
 			// query db to authenticate for user
-			System.out.println(usrn);
-			System.out.println(pwd);
-			System.out.println(email);
-			user = usrService.Register(usrn, pwd, email);
+			usrService.Register(usrn, pwd, email);
 		} catch (CredentialsException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username or Email are already used");
@@ -92,9 +88,9 @@ public class RegisterServlet extends HttpServlet {
 		String path;
 		if (user == null) {
 			System.out.println("User is null");
-			//ServletContext servletContext = getServletContext();
-			//final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			//ctx.setVariable("errorMsg", "Username or Email are already used");
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", "Username or Email are already used");
 			//path = "/index.html";
 			//templateEngine.process(path, ctx, response.getWriter());
 		} else {
