@@ -36,7 +36,6 @@ public class RegisterServlet extends HttpServlet {
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
-		System.out.println("ciao");
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
 		this.templateEngine = new TemplateEngine();
@@ -59,58 +58,35 @@ public class RegisterServlet extends HttpServlet {
 		String usrn  = null;
 		String pwd   = null;
 		String email = null;
+		
 		try {
-			usrn = StringEscapeUtils.escapeJava(request.getParameter("usrn"));
-			pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
-			email = StringEscapeUtils.escapeJava(request.getParameter("email"));
-			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
-			}
-
-		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
-			return;
-		}
-	
-		try {
-			// query db to authenticate for user
-			usrService.Register(usrn, pwd, email);
-		} catch (CredentialsException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username or Email are already used");
-			return;
-		}
-
-		// If the user exists, add info to the session and go to home page, otherwise
-		// show login page with error message
-
-		String path;
-		if (user == null) {
-			System.out.println("User is null");
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Username or Email are already used");
-			//path = "/index.html";
-			//templateEngine.process(path, ctx, response.getWriter());
-		} else {
-			System.out.println("ok");
-			/*
-			QueryService qService = null;
 			try {
-				// Get the Initial Context for the JNDI lookup for a local EJB
-				InitialContext ic = new InitialContext();
-				// Retrieve the EJB using JNDI lookup
-				qService = (QueryService) ic.lookup("java:/openejb/local/QueryServiceLocalBean");
+				usrn = StringEscapeUtils.escapeJava(request.getParameter("usrn"));
+				pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
+				email = StringEscapeUtils.escapeJava(request.getParameter("email"));
+				if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
+					throw new Exception("Missing or empty credential value");
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
+				throw new Exception("Missing or empty credential value");
 			}
-			request.getSession().setAttribute("user", user);
-			request.getSession().setAttribute("queryService", qService);
-			path = getServletContext().getContextPath() + "/GoToHomePage";
-			response.sendRedirect(path);*/
+			
+			try {
+				// query db to authenticate for user
+				usrService.Register(usrn, pwd, email);
+			} catch (CredentialsException e) {
+				e.printStackTrace();
+				throw new Exception("Username or Email are already used");
+			}
+		} catch (Exception e) {
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", e.toString());
+			String path = "/WEB-INF/Register.html";
+			templateEngine.process(path, ctx, response.getWriter());
 		}
-
 	}
 
 	public void destroy() {

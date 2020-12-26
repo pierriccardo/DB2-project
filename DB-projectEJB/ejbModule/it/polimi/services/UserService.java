@@ -8,6 +8,10 @@ import javax.persistence.NonUniqueResultException;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Stateless
@@ -56,17 +60,39 @@ public class UserService {
 			else if (usernamesList.isEmpty() && emailsList.isEmpty())
 				newUser = new User();
 				newUser.setUsername(usrn);
-				newUser.setPassword(pwd);
+				
+				MessageDigest digest = MessageDigest.getInstance("SHA-256");
+				byte[] encodedhash = digest.digest(
+						pwd.getBytes(StandardCharsets.UTF_8));
+
+				System.out.println(bytesToHex(encodedhash));
+				newUser.setPassword(bytesToHex(encodedhash));
+				
 				newUser.setEmail(email);
+				newUser.setIsAdmin(false);
+				newUser.setIsBanned(false);
 				em.persist(newUser);
 				
 				success = true;
 				
-		} catch (PersistenceException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			success = false;
 			throw new CredentialsException("Could not verify credentals");
 		}
 		
 		return success;
+	}
+	
+	private String bytesToHex(byte[] hash) {
+	    StringBuilder hexString = new StringBuilder(2 * hash.length);
+	    for (int i = 0; i < hash.length; i++) {
+	        String hex = Integer.toHexString(0xff & hash[i]);
+	        if(hex.length() == 1) {
+	            hexString.append('0');
+	        }
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
 	}
 }
