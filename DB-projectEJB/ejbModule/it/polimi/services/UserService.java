@@ -28,10 +28,10 @@ public class UserService {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] encodedhash = digest.digest(
 					pwd.getBytes(StandardCharsets.UTF_8));
-			
 			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
 		} catch (NoSuchAlgorithmException | PersistenceException e) {
+			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (uList.isEmpty())
@@ -42,9 +42,12 @@ public class UserService {
 
 	}
 	
-	public User RegisterUser(String usrn, String email, String pwd) throws CredentialsException {
+	public Boolean Register(String usrn, String email, String pwd) throws CredentialsException {
 		List<User> usernamesList = null;
 		List<User> emailsList = null;
+		User newUser = null;
+		Boolean success = false;
+		
 		try {
 			usernamesList = em.createNamedQuery("User.checkUsernames", User.class)
 					.setParameter(1, usrn)
@@ -52,24 +55,36 @@ public class UserService {
 			emailsList = em.createNamedQuery("User.checkEmails", User.class)
 					.setParameter(1, email)
 					.getResultList();
-		} catch (PersistenceException e) {
+			if (usernamesList.size() >= 1) {
+				throw new CredentialsException("Username already in use!");			
+			}
+			if (emailsList.size() >= 1) {
+				throw new CredentialsException("Email already in use!");			
+			}
+			else if (usernamesList.isEmpty() && emailsList.isEmpty())
+				newUser = new User();
+				newUser.setUsername(usrn);
+				
+				MessageDigest digest = MessageDigest.getInstance("SHA-256");
+				byte[] encodedhash = digest.digest(
+						pwd.getBytes(StandardCharsets.UTF_8));
+
+				newUser.setPassword(bytesToHex(encodedhash));
+				
+				newUser.setEmail(email);
+				newUser.setIsAdmin(false);
+				newUser.setIsBanned(false);
+				em.persist(newUser);
+				
+				success = true;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			success = false;
 			throw new CredentialsException("Could not verify credentals");
 		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		if (usernamesList.size() >= 1) {
-			throw new CredentialsException("More than one user registered with same credentials");			
-		}
-		else if (usernamesList.isEmpty() && emailsList.isEmpty())
-			return em.createNamedQuery("User.RegisterUser", User.class)
-					.setParameter(1, usrn)
-					.setParameter(2, pwd)
-					.setParameter(3, email)
-					.getResultList()
-					.get(0);
-		return null;
-			
+		
+		return success;
 	}
 	
 	private String bytesToHex(byte[] hash) {

@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "product", schema = "DB_project")
 //@NamedQuery(name = "Product.check", query = "SELECT * FROM Product")
-
 public class Product implements Serializable {
 	public int getId() {
 		return id;
