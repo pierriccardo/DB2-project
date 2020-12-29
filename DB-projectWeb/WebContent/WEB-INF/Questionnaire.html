@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Login page</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+		
+	<style>
+		.question-box {
+			margin-bottom: 30px;
+		} 
+		
+		.question-box > .form-control {
+			margin-bottom: 20px;	
+		}
+		
+		.optional_row {
+			margin-bottom: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-xxl">
+		<form name="Questionnaire" action="#" th:action="@{/Questionnaire}" method="post">
+			<div id="q_marketing" class="collapse show">
+				<div class="row question-box" th:each="question: ${questions}">
+					<h1 th:text="${question.getText() + ': *'}">Question</h1>
+					<textarea class="form-control" th:name="${'q' + question.getId()}" placeholder="Insert the answer here" style="height: 100px"></textarea>
+					<hr>
+				</div>
+				
+				<div class="row">
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+						<button class="btn btn-primary" type="button" onclick="toggle()">Next <i class="fas fa-angle-double-right"></i></button>
+					</div>
+				</div>
+			</div>
+			
+			<div id="q_optional" class="collapse">
+				<div class="row optional_row">
+					<div class="col-sm">
+						<h5>Age:</h5>
+						<input type="number" class="form-control form-control-lg" name="age" id="age" placeholder="Insert your age">
+					</div>
+					<div class="col-sm">
+						<h5>Sex:</h5>
+						<div class="btn-group btn-group-lg" role="group" aria-label="Sex:">
+							<input type="radio" class="btn-check" name="sex" value="0" id="sex0" autocomplete="off" checked>
+							<label class="btn btn-outline-primary" for="sex0">Male</label>
+							
+							<input type="radio" class="btn-check" name="sex" value="1" id="sex1" autocomplete="off">
+							<label class="btn btn-outline-danger" for="sex1">Female</label>
+						</div>
+					</div>
+					
+					<div class="col-sm">
+						<h5>Expertise level:</h5>
+						<div class="btn-group btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+							<input type="radio" class="btn-check" name="expertise_level" value="0" id="expertise_level0" autocomplete="off" checked>
+							<label class="btn btn-outline-danger" for="expertise_level0">Low</label>
+							
+							<input type="radio" class="btn-check" name="expertise_level" value="1" id="expertise_level1" autocomplete="off">
+							<label class="btn btn-outline-primary" for="expertise_level1">Medium</label>
+							
+							<input type="radio" class="btn-check" name="expertise_level" value="2" id="expertise_level2" autocomplete="off">
+							<label class="btn btn-outline-success" for="expertise_level2">High</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div >
+						<button style="float: left" class="btn btn-primary" type="button" onclick="toggle()"><i class="fas fa-angle-double-left"></i> Previous</button>
+						<button style="float: right; margin-left: 10px" class="btn btn-success" type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+						<a href="#" style="float: right" class="btn btn-danger" th:href="@{/Home}"><i class="fas fa-trash-alt"></i> Cancel</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<h4>* Mandatory fields</h4>
+			</div>
+		</form>
+	</div>
+	
+	<script>
+		function toggle() {
+			new bootstrap.Collapse(q_optional)
+			new bootstrap.Collapse(q_marketing)
+			
+			return true
+		}
+	</script>
+</body>
+</html>
