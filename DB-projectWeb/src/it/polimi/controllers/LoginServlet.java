@@ -1,6 +1,7 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
+import java.security.Timestamp;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -99,6 +100,10 @@ public class LoginServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				request.getSession().setAttribute("user", user);
+				
+				//implementare associazione
+				//usrService.RegisterLog(idUsr, new Timestamp(System.currentTimeMillis()));
+				
 				//request.getSession().setAttribute("queryService", qService);
 				path = getServletContext().getContextPath() + "/GoToHomePage";
 				response.sendRedirect(path);
