@@ -9,7 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "product", schema = "DB_project")
-//@NamedQuery(name = "Product.check", query = "SELECT * FROM Product")
+@NamedQuery(name = "Product.searchProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
+
 public class Product implements Serializable {
 	public int getId() {
 		return id;
