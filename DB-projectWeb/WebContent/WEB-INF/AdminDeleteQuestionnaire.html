@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Panel</title>
+</head>
+<body>
+	<h1>Delete a Questionnaire</h1>
+	<fieldset><legend>Insert Questionnaire id</legend>
+		<form name="delete" action="#" th:action="@{/Delete}" method="post">
+			<label for="qId">id</label> 
+				<input type="text" name="qId" placeholder="qId" required> <br /> 
+				<input type="submit" value="Delete">
+			<p th:text=" ${errorMsg}"></p>
+		</form>
+</body>
+</html>
