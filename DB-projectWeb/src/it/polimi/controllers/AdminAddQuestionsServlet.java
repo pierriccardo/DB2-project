@@ -26,8 +26,6 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/AdminService")
 	private AdminService adminService;
-	
-	private int idProd; // product id for which we add questions
 
 	public AdminAddQuestionsServlet() {
 		super();
@@ -44,15 +42,15 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+			
+		String idProd = request.getParameter("idProd");
 		
-		//String idProdStr = request.getParameter("idProd");
-		//this.idProd = Integer.parseInt(idProdStr);
-		
-		this.idProd = Integer.parseInt(request.getParameter("idProd"));
+		//if (Integer.parseInt(idProd) < 0) {}
 		
 		String path = "/WEB-INF/AdminAddQuestion.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("idProd", idProd.toString());
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}
@@ -62,17 +60,22 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 		// obtain and escape params
 		
 		String questionText  = null;
+		String idProdStr = null;
+		int idProd;
 		
 		try {
 			
 			questionText = StringEscapeUtils.escapeJava(request.getParameter("questionText"));
+			idProdStr = StringEscapeUtils.escapeJava(request.getParameter("idProd"));
+			idProd = Integer.parseInt(idProdStr);
+			
 			if (questionText == null || questionText.isEmpty()) {
 				throw new Exception("Question cannot be empty!");
 			}
-			adminService.AddQuestion(this.idProd, questionText);
+			adminService.AddQuestion(idProd, questionText);
 			
 			String redirectPath;
-			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(this.idProd);
+			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + idProdStr;
 			response.sendRedirect(redirectPath);
 			
 		} catch (Exception e) {

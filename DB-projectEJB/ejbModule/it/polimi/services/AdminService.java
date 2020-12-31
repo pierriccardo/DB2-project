@@ -82,12 +82,6 @@ public class AdminService {
 			Product newProd = new Product();
 			newProd = plist.get(0);
 			idProd = newProd.getId();
-			//idProd = product.getId();
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

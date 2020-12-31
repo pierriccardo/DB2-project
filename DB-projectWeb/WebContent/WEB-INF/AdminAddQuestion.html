@@ -12,6 +12,7 @@
 	
 	<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
 		<fieldset>
+			<input type="hidden" name="idProd" th:text="${idProd}"/>
 			
 			<h5>Add a question:</h5>
 			<label for="questionText"></label>

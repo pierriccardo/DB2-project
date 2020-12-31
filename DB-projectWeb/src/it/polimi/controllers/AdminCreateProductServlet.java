@@ -68,7 +68,6 @@ public class AdminCreateProductServlet extends HttpServlet {
 			}
 			idProd = adminService.CreateProduct(prodName, prodDate, prodImageFileName);
 			
-			request.setAttribute("idProd", idProd);
 			System.out.println(idProd);
 			System.out.println(idProd);
 			System.out.println(idProd);
@@ -76,8 +75,7 @@ public class AdminCreateProductServlet extends HttpServlet {
 			System.out.println(idProd);
 			
 			String redirectPath;
-			//redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
-			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion";
+			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
 			response.sendRedirect(redirectPath);
 			
 		} catch (Exception e) {
