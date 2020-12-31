@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -20,6 +23,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 
 import it.polimi.entities.Question;
+import it.polimi.entities.User;
 import it.polimi.services.UserService;
 
 @WebServlet("/Questionnaire")
@@ -58,12 +62,28 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		Question q2 = new Question();
 		q2.setText("Question number two");
-		q1.setId(2);
+		q2.setId(2);
 		questions.add(q2);
 		
 		ctx.setVariable("questions", questions);
 		
 		templateEngine.process(path, ctx, response.getWriter());
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
+			String pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
+			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
+				throw new Exception("Missing or empty credential value");
+			}
+		} catch (Exception e) {
+			
+		}
+	}
+
+	public void destroy() {
 	}
 
 }
