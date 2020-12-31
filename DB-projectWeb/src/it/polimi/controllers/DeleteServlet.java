@@ -18,7 +18,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import it.polimi.services.QuestionnaireService;
 
 
-@WebServlet("/Delete")
+@WebServlet("/Admin/DeleteQuestionnaire")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB(name = "it.polimi.services/QuestionnaireService")
@@ -45,26 +45,29 @@ public class DeleteServlet extends HttpServlet {
 		String path = "/WEB-INF/AdminDeleteQuestionnaire.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		templateEngine.process(path, ctx, response.getWriter());
 
-		Integer qId = null;
-		try {
-			qId = Integer.parseInt(request.getParameter("qId"));
-		} catch (Exception e) {
-			ctx.setVariable("errorMsg", "Invalid Questionnaire parameters");
-			path = "/WEB-INF/AdminDeleteQuestionnaire.html";
-			templateEngine.process(path, ctx, response.getWriter());
-		}
-		qService.deleteAlbum(qId);
-		String ctxpath = getServletContext().getContextPath();
-		path = ctxpath + "/GoToHomeAdminPage";
-		response.sendRedirect(path);
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String path = "/WEB-INF/AdminDeleteQuestionnaire.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		
+		Integer qId = null;
+		try {
+			qId = Integer.parseInt(request.getParameter("qId"));
+			qService.deleteAlbum(qId);
+		} catch (Exception e) {
+			ctx.setVariable("errorMsg", "Invalid Questionnaire parameters");
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
+		
+		String ctxpath = getServletContext().getContextPath();
+		path = ctxpath + "/GoToHomeAdminPage";
+		response.sendRedirect(path);
 	}
 
 }
