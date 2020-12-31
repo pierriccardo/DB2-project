@@ -1,8 +1,10 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +20,14 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.services.AdminService;
 
-@WebServlet("/Admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/Admin/CreateProduct")
+public class AdminCreateProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/AdminService")
 	private AdminService adminService;
 
-	public AdminServlet() {
+	public AdminCreateProductServlet() {
 		super();
 	}
 
@@ -40,7 +42,7 @@ public class AdminServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = "/WEB-INF/Admin.html";
+		String path = "/WEB-INF/AdminCreateProduct.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		templateEngine.process(path, ctx, response.getWriter());
@@ -50,37 +52,46 @@ public class AdminServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// obtain and escape params
-		String productName  = null;
-		String question = null;
+		
+		String prodName  = null;
+		String prodImageFileName  = null;
+		String prodDate = null;
+		int idProd = -1;
 		
 		try {
-			try {
-				productName = StringEscapeUtils.escapeJava(request.getParameter("productName"));
-				question = StringEscapeUtils.escapeJava(request.getParameter("question"));
-				if (productName == null || productName == null || productName.isEmpty() || question.isEmpty()) {
-					throw new Exception("You must insert product name and question");
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+			
+			prodName = StringEscapeUtils.escapeJava(request.getParameter("prodName"));
+			prodDate = request.getParameter("prodDate");
+			prodImageFileName = StringEscapeUtils.escapeJava(request.getParameter("prodImageFileName"));
+			if (prodName == null || prodName.isEmpty()) {
 				throw new Exception("You must insert product name and question");
 			}
+			idProd = adminService.CreateProduct(prodName, prodDate, prodImageFileName);
 			
-			try {
-				// query db to create the questionnaire
-				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-				adminService.CreateQuestionnaire(productName, question);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new Exception("Error on creating the questionnaire");
-			}
+			request.setAttribute("idProd", idProd);
+			System.out.println(idProd);
+			System.out.println(idProd);
+			System.out.println(idProd);
+			System.out.println(idProd);
+			System.out.println(idProd);
+			
+			String redirectPath;
+			//redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
+			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion";
+			response.sendRedirect(redirectPath);
+			
 		} catch (Exception e) {
+			e.printStackTrace();
+					
+			
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			ctx.setVariable("errorMsg", e.toString());
-			String path = "/WEB-INF/Admin.html";
+			String path = "/WEB-INF/AdminCreateProduct.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		}
+		
+		
 	}
 
 	public void destroy() {

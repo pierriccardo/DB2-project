@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Product</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+</head>
+<body>
+
+	<h1>Add question for the Product</h1>
+	
+	<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
+		<fieldset>
+			
+			<h5>Add a question:</h5>
+			<label for="questionText"></label>
+			<input type="text" name="questionText" required />
+			
+			<input type="submit" name="addQuestion" value="add">
+			<input type="submit" name="done" value="done">
+			
+			<p th:text="${errorMsg}"></p>
+		</fieldset>
+	</form>
+	
+</body>
+</html>
