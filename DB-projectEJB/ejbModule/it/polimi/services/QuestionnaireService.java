@@ -7,7 +7,7 @@ import it.polimi.entities.*;
 
 @Stateless
 public class QuestionnaireService {
-	@PersistenceContext(unitName = "QuestionnaireEJB")
+	@PersistenceContext(unitName = "DB-projectEJB")
 	private EntityManager em;
 
 	public QuestionnaireService() {
