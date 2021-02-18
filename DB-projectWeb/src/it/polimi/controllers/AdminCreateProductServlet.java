@@ -68,12 +68,6 @@ public class AdminCreateProductServlet extends HttpServlet {
 			}
 			idProd = adminService.CreateProduct(prodName, prodDate, prodImageFileName);
 			
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
-			System.out.println(idProd);
-			
 			String redirectPath;
 			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
 			response.sendRedirect(redirectPath);

@@ -13,14 +13,17 @@
 	<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
 		<fieldset>
 			<input type="hidden" name="idProd" th:text="${idProd}"/>
-			
 			<h5>Add a question:</h5>
 			<label for="questionText"></label>
 			<input type="text" name="questionText" required />
-			
 			<input type="submit" name="addQuestion" value="add">
+			<p th:text="${errorMsg}"></p>
+		</fieldset>
+	</form>
+	<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
+		<fieldset>
+			<input type="hidden" name="idProd" th:text="${idProd}"/>
 			<input type="submit" name="done" value="done">
-			
 			<p th:text="${errorMsg}"></p>
 		</fieldset>
 	</form>
