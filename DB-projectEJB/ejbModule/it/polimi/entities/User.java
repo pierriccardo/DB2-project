@@ -26,18 +26,53 @@ public class User implements Serializable {
 	private Boolean isAdmin;
 	
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<Log> Logs;
+	@ManyToOne
+	@JoinColumn(name = "user")
+	private Log log;
+	
+	@ManyToOne
+	@JoinColumn(name = "user")
+	private Review review;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Leaderboard> leaderboards;
 	
 	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<Review> Reviews;
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
-	private List<Leaderboard> Leaderboards;
-	
+	public Log getLog() {
+		return log;
+	}
+
+	public void setLog(Log log) {
+		this.log = log;
+	}
+
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
+	}
+
+	public List<Leaderboard> getLeaderboards() {
+		return leaderboards;
+	}
+
+	public void setLeaderboards(List<Leaderboard> leaderboards) {
+		this.leaderboards = leaderboards;
+	}
+
+	public List<Questionnaire> getQuestionnaires() {
+		return Questionnaires;
+	}
+
+	public void setQuestionnaires(List<Questionnaire> questionnaires) {
+		Questionnaires = questionnaires;
+	}
+
 	public User() {
 	}
 

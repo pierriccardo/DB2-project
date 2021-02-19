@@ -15,33 +15,45 @@ public class Answer implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	private int idQuestion;
-	private String text;
-	private int idQuestionnaire;
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getIdQuestion() {
-		return idQuestion;
-	}
-	public void setIdQuestion(int idQuestion) {
-		this.idQuestion = idQuestion;
-	}
+
 	public String getText() {
 		return text;
 	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	public int getIdQuestionnaire() {
-		return idQuestionnaire;
+
+	public List<Questionnaire> getQuestionnaire() {
+		return questionnaire;
 	}
-	public void setIdQuestionnaire(int idQuestionnaire) {
-		this.idQuestionnaire = idQuestionnaire;
+
+	public void setQuestionnaire(List<Questionnaire> questionnaire) {
+		this.questionnaire = questionnaire;
 	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	private String text;
+	
+	@OneToMany(mappedBy = "answer")
+	private List<Questionnaire> questionnaire;
+	
+	@OneToOne
+	private Question question;
+	
 
 }

@@ -18,22 +18,46 @@ public class Questionnaire implements Serializable {
 	private int age;
 	private int expertise_level;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "questionnaire")
 	private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
-	name="fill",
-	joinColumns={@JoinColumn(name="userid")},
-	inverseJoinColumns={@JoinColumn(name="questionnaireid")}
+		name="fill",
+		joinColumns={@JoinColumn(name="userid")},
+		inverseJoinColumns={@JoinColumn(name="questionnaireid")}
 	)
 	private List<User> users;
 
 	
 	@ManyToOne
-	@JoinTable(name="fill")
-	private User user;
+	@JoinColumn(name="questionnaire")
+	private Answer answer;
 	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+
 	public Questionnaire() {
 	}
 
