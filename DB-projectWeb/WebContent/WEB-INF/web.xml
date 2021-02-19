@@ -4,7 +4,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 		<filter-name>Checker</filter-name> 
 		<filter-class>it.polimi.filters.LoggedIn</filter-class> 
 	</filter> 
-	<filter-mapping> 
+	<filter-mapping>
 	    <filter-name>Checker</filter-name> 
 	    <url-pattern>/Home</url-pattern>
 	</filter-mapping> 
