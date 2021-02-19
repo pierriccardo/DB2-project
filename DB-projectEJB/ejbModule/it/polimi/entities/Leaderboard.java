@@ -21,7 +21,7 @@ public class Leaderboard implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int point;
+	private int score;
 
 	
 	@ManyToOne
@@ -40,14 +40,15 @@ public class Leaderboard implements Serializable {
 		this.id = id;
 	}
 
-	public int getPoint() {
-		return point;
+	
+	public int getScore() {
+		return score;
 	}
 
-	public void setPoint(int point) {
-		this.point = point;
+	public void setScore(int score) {
+		this.score = score;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
