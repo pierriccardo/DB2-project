@@ -2,6 +2,8 @@ package it.polimi.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,11 +26,11 @@ public class Log implements Serializable {
 	private int id;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "user_logs")
-	private User user;
+	@OneToMany{mappedBy = " "}
+	private List<User> users;
 	
-	private Timestamp timestamp_login;
+	private Date date;
+	private long time;
 	
 	public Log() {
 	}
@@ -41,12 +43,31 @@ public class Log implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getTimestamp_login() {
-		return timestamp_login;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setTimestamp_login(Timestamp timestamp_login) {
-		this.timestamp_login = timestamp_login;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+	
+	
 
 }

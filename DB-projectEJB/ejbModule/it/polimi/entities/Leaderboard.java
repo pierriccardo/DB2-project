@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,13 +21,13 @@ public class Leaderboard implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private int point;
+
 	
 	@ManyToOne
-	@JoinTable(name="score")
+	@JoinColumn(name="user")
 	private User user;
 	
-	private int questionnaire;
-	private int point;
 	
 	public Leaderboard() {
 	}
@@ -46,6 +46,14 @@ public class Leaderboard implements Serializable {
 
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

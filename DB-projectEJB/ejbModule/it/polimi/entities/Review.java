@@ -17,13 +17,12 @@ public class Review implements Serializable {
 
 	private String text;	
 	
-	@ManyToOne
-	//private User user;
-	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name="idProduct")
-	private Product product;
+	@OneToMany(mappedBy = " ")
+	private List<User> users;
+	
+	@OneToMany(mappedBy = " ")
+	private List<Product> products;
 
 	
 	public int getId() {
