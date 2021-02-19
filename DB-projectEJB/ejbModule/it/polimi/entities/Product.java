@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Entity
@@ -20,14 +19,36 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
-	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
-	private List<Review> Reviews;
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
+	}
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
+	}
+	public Question getQuestion() {
+		return question;
+	}
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+	public Review getReview() {
+		return review;
+	}
+	public void setReview(Review review) {
+		this.review = review;
+	}
+	@OneToOne
+	private Questionnaire questionnaire;
 	
-	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
-	private List<Question> Questions;
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private Question question;
 	
-	@OneToOne(mappedBy="product", fetch = FetchType.EAGER)
-	private Questionnaire QuestionnaireProd;
+	@ManyToOne
+	@JoinColumn(name = "product")
+	private Review review;
+	
+
 	
 	public int getId() {
 		return id;

@@ -18,10 +18,10 @@ public class Review implements Serializable {
 	private String text;	
 	
 	
-	@OneToMany(mappedBy = " ")
+	@OneToMany(mappedBy = "review")
 	private List<User> users;
 	
-	@OneToMany(mappedBy = " ")
+	@OneToMany(mappedBy = "review")
 	private List<Product> products;
 
 	

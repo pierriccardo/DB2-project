@@ -1,7 +1,6 @@
 package it.polimi.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -9,15 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
+
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "log", schema = "DB_project")
-@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.user.id = ?1")
+//@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.users.getUser.id = ?1")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +24,7 @@ public class Log implements Serializable {
 	private int id;
 	
 	
-	@OneToMany{mappedBy = " "}
+	@OneToMany(mappedBy = "log")
 	private List<User> users;
 	
 	private Date date;
