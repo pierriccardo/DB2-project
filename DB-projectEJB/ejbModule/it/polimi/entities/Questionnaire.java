@@ -17,7 +17,16 @@ public class Questionnaire implements Serializable {
 	private int sex;
 	private int age;
 	private int expertise_level;
+	private boolean isSubmitted;
 	
+	public boolean isSubmitted() {
+		return isSubmitted;
+	}
+
+	public void setSubmitted(boolean isSubmitted) {
+		this.isSubmitted = isSubmitted;
+	}
+
 	@OneToOne(mappedBy = "questionnaire")
 	private Product product;
 	
