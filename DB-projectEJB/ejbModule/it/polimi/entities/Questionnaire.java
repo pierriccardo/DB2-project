@@ -2,13 +2,7 @@ package it.polimi.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;	
+import java.util.List;	
 
 
 @Entity
@@ -20,11 +14,25 @@ public class Questionnaire implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int idProduct;
-	private int idUser;
 	private int sex;
 	private int age;
 	private int expertise_level;
+	
+	@OneToOne
+	private Product product;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+	name="fill",
+	joinColumns={@JoinColumn(name="userid")},
+	inverseJoinColumns={@JoinColumn(name="questionnaireid")}
+	)
+	private List<User> users;
+
+	
+	@ManyToOne
+	@JoinTable(name="fill")
+	private User user;
 	
 	public Questionnaire() {
 	}
@@ -35,22 +43,6 @@ public class Questionnaire implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdProduct() {
-		return idProduct;
-	}
-
-	public void setIdProduct(int idProduct) {
-		this.idProduct = idProduct;
-	}
-
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
 	}
 
 	public int getSex() {
