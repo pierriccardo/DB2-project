@@ -11,6 +11,8 @@ import javax.persistence.Id;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
@@ -27,7 +29,9 @@ public class Log implements Serializable {
 	@OneToMany(mappedBy = "log")
 	private List<User> users;
 	
+	@Temporal(TemporalType.DATE) 
 	private Date date;
+	
 	private long time;
 	
 	public Log() {
