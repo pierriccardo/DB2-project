@@ -25,22 +25,18 @@ public class User implements Serializable {
 	private Boolean isBanned;
 	private Boolean isAdmin;
 	
-	/*
-	@OneToMany(mappedBy="idUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
-	private List<Log> Logs;
-	*/
 	
-	/*
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+	private List<Log> Logs;
+	
+	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
 	
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Review> Reviews;
 	
-	
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Leaderboard> Leaderboards;
-	*/
 	
 	public User() {
 	}

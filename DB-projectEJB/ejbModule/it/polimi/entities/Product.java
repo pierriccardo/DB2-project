@@ -12,6 +12,23 @@ import java.util.List;
 @NamedQuery(name = "Product.searchProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
 
 public class Product implements Serializable {
+	@Id 	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	private String name;
+	private String imageFileName;
+	private Date date;
+	
+	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
+	private List<Review> Reviews;
+	
+	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
+	private List<Question> Questions;
+	
+	@OneToOne(mappedBy="product", fetch = FetchType.EAGER)
+	private Questionnaire QuestionnaireProd;
+	
 	public int getId() {
 		return id;
 	}
@@ -38,12 +55,6 @@ public class Product implements Serializable {
 	}
 	private static final long serialVersionUID = 1L;
 
-	@Id 	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	private String name;
-	private String imageFileName;
-	private Date date;
+	
 
 }

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "log", schema = "DB_project")
-@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.idUser = ?1")
+@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.user.id = ?1")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,11 +23,11 @@ public class Log implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	/*
+	
 	@ManyToOne
-	@JoinColumn(name = "idUser")
-	*/
-	private int idUser;
+	@JoinColumn(name = "user_logs")
+	private User user;
+	
 	private Timestamp timestamp_login;
 	
 	public Log() {
@@ -39,14 +39,6 @@ public class Log implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
 	}
 
 	public Timestamp getTimestamp_login() {

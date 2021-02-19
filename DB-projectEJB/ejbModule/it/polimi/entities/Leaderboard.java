@@ -6,13 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "leaderboard", schema = "DB_project")
-@NamedQuery(name = "Leaderboard.getUserPoints", query = "SELECT r FROM Leaderboard r  WHERE r.idUser = ?1")
+@NamedQuery(name = "Leaderboard.getUserPoints", query = "SELECT r FROM Leaderboard r  WHERE r.user.id = ?1")
 public class Leaderboard implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,8 +22,11 @@ public class Leaderboard implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private int idUser;
-	private int idQuestionnaire;
+	@ManyToOne
+	@JoinTable(name="score")
+	private User user;
+	
+	private int questionnaire;
 	private int point;
 	
 	public Leaderboard() {
@@ -33,22 +38,6 @@ public class Leaderboard implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
-
-	public int getIdQuestionnaire() {
-		return idQuestionnaire;
-	}
-
-	public void setIdQuestionnaire(int idQuestionnaire) {
-		this.idQuestionnaire = idQuestionnaire;
 	}
 
 	public int getPoint() {
