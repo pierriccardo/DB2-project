@@ -72,15 +72,27 @@ public class QuestionnaireServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String path = "/WEB-INF/Greetingsmsg.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		
 		try {
-			String usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
-			String pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
-			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
+			
+			int age, sex, expertise_level;
+			try {
+				// request.getAttributeNames()
+				age = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("age")));
+				sex = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("sex")));
+				expertise_level = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("expertise_level")));
+			} catch (NumberFormatException e) {
+				throw new Exception("Wrong format request!");
 			}
+			
 		} catch (Exception e) {
 			
 		}
+		
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	public void destroy() {
