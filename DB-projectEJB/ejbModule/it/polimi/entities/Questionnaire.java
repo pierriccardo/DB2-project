@@ -15,6 +15,7 @@ public class Questionnaire implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private int sex;
 	private int age;
 	private int expertise_level;
@@ -28,29 +29,15 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	//@OneToOne
-	//private Product product;
+	@OneToOne(mappedBy="questionnaire")
+	private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		name="fill",
-		joinColumns={@JoinColumn(name="userid")},
-		inverseJoinColumns={@JoinColumn(name="questionnaireid")}
-	)
 	private List<User> users;
 
 	@OneToMany(mappedBy = "questionnaire")
 	private List<Answer> answers;
-	
-	/*
-	public Product getProduct() {
-		return product;
-	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	*/
 
 	public List<User> getUsers() {
 		return users;
