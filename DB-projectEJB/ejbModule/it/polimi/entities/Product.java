@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "product", schema = "DB_project")
 @NamedQuery(name = "Product.searchProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
-
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
