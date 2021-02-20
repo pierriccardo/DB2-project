@@ -1,7 +1,8 @@
 package it.polimi.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,13 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
 @Table(name = "log", schema = "DB_project")
-@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.idUser = ?1")
+//@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.users.getUser.id = ?1")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,12 +26,15 @@ public class Log implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	/*
 	@ManyToOne
 	@JoinColumn(name = "idUser")
-	*/
-	private int idUser;
-	private Timestamp timestamp_login;
+	private User user;	
+	
+	
+	@Temporal(TemporalType.DATE) 
+	private Date date;
+	
+	private long time;
 	
 	public Log() {
 	}
@@ -41,20 +47,32 @@ public class Log implements Serializable {
 		this.id = id;
 	}
 
-	public int getIdUser() {
-		return idUser;
+
+	public User getUser() {
+		return user;
 	}
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Timestamp getTimestamp_login() {
-		return timestamp_login;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setTimestamp_login(Timestamp timestamp_login) {
-		this.timestamp_login = timestamp_login;
+	public void setDate(Date date) {
+		this.date = date;
 	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
+	}
+
+	
+	
 
 }

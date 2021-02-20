@@ -2,15 +2,46 @@ package it.polimi.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Entity
 @Table(name = "product", schema = "DB_project")
-//@NamedQuery(name = "Product.check", query = "SELECT * FROM Product")
+@NamedQuery(name = "Product.searchProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
+
 public class Product implements Serializable {
+	@Id 	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	private String name;
+	private String imageFileName;
+	private Date date;
+	
+	@OneToOne(mappedBy="product")
+	private Questionnaire questionnaire;
+	
+	@OneToMany(mappedBy="product")
+	private List<Question> questions;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Review> reviews;
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
 	public int getId() {
 		return id;
 	}
@@ -37,12 +68,6 @@ public class Product implements Serializable {
 	}
 	private static final long serialVersionUID = 1L;
 
-	@Id 	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	private String name;
-	private String imageFileName;
-	private Date date;
+	
 
 }

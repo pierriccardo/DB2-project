@@ -26,23 +26,54 @@ public class User implements Serializable {
 	private Boolean isBanned;
 	private Boolean isAdmin;
 	
-	/*
-	@OneToMany(mappedBy="idUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
-	private List<Log> Logs;
-	*/
 	
-	/*
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	@OneToMany(mappedBy = "user")
+	private List<Log> logs;
+	
+	@ManyToOne
+	@JoinColumn(name = "user")
+	private Review review;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Leaderboard> leaderboards;
+	
+	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
 	
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
-	private List<Review> Reviews;
 	
-	
-	@ManyToOne(mappedBy="user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true )
-	private List<Leaderboard> Leaderboards;
-	*/
-	
+
+	public List<Log> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
+	}
+
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
+	}
+
+	public List<Leaderboard> getLeaderboards() {
+		return leaderboards;
+	}
+
+	public void setLeaderboards(List<Leaderboard> leaderboards) {
+		this.leaderboards = leaderboards;
+	}
+
+	public List<Questionnaire> getQuestionnaires() {
+		return Questionnaires;
+	}
+
+	public void setQuestionnaires(List<Questionnaire> questionnaires) {
+		Questionnaires = questionnaires;
+	}
+
 	public User() {
 	}
 

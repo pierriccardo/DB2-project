@@ -15,33 +15,47 @@ public class Answer implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 
-	private int idQuestion;
+	@ManyToOne
+	@JoinColumn(name = "idAnswer")
+	private Question question;
+	
+	@ManyToOne
+	@JoinColumn(name="idQuestionnaire")
+	private Questionnaire questionnaire;
+	
 	private String text;
-	private int idQuestionnaire;
+	
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getIdQuestion() {
-		return idQuestion;
-	}
-	public void setIdQuestion(int idQuestion) {
-		this.idQuestion = idQuestion;
-	}
+
 	public String getText() {
 		return text;
 	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	public int getIdQuestionnaire() {
-		return idQuestionnaire;
-	}
-	public void setIdQuestionnaire(int idQuestionnaire) {
-		this.idQuestionnaire = idQuestionnaire;
+
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
 	}
 
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
 }
