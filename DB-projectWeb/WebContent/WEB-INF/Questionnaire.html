@@ -9,6 +9,8 @@
 		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
 	<link rel="stylesheet" type="text/css" media="all"
 		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
 		
 	<style>
 		.question-box {
@@ -22,10 +24,40 @@
 		.optional_row {
 			margin-bottom: 30px;
 		}
+		
+		.question-container{
+			margin-top: 30px;
+		}
 	</style>
 </head>
 <body>
-	<div class="container-xxl">
+	<nav class="navbar navbar-expand-lg navbar-set">
+		<div class="container-fluid">
+  			<h5 class="navbar-brand">USER</h5>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+   			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
+					</li>
+				</ul>
+				<span class="navbar-text">
+      				<a class="nav-link" href="#" th:href="@{/Logout}">Logout</a>
+				</span>
+			</div>
+		</div>
+	</nav>
+	
+	
+	<div class="container-xxl question-container">
 		<form name="Questionnaire" action="#" th:action="@{/Questionnaire}" method="post">
 			<div id="q_marketing" class="collapse show">
 				<div class="row question-box" th:each="question: ${questions}">
