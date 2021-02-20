@@ -5,6 +5,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.NonUniqueResultException;
+
+import it.polimi.entities.Leaderboard;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
@@ -97,5 +99,10 @@ public class UserService {
 	        hexString.append(hex);
 	    }
 	    return hexString.toString();
+	}
+	
+	public List<Leaderboard> getLeads(){
+		return em.createNamedQuery("Leaderboard.findAll", Leaderboard.class)
+				.getResultList();
 	}
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Leaderboard</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+
+</head>
+<body>
+	<div class="container-xxl">
+				<table class="table">
+					  <thead>
+					    <tr>
+     					  <th scope="col">Position</th>
+					      <th scope="col">Username</th>
+					      <th scope="col">Score</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="leaderboard: ${leads}">
+      					  <th scope="row" th:text="${i++}"></th>
+					      <td th:text="${leaderboard.getUser().getUsername()}"></td>
+					      <td th:text="${leaderboard.getScore()}"></td>
+					    </tr>
+					</tbody>
+					</table>
+	</div>
+	
+	<script>
+		function toggle() {
+			new bootstrap.Collapse(q_optional)
+			new bootstrap.Collapse(q_marketing)
+			
+			return true
+		}
+	</script>
+</body>
+</html>

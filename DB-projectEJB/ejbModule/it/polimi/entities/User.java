@@ -26,15 +26,15 @@ public class User implements Serializable {
 	private Boolean isAdmin;
 	
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Log> logs;
 	
 	@ManyToOne
 	@JoinColumn(name = "user")
 	private Review review;
 	
-	@OneToMany(mappedBy = "user")
-	private List<Leaderboard> leaderboards;
+	@OneToOne
+	private Leaderboard leaderboard;
 	
 	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
@@ -57,13 +57,6 @@ public class User implements Serializable {
 		this.review = review;
 	}
 
-	public List<Leaderboard> getLeaderboards() {
-		return leaderboards;
-	}
-
-	public void setLeaderboards(List<Leaderboard> leaderboards) {
-		this.leaderboards = leaderboards;
-	}
 
 	public List<Questionnaire> getQuestionnaires() {
 		return Questionnaires;
@@ -157,5 +150,13 @@ public class User implements Serializable {
 		Leaderboards = leaderboards;
 	}
 	*/
+
+	public Leaderboard getLeaderboard() {
+		return leaderboard;
+	}
+
+	public void setLeaderboard(Leaderboard leaderboard) {
+		this.leaderboard = leaderboard;
+	}
 
 }
