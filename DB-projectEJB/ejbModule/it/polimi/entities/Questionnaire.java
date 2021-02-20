@@ -3,12 +3,6 @@ package it.polimi.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;	
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;	
 
 
 @Entity
@@ -34,8 +28,8 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	@OneToOne(mappedBy = "questionnaire")
-	private Product product;
+	//@OneToOne
+	//private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -45,11 +39,10 @@ public class Questionnaire implements Serializable {
 	)
 	private List<User> users;
 
+	@OneToMany(mappedBy = "questionnaire")
+	private List<Answer> answers;
 	
-	@ManyToOne
-	@JoinColumn(name="questionnaire")
-	private Answer answer;
-	
+	/*
 	public Product getProduct() {
 		return product;
 	}
@@ -57,6 +50,7 @@ public class Questionnaire implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	*/
 
 	public List<User> getUsers() {
 		return users;
@@ -66,12 +60,12 @@ public class Questionnaire implements Serializable {
 		this.users = users;
 	}
 
-	public Answer getAnswer() {
-		return answer;
+	public List<Answer> getAnswers() {
+		return answers;
 	}
 
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 	public Questionnaire() {

@@ -21,8 +21,9 @@ public class Review implements Serializable {
 	@OneToMany(mappedBy = "review")
 	private List<User> users;
 	
-	@OneToMany(mappedBy = "review")
-	private List<Product> products;
+	@ManyToOne
+	@JoinColumn(name = "idProduct")
+	private Product product;
 
 	
 	public int getId() {

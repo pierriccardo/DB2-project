@@ -27,7 +27,7 @@ public class User implements Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "idUser")
 	private Log log;
 	
 	@ManyToOne

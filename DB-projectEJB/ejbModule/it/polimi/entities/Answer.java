@@ -15,6 +15,17 @@ public class Answer implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+
+	@OneToOne
+	private Question question;
+	
+	@ManyToOne
+	@JoinColumn(name="idQuestionnaire")
+	private Questionnaire questionnaire;
+	
+	private String text;
+	
 	public int getId() {
 		return id;
 	}
@@ -31,11 +42,11 @@ public class Answer implements Serializable {
 		this.text = text;
 	}
 
-	public List<Questionnaire> getQuestionnaire() {
+	public Questionnaire getQuestionnaire() {
 		return questionnaire;
 	}
 
-	public void setQuestionnaire(List<Questionnaire> questionnaire) {
+	public void setQuestionnaire(Questionnaire questionnaire) {
 		this.questionnaire = questionnaire;
 	}
 
@@ -46,14 +57,4 @@ public class Answer implements Serializable {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
-
-	private String text;
-	
-	@OneToMany(mappedBy = "answer")
-	private List<Questionnaire> questionnaire;
-	
-	@OneToOne
-	private Question question;
-	
-
 }

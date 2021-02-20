@@ -26,7 +26,9 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/AdminService")
 	private AdminService adminService;
-	private Integer idProd;
+	
+	private int idProd;
+	private String idProdStr;
 	
 	public AdminAddQuestionsServlet() {
 		super();
@@ -44,41 +46,30 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String idProdStr = request.getParameter("idProd");
-		this.idProd = Integer.parseInt(idProdStr);
-		 
-		
-		//if (Integer.parseInt(idProd) < 0) {}
+		this.idProdStr = request.getParameter("idProd");
+		this.idProd = Integer.parseInt(this.idProdStr);
 		
 		String path = "/WEB-INF/AdminAddQuestion.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("idProd", idProdStr.toString());
 		templateEngine.process(path, ctx, response.getWriter());
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
 		
 		String questionText;
 		
 		try {
-			
-			questionText = StringEscapeUtils.escapeJava(request.getParameter("questionText"));
-
-			System.out.println("idProdaaaaa" + this.idProd);
-			System.out.println("idProd" + this.idProd);
-			System.out.println("idProd" + this.idProd);
-			
+			questionText = StringEscapeUtils.escapeJava(request.getParameter("questionText"));			
 			if (questionText == null || questionText.isEmpty()) {
 				throw new Exception("Question cannot be empty!");
 			}
 			adminService.AddQuestion(this.idProd, questionText);
 			
 			String redirectPath;
-			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + this.idProd.toString();
+			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + this.idProdStr;
 			response.sendRedirect(redirectPath);
 			
 		} catch (Exception e) {

@@ -2,6 +2,7 @@ package it.polimi.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -19,37 +20,35 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
+	@OneToOne(mappedBy = "product")
+	private Questionnaire questionnaire;
+	
+	@OneToMany(mappedBy="product")
+	private List<Question> questions;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Review> reviews;
+	
 	public Questionnaire getQuestionnaire() {
 		return questionnaire;
 	}
 	public void setQuestionnaire(Questionnaire questionnaire) {
 		this.questionnaire = questionnaire;
 	}
-	public Question getQuestion() {
-		return question;
-	}
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-	public Review getReview() {
-		return review;
-	}
-	public void setReview(Review review) {
-		this.review = review;
-	}
-	@OneToOne
-	private Questionnaire questionnaire;
-	
-	@ManyToOne
-	@JoinColumn(name = "id")
-	private Question question;
-	
-	@ManyToOne
-	@JoinColumn(name = "product")
-	private Review review;
-	
 
+	public List<Question> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
 	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
 	public int getId() {
 		return id;
 	}
