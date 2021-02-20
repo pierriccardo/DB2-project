@@ -27,11 +27,11 @@ public class Question implements Serializable {
 	private String text;
 	
 	@ManyToOne
-	@JoinColumn(name = "idProduct")
+	@JoinColumn(name="idProduct")
 	private Product product;
 	
-	@OneToOne(mappedBy = "question")
-	private Answer answer;
+	@OneToMany
+	private List<Answer> answers;
 	
 	public Product getProduct() {
 		return product;
@@ -57,12 +57,12 @@ public class Question implements Serializable {
 		this.text = text;
 	}
 
-	public Answer getAnswer() {
-		return answer;
+	public List<Answer> getAnswers() {
+		return answers;
 	}
 
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 	
 }

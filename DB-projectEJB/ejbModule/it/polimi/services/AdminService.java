@@ -44,16 +44,17 @@ public class AdminService {
 		Date today = new Date();
 		java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
 		
-		//if (parsed.compareTo(today) < 0) {
-		//	throw new Exception("Date must be today or in the future!");	
-		//}
+		if (parsed.compareTo(today) < 0) {
+			throw new Exception("Date must be today or in the future!");	
+		}
 		
 		System.out.println(prodDate);
 		System.out.println(prodImageFileName);
 		System.out.println(prodName);
         
 		product.setDate(sqlDate);
-		em.persist(product);	
+		em.persist(product);
+		em.flush();
 		return product.getId();
 	}
 	

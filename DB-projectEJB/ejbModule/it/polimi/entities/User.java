@@ -26,9 +26,8 @@ public class User implements Serializable {
 	private Boolean isAdmin;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "idUser")
-	private Log log;
+	@OneToMany(mappedBy = "user")
+	private List<Log> logs;
 	
 	@ManyToOne
 	@JoinColumn(name = "user")
@@ -41,12 +40,13 @@ public class User implements Serializable {
 	private List<Questionnaire> Questionnaires;
 	
 	
-	public Log getLog() {
-		return log;
+
+	public List<Log> getLogs() {
+		return logs;
 	}
 
-	public void setLog(Log log) {
-		this.log = log;
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
 	}
 
 	public Review getReview() {
