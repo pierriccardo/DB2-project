@@ -15,13 +15,16 @@
 	<div class="container-xxl">
 		<div class="row">
 			<div class="col">
-				<h1>Questionnaires</h1>
+				<h1>Product</h1>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col">
-				<ul class="list-group"  th:each="questionnaire: ${questionnaires}">
-  					<li class="list-group-item" th:text="${questionnaire.getText()}"></li>
+				<ul class="list-inline"  th:each="product: ${products}">
+  					<li class="list-inline-item" th:text="${product.getId()}"></li>
+  					<li class="list-inline-item" th:text="${product.getName()}"></li>
+  					<li class="list-inline-item" th:text="${product.getDate()}"></li>
+  					<li class="list-inline-item"><button class="btn-info" type="submit">delete</button></li>
 				</ul>
 			</div>
 		</div>
