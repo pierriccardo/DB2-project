@@ -20,7 +20,7 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
-	@OneToOne
+	@OneToOne(mappedBy="product")
 	private Questionnaire questionnaire;
 	
 	@OneToMany(mappedBy="product")

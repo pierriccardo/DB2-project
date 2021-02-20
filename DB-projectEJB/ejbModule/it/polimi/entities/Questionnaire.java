@@ -29,7 +29,8 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	@OneToOne(mappedBy="questionnaire")
+	@OneToOne
+	@JoinColumn(name="idProduct")
 	private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
