@@ -53,6 +53,8 @@ public class QuestionnaireServlet extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
+		ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+		
 		List<Question> questions = new ArrayList<>();
 		
 		Question q1 = new Question();
@@ -78,10 +80,8 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		String errorMsg = "";
 		try {
-			
 			int age, sex, expertise_level;
 			try {
-				// request.getAttributeNames()
 				age = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("age")));
 				sex = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("sex")));
 				expertise_level = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("expertise_level")));

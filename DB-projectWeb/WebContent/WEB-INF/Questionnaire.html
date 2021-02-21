@@ -37,20 +37,17 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-set">
 		<div class="container-fluid">
-  			<h5 class="navbar-brand">USER</h5>
+  			<h5 class="navbar-brand" th:text="${username}"></h5>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
    			</button>
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Daily Questionnaire</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
+						<a class="nav-link" href="#" th:href="@{/Leaderboard}">Leaderboard</a>
 					</li>
 				</ul>
 				<span class="navbar-text">
