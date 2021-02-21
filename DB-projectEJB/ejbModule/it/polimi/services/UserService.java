@@ -91,7 +91,8 @@ public class UserService {
 				newUser.setPassword(bytesToHex(encodedhash));
 				
 				newUser.setEmail(email);
-				newUser.setIsAdmin(false);
+				// TODO: controllare se serve
+				//newUser.setIsAdmin(false);
 				newUser.setIsBanned(false);
 				newUser.setScore(0);
 				em.persist(newUser);

@@ -23,10 +23,9 @@ public class LogoutServlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			//QueryService qs = (QueryService) session.getAttribute("queryService");
-			//if (qs != null) qs.remove();
 			session.invalidate();
 		}
+		
 		String path = getServletContext().getContextPath() + "/Login";
 		response.sendRedirect(path);
 	}

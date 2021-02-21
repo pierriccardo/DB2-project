@@ -46,7 +46,7 @@ public class LoggedInAdmin implements Filter {
 		String loginpath = req.getServletContext().getContextPath() + "/";
 
 		HttpSession s = req.getSession();
-		if (s.isNew() || s.getAttribute("user") == null || ((User) s.getAttribute("user")).getIsAdmin()) {
+		if (s.isNew() || s.getAttribute("user") == null || ((User) s.getAttribute("user")).isAdmin()) {
 			res.sendRedirect(loginpath);
 			return;
 		}

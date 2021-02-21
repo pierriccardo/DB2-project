@@ -106,15 +106,11 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
-	public Boolean getIsAdmin() {
+	public Boolean isAdmin() {
 		return this.isAdmin;
 	}
 
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public Boolean getIsBanned() {
+	public Boolean isBanned() {
 		return this.isBanned;
 	}
 

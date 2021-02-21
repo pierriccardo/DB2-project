@@ -48,76 +48,70 @@ public class LoginServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = "/WEB-INF/Login.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		templateEngine.process(path, ctx, response.getWriter());
-
+		User user = (User) request.getSession().getAttribute("user");
+		
+		if(user != null && user.isAdmin()) {
+			String path = getServletContext().getContextPath() + "/Admin/CreateProduct";
+			response.sendRedirect(path);
+		} else if(user != null && !user.isAdmin()) {
+			String path = getServletContext().getContextPath() + "/GoToHome";
+			response.sendRedirect(path);
+		} else {
+			String path = "/WEB-INF/Login.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			templateEngine.process(path, ctx, response.getWriter());
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
-		String path;
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String path = "/WEB-INF/Login.html";
+		
 		String usrn = null;
 		String pwd = null;
 		
+		String errorMsg = "";
 		try {
 			usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
 			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
+				errorMsg = "Missing or empty credential value";
+				throw new Exception(errorMsg);
 			}
 
 			User user;
 			try {
-				// query db to authenticate for user
 				user = usrService.checkCredentials(usrn, pwd);
-				/*if(usrn.equals("user") && pwd.equals("pass"))
-					user = new User();
-				else
-					user = null;*/
-				
-			} catch (/* CredentialsException | */ NonUniqueResultException e) {
-				e.printStackTrace();
-				throw new Exception("Could not check credentials");
+			} catch (CredentialsException | NonUniqueResultException e) {
+				errorMsg = "Could not check credentials";
+				throw new Exception(errorMsg);
 			}
 			
 			if (user == null) {
-				ServletContext servletContext = getServletContext();
-				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-				ctx.setVariable("errorMsg", "Incorrect username or password");
-				path = "/index.html";
-				templateEngine.process(path, ctx, response.getWriter());
+				errorMsg = "Incorrect username or password";
+				throw new Exception(errorMsg);
 			} else {
-				//QueryService qService = null;
-				try {
-					// Get the Initial Context for the JNDI lookup for a local EJB
-					InitialContext ic = new InitialContext();
-					// Retrieve the EJB using JNDI lookup
-					//qService = (QueryService) ic.lookup("java:/openejb/local/QueryServiceLocalBean");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				request.getSession().setAttribute("user", user);
 				
-				//implementare associazione
-				//usrService.RegisterLog(idUsr, new Timestamp(System.currentTimeMillis()));
+				if(user.isAdmin()) {
+					path = getServletContext().getContextPath() + "/Admin/CreateProduct";
+					response.sendRedirect(path);
+				} else if(!user.isAdmin()) {
+					path = getServletContext().getContextPath() + "/GoToHome";
+					response.sendRedirect(path);
+				}
 				
-				//request.getSession().setAttribute("queryService", qService);
-				path = getServletContext().getContextPath() + "/GoToHomePage";
-				response.sendRedirect(path);
+				return;
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", e.toString());
-			path = "/WEB-INF/Login.html";
-			templateEngine.process(path, ctx, response.getWriter());
-			return;
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request");
 		}
+		
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	public void destroy() {
