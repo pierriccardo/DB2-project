@@ -66,15 +66,12 @@ public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 			System.out.println(product.getName());
 			System.out.println(product.getName());
 			
-			Questionnaire q = product.getQuestionnaire();
+			List<Questionnaire> q = product.getQuestionnaires();
 			
 			System.out.println(q);
 			
-			List<User> submittedUsers = q.getUsers();
-			
 			ctx.setVariable("product", product);
-			ctx.setVariable("submittedUsers", submittedUsers);
-			ctx.setVariable("cancelledUsers", product);
+			ctx.setVariable("questionnaire", q);
 			
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", e.toString());

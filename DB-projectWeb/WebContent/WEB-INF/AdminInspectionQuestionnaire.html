@@ -68,9 +68,9 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr class="list-inline"  th:each="user: ${submittedUsers}">
-			      	<th th:text="${user.getId()}"></th>
-  					<th th:text="${user.getName()}"></th>
+			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
+			      	<th th:text="${q.getId()}"></th>
+  					<th th:text="${q.getUser().getUsername()}"></th>
   					<th>
   						<button class="btn btn-danger">
   							<i class="fas fa-trash-alt"></i>

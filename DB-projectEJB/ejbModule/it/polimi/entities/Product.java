@@ -12,6 +12,9 @@ import javax.persistence.*;
 @NamedQuery(name = "Product.findProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
 @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -20,15 +23,14 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
-	public Questionnaire getQuestionnaire() {
-		return questionnaire;
+	public List<Questionnaire> getQuestionnaires() {
+		return questionnaires;
 	}
-	public void setQuestionnaire(Questionnaire questionnaire) {
-		this.questionnaire = questionnaire;
+	public void setQuestionnaires(List<Questionnaire> questionnaires) {
+		this.questionnaires = questionnaires;
 	}
-	
-	@OneToOne(mappedBy="product")
-	private Questionnaire questionnaire;
+	@OneToMany(mappedBy="product")
+	private List<Questionnaire> questionnaires;
 	
 	@OneToMany(mappedBy="product")
 	private List<Question> questions;
@@ -73,8 +75,6 @@ public class Product implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	private static final long serialVersionUID = 1L;
-
 	
 
 }

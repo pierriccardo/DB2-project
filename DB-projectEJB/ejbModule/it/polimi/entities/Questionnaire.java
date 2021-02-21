@@ -29,7 +29,7 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="idProduct")
 	private Product product;
 	
