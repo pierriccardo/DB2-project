@@ -1,19 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Login page</title>
+	<meta charset="ISO-8859-1">
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+		
+	<style>
+		.white-box{
+			background-color: #fff;
+			padding-top: 30px;
+		}
+		
+		.full-height{
+			height: 100%;
+		}
+		
+		.bottom-button{
+			margin-top: 10px;
+		}
+	</style>
 </head>
 <body>
-	<h1>Login</h1>
-	<fieldset><legend>Insert data</legend>
-		<form name="login" action="#" th:action="@{/Login}" method="post">
-			<label for="username">Username</label> 
-				<input type="text" name="username" placeholder="username" required> <br /> 
-			<label for="password">Password</label> 
-				<input type="password" name="password" placeholder="password" required> <br /> 
-			<input type="submit" value="Login">
-			<p th:text=" ${errorMsg}"></p>
-		</form>
+	<div class="login-box" th:style="'background-image:url(' + @{/asset/image/questionnaires.jpg} + ');'">
+		<div class="container full-height">
+			<div class="row full-height">
+				<div class="col-8 offset-4 white-box">
+					<div class="row">
+						<div class="col-10 offset-1">
+							<h1>Login</h1>
+							<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+								<h6 th:text="${errorMsg}"></h6>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-10 offset-1">
+							<form name="login" action="#" th:action="@{/Login}" method="post">
+								<div class="mb-3">
+									<label for="username" class="form-label">Username</label>
+									<input type="text" class="form-control" id="username" name="username" placeholder="Insert your username">
+								</div>
+								<div class="mb-3">
+									<label for="password" class="form-label">Password</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="Insert your password">
+								</div>
+								<button type="submit" class="btn btn-success right-button">Login</button>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-10 offset-1">
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-10 offset-1 bottom-button">
+							<a class="btn btn-primary right-button" href="#" th:href="@{/Register}" role="button">Create your account <i class="fas fa-long-arrow-alt-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -16,6 +16,7 @@ import it.polimi.exceptions.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -58,6 +59,39 @@ public class UserService {
 		}
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
+	}
+	
+	public Boolean RegisterLog(int idUsr, Timestamp ts) throws IllegalArgumentException {
+		Log newLog;
+		User usr = null;
+		Boolean success = false;
+		
+		try {
+			usr = (User) em.createNamedQuery("User.checkId", User.class)
+					.setParameter(1, idUsr)
+					.getResultList();
+			if (usr == null) {
+				throw new IllegalArgumentException("User do not exist!");			
+			}
+			else {
+				newLog = new Log();
+				newLog.setIdUser(idUsr);
+				newLog.setTimestamp_login(ts);
+
+				em.persist(newLog);
+				
+				success = true;
+			
+			}
+
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			success = false;
+			throw new IllegalArgumentException("User do not exist!");
+		}
+		
+		return success;
 	}
 	
 	public Boolean Register(String usrn, String email, String pwd) throws CredentialsException {
@@ -105,6 +139,7 @@ public class UserService {
 		
 		return success;
 	}
+
 	
 	private String bytesToHex(byte[] hash) {
 	    StringBuilder hexString = new StringBuilder(2 * hash.length);

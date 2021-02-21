@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "DB_project")
+@NamedQuery(name = "User.checkId", query = "SELECT r FROM User r  WHERE r.id = ?1")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 @NamedQuery(name = "User.checkUsernames", query = "SELECT r FROM User r  WHERE r.username = ?1")
 @NamedQuery(name = "User.checkEmails", query = "SELECT r FROM User r  WHERE r.email = ?1")
