@@ -4,9 +4,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+
+import java.util.Date;
 import javax.persistence.NonUniqueResultException;
 
 import it.polimi.entities.Leaderboard;
+import it.polimi.entities.Log;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
@@ -15,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 
 @Stateless
 public class UserService {
@@ -26,20 +30,34 @@ public class UserService {
 
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
+		Log newLog = new Log();
+		
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] encodedhash = digest.digest(
 					pwd.getBytes(StandardCharsets.UTF_8));
 			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
+
 		} catch (NoSuchAlgorithmException | PersistenceException e) {
 			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (uList.isEmpty())
 			return null;
-		else if (uList.size() == 1)
+		else if (uList.size() == 1) {
+			int id = uList.get(0).getId();
+			Date date = new Date();
+			long time = System.currentTimeMillis();
+					
+			newLog.setId(id);
+			newLog.setDate(date);
+			newLog.setTime(time);
+			
+			em.persist(newLog);
+			
 			return uList.get(0);
+		}
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
