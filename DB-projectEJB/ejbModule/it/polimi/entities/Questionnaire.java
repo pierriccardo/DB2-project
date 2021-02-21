@@ -19,6 +19,7 @@ public class Questionnaire implements Serializable {
 	private int age;
 	private int expertise_level;
 	private boolean isSubmitted;
+
 	
 	public boolean isSubmitted() {
 		return isSubmitted;
@@ -28,12 +29,13 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="idProduct")
 	private Product product;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<User> users;
+	@ManyToOne
+	@JoinColumn(name = "idUser")
+	private User user;
 
 	public Product getProduct() {
 		return product;
@@ -47,13 +49,6 @@ public class Questionnaire implements Serializable {
 	private List<Answer> answers;
 
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
 	public List<Answer> getAnswers() {
 		return answers;
@@ -96,6 +91,14 @@ public class Questionnaire implements Serializable {
 
 	public void setExpertise_level(int expertise_level) {
 		this.expertise_level = expertise_level;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

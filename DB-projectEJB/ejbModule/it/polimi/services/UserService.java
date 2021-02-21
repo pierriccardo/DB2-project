@@ -8,7 +8,6 @@ import javax.persistence.PersistenceException;
 import java.util.Date;
 import javax.persistence.NonUniqueResultException;
 
-import it.polimi.entities.Leaderboard;
 import it.polimi.entities.Log;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
@@ -46,11 +45,10 @@ public class UserService {
 		if (uList.isEmpty())
 			return null;
 		else if (uList.size() == 1) {
-			int id = uList.get(0).getId();
 			Date date = new Date();
 			long time = System.currentTimeMillis();
 					
-			newLog.setId(id);
+			newLog.setUser(uList.get(0));
 			newLog.setDate(date);
 			newLog.setTime(time);
 			
@@ -61,6 +59,7 @@ public class UserService {
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
+	
 	
 	public Boolean Register(String usrn, String email, String pwd) throws CredentialsException {
 		List<User> usernamesList = null;
@@ -94,6 +93,7 @@ public class UserService {
 				newUser.setEmail(email);
 				newUser.setIsAdmin(false);
 				newUser.setIsBanned(false);
+				newUser.setScore(0);
 				em.persist(newUser);
 				
 				success = true;
@@ -106,6 +106,7 @@ public class UserService {
 		
 		return success;
 	}
+
 	
 	private String bytesToHex(byte[] hash) {
 	    StringBuilder hexString = new StringBuilder(2 * hash.length);
@@ -119,8 +120,8 @@ public class UserService {
 	    return hexString.toString();
 	}
 	
-	public List<Leaderboard> getLeads(){
-		return em.createNamedQuery("Leaderboard.findAll", Leaderboard.class)
+	public List<User> getLeads(){
+		return em.createNamedQuery("User.findScore", User.class)
 				.getResultList();
 	}
 }

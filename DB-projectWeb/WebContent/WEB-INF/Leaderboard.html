@@ -24,7 +24,7 @@
 					  <tbody>
 					    <tr th:each="leaderboard: ${leads}">
       					  <th scope="row" th:text="${i++}"></th>
-					      <td th:text="${leaderboard.getUser().getUsername()}"></td>
+					      <td th:text="${leaderboard.getUsername()}"></td>
 					      <td th:text="${leaderboard.getScore()}"></td>
 					    </tr>
 					</tbody>

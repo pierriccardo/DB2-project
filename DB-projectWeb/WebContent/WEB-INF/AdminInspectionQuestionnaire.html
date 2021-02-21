@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Admin Inspection</title>
+	<title>Admin Inspection Questionnaire</title>
 	<link rel="stylesheet" type="text/css" media="all"
 		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
 	<script src="../asset/js/bootstrap.bundle.min.js" 
@@ -57,30 +57,25 @@
 			</div>
 		</div>
 		<div class="row">
+			<!--h1 th:text=${product.getName()}></h1-->
 
 			<table class="table">
 			  <thead class="thead-dark">
 			    <tr>
-			    <th scope="col">ID</th>
+			    <th scope="col">user id</th>
 			      <th scope="col">Name</th>
-			      <th scope="col">Date</th>
 			      <th scope="col">Actions</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr class="list-inline"  th:each="product: ${products}">
-			      	<th th:text="${product.getId()}"></th>
-  					<th th:text="${product.getName()}"></th>
-  					<th th:text="${product.getDate()}"></th>
+			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
+			      	<th th:text="${q.getId()}"></th>
+  					<th th:text="${q.getUser().getUsername()}"></th>
   					<th>
-  						<a class="btn btn-success" href="#" th:href="@{/Admin/InspectionQuestionnaire} + '?idProd=' + ${product.getId()}">
-  							<i class="fas fa-eye"></i>
-			    		</a>
   						<button class="btn btn-danger">
   							<i class="fas fa-trash-alt"></i>
 			    		</button>
 			    	</th>
-			    	
 			    </tr>
 			  </tbody>
 			</table>

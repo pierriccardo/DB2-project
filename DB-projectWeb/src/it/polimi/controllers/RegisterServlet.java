@@ -61,8 +61,8 @@ public class RegisterServlet extends HttpServlet {
 		
 		try {
 			try {
-				usrn = StringEscapeUtils.escapeJava(request.getParameter("usrn"));
-				pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
+				usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
+				pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
 				email = StringEscapeUtils.escapeJava(request.getParameter("email"));
 				if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
 					throw new Exception("Missing or empty credential value");

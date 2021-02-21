@@ -18,16 +18,21 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import java.util.List;
+
+import it.polimi.entities.Product;
+import it.polimi.entities.Questionnaire;
+import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 
-@WebServlet("/Admin/AddQuestion")
-public class AdminAddQuestionsServlet extends HttpServlet {
+@WebServlet("/Admin/InspectionQuestionnaire")
+public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/AdminService")
 	private AdminService adminService;
-	
-	public AdminAddQuestionsServlet() {
+
+	public AdminInspectionQuestionnaireServlet() {
 		super();
 	}
 
@@ -43,7 +48,7 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String path = "/WEB-INF/AdminAddQuestion.html";
+		String path = "/WEB-INF/AdminInspectionQuestionnaire.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			
@@ -55,46 +60,30 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 				throw new Exception("Problem with ID product!");
 			}
 			ctx.setVariable("idProd", idProd);
+			Product product = adminService.findProduct(idProd);
+			
+			System.out.println(product.getName());
+			System.out.println(product.getName());
+			System.out.println(product.getName());
+			
+			List<Questionnaire> q = product.getQuestionnaires();
+			
+			System.out.println(q);
+			
+			ctx.setVariable("product", product);
+			ctx.setVariable("questionnaire", q);
 			
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", e.toString());
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String path = "/WEB-INF/AdminAddQuestion.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		
-		String errorMsg = "";
-		try {
-			int idProd;
-			String questionText = StringEscapeUtils.escapeJava(request.getParameter("questionText"));
-			
-			try {
-				idProd = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idProd")));
-			} catch (NumberFormatException e) {
-				errorMsg = "Wrong format request! Try again!";
-				throw new Exception(errorMsg);
-			}
-			ctx.setVariable("idProd", idProd);
-						
-			if (questionText == null || questionText.isEmpty()) {
-				errorMsg = "Question cannot be empty!";
-				throw new Exception(errorMsg);
-			}
-			adminService.AddQuestion(idProd, questionText);
-			//String redirectPath = getServletContext().getContextPath()+"/Admin/AddQuestion?idProd="+idProd;
-			//response.sendRedirect(redirectPath);
-		
-		} catch (Exception e) {
-			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Incorrect request!");
-		}		
-		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	public void destroy() {

@@ -9,10 +9,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "DB_project")
+@NamedQuery(name = "User.checkId", query = "SELECT r FROM User r  WHERE r.id = ?1")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 @NamedQuery(name = "User.checkUsernames", query = "SELECT r FROM User r  WHERE r.username = ?1")
 @NamedQuery(name = "User.checkEmails", query = "SELECT r FROM User r  WHERE r.email = ?1")
+@NamedQuery(name = "User.findScore", query = "SELECT r FROM User r ORDER BY r.score DESC")
 public class User implements Serializable {
+
+
 	private static final long serialVersionUID = 1L;
 
 	@Id 	
@@ -24,19 +28,16 @@ public class User implements Serializable {
 	private String email;
 	private Boolean isBanned;
 	private Boolean isAdmin;
-	
+	private int score;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Log> logs;
 	
-	@ManyToOne
-	@JoinColumn(name = "user")
-	private Review review;
+	@OneToMany(mappedBy = "user")
+	private List<Review> reviews;
 	
-	@OneToOne
-	private Leaderboard leaderboard;
-	
-	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
 	
 	
@@ -49,14 +50,16 @@ public class User implements Serializable {
 		this.logs = logs;
 	}
 
-	public Review getReview() {
-		return review;
+
+
+
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
-	public void setReview(Review review) {
-		this.review = review;
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
-
 
 	public List<Questionnaire> getQuestionnaires() {
 		return Questionnaires;
@@ -67,6 +70,7 @@ public class User implements Serializable {
 	}
 
 	public User() {
+	
 	}
 
 	public int getId() {
@@ -117,46 +121,14 @@ public class User implements Serializable {
 	public void setIsBanned(Boolean isBanned) {
 		this.isBanned = isBanned;
 	}
-	/*
-	public List<Quesitonnaire> getQuestionnaires() {
-		return Questionnaires;
+	
+	public int getScore() {
+		return score;
 	}
 
-	public void setQuestionnaires(List<Quesitonnaire> questionnaires) {
-		Questionnaires = questionnaires;
+	public void setScore(int score) {
+		this.score = score;
 	}
 
-	public List<Review> getReviews() {
-		return Reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		Reviews = reviews;
-	}
-
-	public List<Log> getLogs() {
-		return Logs;
-	}
-
-	public void setLogs(List<Log> logs) {
-		Logs = logs;
-	}
-
-	public List<Leaderboard> getLeaderboards() {
-		return Leaderboards;
-	}
-
-	public void setLeaderboards(List<Leaderboard> leaderboards) {
-		Leaderboards = leaderboards;
-	}
-	*/
-
-	public Leaderboard getLeaderboard() {
-		return leaderboard;
-	}
-
-	public void setLeaderboard(Leaderboard leaderboard) {
-		this.leaderboard = leaderboard;
-	}
 
 }
