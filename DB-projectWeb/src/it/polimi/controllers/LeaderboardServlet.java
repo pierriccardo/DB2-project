@@ -15,7 +15,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import it.polimi.entities.Leaderboard;
+import it.polimi.entities.User;
 import it.polimi.services.UserService;
 
 
@@ -44,7 +44,7 @@ public class LeaderboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		List<Leaderboard> leads = userService.getLeads();
+		List<User> leads = userService.getLeads();
 		
 		String path = "/WEB-INF/Leaderboard.html";
 		ServletContext servletContext = getServletContext();

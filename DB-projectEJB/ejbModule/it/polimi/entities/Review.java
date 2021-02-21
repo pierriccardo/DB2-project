@@ -18,8 +18,10 @@ public class Review implements Serializable {
 	private String text;	
 	
 	
-	@OneToMany(mappedBy = "review")
-	private List<User> users;
+
+	@ManyToOne
+	@JoinColumn(name = "idUser")
+	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name = "idProduct")
@@ -39,5 +41,17 @@ public class Review implements Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }

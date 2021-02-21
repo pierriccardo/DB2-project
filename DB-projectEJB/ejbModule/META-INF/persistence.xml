@@ -4,7 +4,6 @@
 		<jta-data-source>dbProject</jta-data-source>
 		<class>it.polimi.entities.Answer</class>
 		<class>it.polimi.entities.BlacklistWord</class>
-		<class>it.polimi.entities.Leaderboard</class>
 		<class>it.polimi.entities.Log</class>
 		<class>it.polimi.entities.Product</class>
 		<class>it.polimi.entities.Question</class>

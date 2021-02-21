@@ -8,7 +8,6 @@ import javax.persistence.PersistenceException;
 import java.util.Date;
 import javax.persistence.NonUniqueResultException;
 
-import it.polimi.entities.Leaderboard;
 import it.polimi.entities.Log;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
@@ -119,8 +118,8 @@ public class UserService {
 	    return hexString.toString();
 	}
 	
-	public List<Leaderboard> getLeads(){
-		return em.createNamedQuery("Leaderboard.findAll", Leaderboard.class)
+	public List<User> getLeads(){
+		return em.createNamedQuery("User.findScore", User.class)
 				.getResultList();
 	}
 }

@@ -23,7 +23,7 @@ public class Log implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "idUser")
 	private User user;	
