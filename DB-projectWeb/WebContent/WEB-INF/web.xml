@@ -5,8 +5,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 		<filter-class>it.polimi.filters.LoggedIn</filter-class> 
 	</filter> 
 	<filter-mapping>
-	    <filter-name>Checker</filter-name> 
-	    <url-pattern>/Register</url-pattern> 
+	    <filter-name>Checker</filter-name>
 	    <url-pattern>/Delete</url-pattern> 
 	    <url-pattern>/GoToHomePage</url-pattern> 
 	    <url-pattern>/Logout</url-pattern> 
