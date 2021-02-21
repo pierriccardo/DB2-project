@@ -76,6 +76,7 @@ public class QuestionnaireServlet extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
+		String errorMsg = "";
 		try {
 			
 			int age, sex, expertise_level;
@@ -85,11 +86,13 @@ public class QuestionnaireServlet extends HttpServlet {
 				sex = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("sex")));
 				expertise_level = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("expertise_level")));
 			} catch (NumberFormatException e) {
-				throw new Exception("Wrong format request!");
+				errorMsg = "Wrong format request! Try again!";
+				throw new Exception(errorMsg);
 			}
 			
 		} catch (Exception e) {
-			
+			path = "/WEB-INF/Questionnaire.html";
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Incorrect request!");
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());
