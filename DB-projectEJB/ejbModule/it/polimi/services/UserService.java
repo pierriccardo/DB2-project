@@ -4,9 +4,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+
+import org.joda.time.DateTime;
+
+import java.util.Date;
 import javax.persistence.NonUniqueResultException;
 
 import it.polimi.entities.Leaderboard;
+import it.polimi.entities.Log;
 //import javax.persistence.NonUniqueValueException;
 import it.polimi.entities.User;
 import it.polimi.exceptions.*;
@@ -15,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 
 @Stateless
 public class UserService {
@@ -26,6 +32,8 @@ public class UserService {
 
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
+		Log newLog = new Log();
+		
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] encodedhash = digest.digest(
@@ -41,6 +49,25 @@ public class UserService {
 		else if (uList.size() == 1)
 			return uList.get(0);
 		throw new NonUniqueResultException("More than one user registered with same credentials");
+		
+		
+		
+		try {
+			
+			int id = uList.get(0).getId();
+			Date date = new Date();
+			long time = System.currentTimeMillis();
+					
+			newLog.setId(id);
+			newLog.setDate(date);
+			newLog.setTime(time);
+			
+			em.persist(newLog);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("Could not create log");
+		}
 
 	}
 	
