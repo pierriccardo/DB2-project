@@ -49,44 +49,48 @@ public class RegisterServlet extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		templateEngine.process(path, ctx, response.getWriter());
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
-		String usrn  = null;
-		String pwd   = null;
-		String email = null;
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String path = "/WEB-INF/Register.html";
 		
+		String errorMsg = "";
 		try {
+			String usrn  = null;
+			String pwd   = null;
+			String email = null;
+			
 			try {
 				usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
 				pwd = StringEscapeUtils.escapeJava(request.getParameter("password"));
 				email = StringEscapeUtils.escapeJava(request.getParameter("email"));
-				if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
-					throw new Exception("Missing or empty credential value");
-				}
-
 			} catch (Exception e) {
-				e.printStackTrace();
-				throw new Exception("Missing or empty credential value");
+				errorMsg = "Missing or empty credential value";
+				throw new Exception(errorMsg);
+			}
+			
+			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty() || email == null || email.isEmpty()) {
+				errorMsg = "Missing or empty credential value";
+				throw new Exception(errorMsg);
 			}
 			
 			try {
-				// query db to authenticate for user
 				usrService.Register(usrn, email, pwd);
 			} catch (CredentialsException e) {
-				e.printStackTrace();
-				throw new Exception("Username or Email are already used");
+				errorMsg = "Username or Email are already used";
+				throw new Exception(errorMsg);
 			}
 		} catch (Exception e) {
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", e.toString());
-			String path = "/WEB-INF/Register.html";
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request");
 			templateEngine.process(path, ctx, response.getWriter());
+			return;
 		}
+		
+		path = getServletContext().getContextPath() + "/Login";
+		response.sendRedirect(path);
 	}
 
 	public void destroy() {
