@@ -11,10 +11,10 @@ import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/Logout")
-public class Logout extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public Logout() {
+	public LogoutServlet() {
 		super();
 	}
 
@@ -27,7 +27,7 @@ public class Logout extends HttpServlet {
 			//if (qs != null) qs.remove();
 			session.invalidate();
 		}
-		String path = getServletContext().getContextPath() + "/WEB-INF/Login.html";
+		String path = getServletContext().getContextPath() + "/Login";
 		response.sendRedirect(path);
 	}
 
