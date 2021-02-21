@@ -20,6 +20,13 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
+	}
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
+	}
+	
 	@OneToOne(mappedBy="product")
 	private Questionnaire questionnaire;
 	

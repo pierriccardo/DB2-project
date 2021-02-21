@@ -21,6 +21,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import java.util.List;
 
 import it.polimi.entities.Product;
+import it.polimi.entities.Questionnaire;
 import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 
@@ -60,11 +61,19 @@ public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 			}
 			ctx.setVariable("idProd", idProd);
 			Product product = adminService.findProduct(idProd);
-			List<User> submittedUsers = null;
-			List<User> cancelledUsers = null;
+			
+			System.out.println(product.getName());
+			System.out.println(product.getName());
+			System.out.println(product.getName());
+			
+			Questionnaire q = product.getQuestionnaire();
+			
+			System.out.println(q);
+			
+			List<User> submittedUsers = q.getUsers();
 			
 			ctx.setVariable("product", product);
-			ctx.setVariable("submittedUsers", product);
+			ctx.setVariable("submittedUsers", submittedUsers);
 			ctx.setVariable("cancelledUsers", product);
 			
 		} catch (Exception e) {

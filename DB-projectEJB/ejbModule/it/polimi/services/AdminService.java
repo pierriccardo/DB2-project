@@ -78,10 +78,4 @@ public class AdminService {
 		return em.find(Product.class, idProd);
 	}
 	
-	public List<User> findWhoSubmitted(int idProd) {
-		return em.createNamedQuery("Product.findWhoSubmitted)
-	}
-	
-	
-	
 }
