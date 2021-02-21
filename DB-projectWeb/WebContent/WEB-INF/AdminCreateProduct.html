@@ -1,33 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Create Product</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+	<meta charset="ISO-8859-1">
+	<title>Questionnaire</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+		
+	<style>
+	</style>
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-set">
+		<div class="container-fluid">
+  			<h5 class="navbar-brand">Admin panel</h5>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+   			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
+					</li>
+				</ul>
+				<span class="navbar-text">
+      				<a class="nav-link" href="#" th:href="@{/Logout}">Logout</a>
+				</span>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="base-box container-xxl">
+		<div class="row">
+			<div class="col">
+				<h1>Create Product</h1>
+			</div>
+		</div>
+		<hr class="hr-title">
 
-	<h1>Create Product</h1>
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+			<h6 th:text="${errorMsg}"></h6>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<form action="#" th:action="@{/Admin/CreateProduct}" method="POST">
+			<div class="row">
+				<div class="col-6">
+					<label for="prodName" class="form-label"><h5>Choose the name of the product *</h5></label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon3">Product Name *</span>
+						<input type="text" name="prodName" class="form-control" id="prodName" aria-describedby="basic-addon3" required>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<label for="prodImageFileName" class="form-label"><h5>Upload an image of the product *</h5></label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon3">Product Image *</span>
+						<input type="file" name="prodImageFileName" class="form-control" id="prodImageFileName" aria-describedby="basic-addon3" required>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<label for="prodDate" class="form-label"><h5>Insert the date in which will be the product of the day *</h5></label>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon3">Date *</span>
+						<input type="date" name="prodDate" class="form-control" id="prodDate" aria-describedby="basic-addon3" required>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="col">
+					<button type="submit" class="btn btn-success submit-button">Submit <i class="fas fa-paper-plane"></i></button>
+				</div>
+			</div>
+		</form>
+	</div>
 	
-	<form action="#" th:action="@{/Admin/CreateProduct}" method="POST">
-		<fieldset>
-			<h5>Choose the name of the product</h5>
-			<label for="prodName">Insert name of the product</label>
-			<input type="text" name="prodName" required />
-			
-			<h5>Upload an image of the product (optional)</h5>
-			<label for="prodImageFileName"></label>
-			<input type="text" name="prodImageFileName"/>
-			
-			<h5>Insert the date in which will be the product of the day</h5>
-			<label for="prodDate"></label>
-			<input type="date" name="prodDate" id="dateinput" required />
-			
-			<input type="submit" value="done">
-			<p th:text="${errorMsg}"></p>
-		</fieldset>
-	</form>
-	
+	<script>
+	</script>
 </body>
 </html>
