@@ -78,4 +78,12 @@ public class AdminService {
 		return em.find(Product.class, idProd);
 	}
 	
+	public Questionnaire findQuestionnaire(int idQuestionnaire) {
+		return em.find(Questionnaire.class, idQuestionnaire);
+	}
+	
+	public User findUser(int idUser) {
+		return em.find(User.class, idUser);
+	}
+	
 }
