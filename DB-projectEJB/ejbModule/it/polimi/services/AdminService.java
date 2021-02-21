@@ -73,4 +73,9 @@ public class AdminService {
 		return em.createNamedQuery("Product.findAll", Product.class)
 				.getResultList();
 	}
+	
+	public Product findProduct(int idProd) {
+		return em.find(Product.class, idProd);
+	}
+	
 }
