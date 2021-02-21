@@ -1,5 +1,8 @@
 package it.polimi.services;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,9 +20,13 @@ public class QuestionnaireService {
 	public Product findProductById(int idProduct) {
 		return em.find(Product.class, idProduct);
 	}
-	
+
 	public Questionnaire findQuestionnaireById(int idQuest) {
 		return em.find(Questionnaire.class, idQuest);
+	}
+
+	public Product findByDate(Date date) {
+		return em.createNamedQuery("Product.findByDate", Product.class).setParameter(1, date).getSingleResult();
 	}
 	
 	public Question findQuestionById(int idQuestion) {

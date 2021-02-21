@@ -1,17 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Admin Panel</title>
+	<meta charset="ISO-8859-1">
+	<title>Admin Deletion</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+	<style></style>
 </head>
 <body>
-	<h1>Delete a Questionnaire</h1>
-	<fieldset><legend>Insert Questionnaire id</legend>
-		<form name="delete" action="#" th:action="@{/Admin/DeleteQuestionnaire}" method="POST">
-			<label for="qId">id</label> 
-				<input type="text" name="qId" placeholder="qId" required> <br /> 
-				<input type="submit" value="Delete">
-			<p th:text=" ${errorMsg}"></p>
-		</form>
+	<nav class="navbar navbar-expand-lg navbar-set">
+		<div class="container-fluid">
+  			<h5 class="navbar-brand">Admin panel</h5>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+   			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
+					</li>
+				</ul>
+				<span class="navbar-text">
+      				<a class="nav-link" href="#" th:href="@{/Logout}">Logout</a>
+				</span>
+			</div>
+		</div>
+	</nav>
+	<div class="base-box container-xxl">
+		<div class="row">
+			<div class="col">
+				<h1>Deletion</h1>
+			</div>
+		</div>
+		<hr class="hr-title">
+
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+			<h6 th:text="${errorMsg}"></h6>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<h1>Product</h1>
+			</div>
+		</div>
+		<div class="row">
+
+			<table class="table">
+			  <thead class="thead-dark">
+			    <tr>
+			    <th scope="col">ID</th>
+			      <th scope="col">Name</th>
+			      <th scope="col">Date</th>
+			      <th scope="col">Actions</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr class="list-inline"  th:each="product: ${products}">
+			      	<th th:text="${product.getId()}"></th>
+  					<th th:text="${product.getName()}"></th>
+  					<th th:text="${product.getDate()}"></th>
+  					<th>
+  						<form name="deleteForm" action="#" th:action="@{/Admin/DeleteQuestionnaire}" method="post">
+	  						<input name="idProd" type="hidden" th:value="${product.getId()}">
+	  						<button type="submit"  class="btn btn-danger">
+	  							<i class="fas fa-trash-alt"></i>
+				    		</button>
+				    	</form>
+			    	</th>
+			    	
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

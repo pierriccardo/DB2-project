@@ -30,7 +30,8 @@ public class Question implements Serializable {
 	@JoinColumn(name="idProduct")
 	private Product product;
 	
-	@OneToMany(mappedBy="question")
+	
+	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
 	public Product getProduct() {
