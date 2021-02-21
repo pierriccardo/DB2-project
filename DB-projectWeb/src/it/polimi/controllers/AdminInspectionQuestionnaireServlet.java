@@ -21,6 +21,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import java.util.List;
 
 import it.polimi.entities.Product;
+import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 
 @WebServlet("/Admin/InspectionQuestionnaire")
@@ -46,13 +47,30 @@ public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
-		List<Product> products = adminService.findAllProducts();		
-		
-		String path = "/WEB-INF/AdminInspection.html";
+		String path = "/WEB-INF/AdminInspectionQuestionnaire.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("products", products);
+			
+		try {
+			int idProd;
+			try {
+				idProd = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idProd")));
+			} catch (NumberFormatException e) {
+				throw new Exception("Problem with ID product!");
+			}
+			ctx.setVariable("idProd", idProd);
+			Product product = adminService.findProduct(idProd);
+			List<User> submittedUsers = null;
+			List<User> cancelledUsers = null;
+			
+			ctx.setVariable("product", product);
+			ctx.setVariable("submittedUsers", product);
+			ctx.setVariable("cancelledUsers", product);
+			
+		} catch (Exception e) {
+			ctx.setVariable("errorMsg", e.toString());
+		}
+		
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}

@@ -73,4 +73,15 @@ public class AdminService {
 		return em.createNamedQuery("Product.findAll", Product.class)
 				.getResultList();
 	}
+	
+	public Product findProduct(int idProd) {
+		return em.find(Product.class, idProd);
+	}
+	
+	public List<User> findWhoSubmitted(int idProd) {
+		return em.createNamedQuery("Product.findWhoSubmitted)
+	}
+	
+	
+	
 }
