@@ -5,8 +5,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.joda.time.DateTime;
-
 import java.util.Date;
 import javax.persistence.NonUniqueResultException;
 
@@ -40,20 +38,14 @@ public class UserService {
 					pwd.getBytes(StandardCharsets.UTF_8));
 			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
+
 		} catch (NoSuchAlgorithmException | PersistenceException e) {
 			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
 		}
 		if (uList.isEmpty())
 			return null;
-		else if (uList.size() == 1)
-			return uList.get(0);
-		throw new NonUniqueResultException("More than one user registered with same credentials");
-		
-		
-		
-		try {
-			
+		else if (uList.size() == 1) {
 			int id = uList.get(0).getId();
 			Date date = new Date();
 			long time = System.currentTimeMillis();
@@ -64,10 +56,9 @@ public class UserService {
 			
 			em.persist(newLog);
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new Exception("Could not create log");
+			return uList.get(0);
 		}
+		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
 	
