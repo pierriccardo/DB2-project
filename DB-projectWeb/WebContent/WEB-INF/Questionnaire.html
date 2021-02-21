@@ -32,6 +32,10 @@
 		.mandatory-block{
 			margin-top: 30px;
 		}
+		
+		.error-margin{
+			margin: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -57,9 +61,14 @@
 		</div>
 	</nav>
 	
+	<div class="alert alert-danger alert-dismissible fade show error-margin" role="alert" th:if="${errorMsg}">
+		<h6 th:text="${errorMsg}"></h6>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 	
 	<div class="container-xxl question-container">
 		<form name="Questionnaire" action="#" th:action="@{/Questionnaire}" method="post">
+			<input type="hidden" name="idQuest" th:value="${idQuest}">
 			<div id="q_marketing" class="collapse show">
 				<div class="row question-box" th:each="question: ${questions}">
 					<h1 th:text="${question.getText() + ': *'}">Question</h1>
