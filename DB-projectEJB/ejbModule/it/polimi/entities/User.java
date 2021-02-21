@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private List<Review> reviews;
 	
 
-	@ManyToMany(mappedBy="users", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Questionnaire> Questionnaires;
 	
 	
@@ -69,6 +69,7 @@ public class User implements Serializable {
 	}
 
 	public User() {
+	
 	}
 
 	public int getId() {

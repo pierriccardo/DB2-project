@@ -45,11 +45,10 @@ public class UserService {
 		if (uList.isEmpty())
 			return null;
 		else if (uList.size() == 1) {
-			int id = uList.get(0).getId();
 			Date date = new Date();
 			long time = System.currentTimeMillis();
 					
-			newLog.setId(id);
+			newLog.setUser(uList.get(0));
 			newLog.setDate(date);
 			newLog.setTime(time);
 			
@@ -93,6 +92,7 @@ public class UserService {
 				newUser.setEmail(email);
 				newUser.setIsAdmin(false);
 				newUser.setIsBanned(false);
+				newUser.setScore(0);
 				em.persist(newUser);
 				
 				success = true;
