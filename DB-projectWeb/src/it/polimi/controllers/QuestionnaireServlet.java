@@ -92,7 +92,7 @@ public class QuestionnaireServlet extends HttpServlet {
 			
 		} catch (Exception e) {
 			path = "/WEB-INF/Questionnaire.html";
-			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Incorrect request!");
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());
