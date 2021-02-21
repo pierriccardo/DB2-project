@@ -52,47 +52,25 @@
 		</div>
 		
 		<div class="row">
-			<a th:text=${product.getName()}></a>
-			<a th:text=${product.getDate()}></a>
+			<a th:text=${product.getName()}>Product name: </a>
+			<a th:text=${product.getDate()}>Product date: </a>
+			<a th:text=${user.getId()}>User id: </a>
 			<!-- USERS WHO HAVE SUBMITTED -->
 			<h3>Submitted</h3>
 			<table class="table">
 			  <thead class="thead-dark">
 			    <tr>
-			      <th scope="col">user id</th>
-			      <th scope="col">Name</th>
-			      <th scope="col">Actions</th>
+			      <th scope="col">Question</th>
+			      <th scope="col">Answer</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
-			      	<th th:text="${q.getId()}"></th>
-  					<th th:text="${q.getUser().getUsername()}"></th>
-  					<th>
-  						<a class="btn btn-success" href="#" th:href="@{/Admin/UserAnswers} + '?idQuestionnaire=' + ${q.getId()}">
-  							<i class="fas fa-question-circle"></i>
-						</a>
-			    	</th>
+			    <tr class="list-inline"  th:each="answer: ${answers}">
+			    	<th th:text="${answer.getQuestion().getText()}"></th>
+			    	<th th:text="${answer.getText()}"></th>
 			    </tr>
 			  </tbody>
-			</table>
-			<!-- USERS WHO HAVE CANCELLED -->
-			<h3>Cancelled</h3>
-			<table class="table">
-			  <thead class="thead-dark">
-			    <tr>
-			    	<th scope="col">user id</th>
-			      	<th scope="col">Name</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${!q.isSubmitted()}>
-			      	<th th:text="${q.getId()}"></th>
-  					<th th:text="${q.getUser().getUsername()}"></th>
-			    </tr>
-			  </tbody>
-			</table>
-			
+			</table>			
 		</div>
 	</div>
 </body>

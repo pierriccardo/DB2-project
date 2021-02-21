@@ -20,19 +20,21 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.util.List;
 
+import it.polimi.entities.Answer;
 import it.polimi.entities.Product;
+import it.polimi.entities.Question;
 import it.polimi.entities.Questionnaire;
 import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 
-@WebServlet("/Admin/InspectionQuestionnaire")
-public class AdminInspectionQuestionnaireServlet extends HttpServlet {
+@WebServlet("/Admin/UserAnswers")
+public class AdminUserAnswersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.polimi.services/AdminService")
 	private AdminService adminService;
 
-	public AdminInspectionQuestionnaireServlet() {
+	public AdminUserAnswersServlet() {
 		super();
 	}
 
@@ -48,26 +50,29 @@ public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String path = "/WEB-INF/AdminInspectionQuestionnaire.html";
+		String path = "/WEB-INF/AdminUserAnswers.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			
 		try {
-			int idProd;
+			int idQuestionnaire;
 			try {
-				idProd = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idProd")));
+				idQuestionnaire= Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idQuestionnaire")));
 			} catch (NumberFormatException e) {
-				throw new Exception("Problem with ID product!");
+				throw new Exception("Problem with ID Questionnaire!");
 			}
-			ctx.setVariable("idProd", idProd);
-			Product product = adminService.findProduct(idProd);
+			ctx.setVariable("idProd", idQuestionnaire);
+			Questionnaire questionnaire = adminService.findQuestionnaire(idQuestionnaire);
+			Product product = questionnaire.getProduct();
+			User user = questionnaire.getUser();
+			List<Answer> answers = questionnaire.getAnswers();
+			List<Question> questions = product.getQuestions();
 			
-			List<Questionnaire> q = product.getQuestionnaires();
-			
-			System.out.println(q);
-			
+			ctx.setVariable("questionnaire", questionnaire);
+			ctx.setVariable("questions", questions);
+			ctx.setVariable("answers", answers);
 			ctx.setVariable("product", product);
-			ctx.setVariable("questionnaire", q);
+			ctx.setVariable("user", user);
 			
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", e.toString());
