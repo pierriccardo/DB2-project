@@ -78,4 +78,13 @@ public class AdminService {
 		return em.find(Product.class, idProd);
 	}
 	
+
+	public void deleteProduct(int idQ) {
+		Product q = this.findProduct(idQ);
+		if (q == null)
+			return;
+		em.remove(q);
+		em.flush();
+	}
+	
 }

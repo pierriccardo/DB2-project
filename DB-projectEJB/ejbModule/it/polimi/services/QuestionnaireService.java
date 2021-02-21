@@ -23,13 +23,4 @@ public class QuestionnaireService {
 		return 0;
 	}
 
-
-
-	public void deleteAlbum(int idQ) {
-		Questionnaire q = this.findById(idQ);
-		if (q == null)
-			return;
-		em.remove(idQ);
-	}
-
 }
