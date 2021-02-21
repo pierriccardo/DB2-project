@@ -19,7 +19,7 @@ import it.polimi.entities.User;
 import it.polimi.services.UserService;
 
 
-@WebServlet("/User/Leaderboard")
+@WebServlet("/Leaderboard")
 public class LeaderboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB(name = "it.polimi.services/UserService")
