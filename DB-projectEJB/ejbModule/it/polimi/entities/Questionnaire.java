@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "questionnaire", schema = "DB_project")
 @NamedQuery(name = "Questionnaire.getUserQuestionnaires", query = "SELECT q FROM Questionnaire q  WHERE q.id = ?1")
-
+@NamedQuery(name = "Questionnaire.getQuestionnaireByUserAndProduct", query = "SELECT q FROM Questionnaire q  WHERE q.user = ?1 AND q.product = ?2")
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 

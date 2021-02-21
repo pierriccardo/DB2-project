@@ -2,6 +2,7 @@ package it.polimi.services;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import it.polimi.entities.*;
 
@@ -11,25 +12,42 @@ public class QuestionnaireService {
 	private EntityManager em;
 
 	public QuestionnaireService() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public Questionnaire findById(int idQ) {
-		return em.find(Questionnaire.class, idQ);
+	public Product findProductById(int idProduct) {
+		return em.find(Product.class, idProduct);
 	}
-
-
-	public int createQuestionnaire() {
-		return 0;
+	
+	public Questionnaire findQuestionnaireById(int idQuest) {
+		return em.find(Questionnaire.class, idQuest);
 	}
-
-
-
-	public void deleteAlbum(int idQ) {
-		Questionnaire q = this.findById(idQ);
-		if (q == null)
-			return;
-		em.remove(idQ);
+	
+	public Question findQuestionById(int idQuestion) {
+		return em.find(Question.class, idQuestion);
 	}
-
+	
+	public Questionnaire getOrCreateQuestionnaire(User user, Product product) {
+		Questionnaire questionnaire;
+		try {
+			questionnaire = em.createNamedQuery("Questionnaire.getQuestionnaireByUserAndProduct", Questionnaire.class)
+											.setParameter(1, user)
+											.setParameter(2, product)
+											.getSingleResult();
+		} catch (NoResultException e) {
+			questionnaire = new Questionnaire();
+			questionnaire.setSubmitted(false);
+			questionnaire.setUser(user);
+			questionnaire.setProduct(product);
+			
+			em.persist(questionnaire);
+			em.flush();
+		}
+		
+		return questionnaire;
+	}
+	
+	public void persistQuestionnaire(Questionnaire questionnaire) {
+		em.persist(questionnaire);
+		em.flush();
+	}
 }

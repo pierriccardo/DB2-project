@@ -8,6 +8,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 	    <filter-name>Checker</filter-name>
 	    <url-pattern>/Delete</url-pattern> 
 	    <url-pattern>/GoToHomePage</url-pattern>
+	    <url-pattern>/Questionnaire</url-pattern>
 	</filter-mapping> 
 	
 	<filter>
