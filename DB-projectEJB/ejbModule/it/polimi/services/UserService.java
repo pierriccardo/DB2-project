@@ -33,11 +33,9 @@ public class UserService {
 		
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] encodedhash = digest.digest(
-					pwd.getBytes(StandardCharsets.UTF_8));
+			byte[] encodedhash = digest.digest(pwd.getBytes(StandardCharsets.UTF_8));
 			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, bytesToHex(encodedhash))
 					.getResultList();
-
 		} catch (NoSuchAlgorithmException | PersistenceException e) {
 			e.printStackTrace();
 			throw new CredentialsException("Could not verify credentals");
@@ -92,7 +90,7 @@ public class UserService {
 				
 				newUser.setEmail(email);
 				// TODO: controllare se serve
-				//newUser.setIsAdmin(false);
+				newUser.setIsAdmin(false);
 				newUser.setIsBanned(false);
 				newUser.setScore(0);
 				em.persist(newUser);

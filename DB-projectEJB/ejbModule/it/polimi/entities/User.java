@@ -50,9 +50,6 @@ public class User implements Serializable {
 		this.logs = logs;
 	}
 
-
-
-
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -108,6 +105,10 @@ public class User implements Serializable {
 	
 	public Boolean isAdmin() {
 		return this.isAdmin;
+	}
+	
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public Boolean isBanned() {

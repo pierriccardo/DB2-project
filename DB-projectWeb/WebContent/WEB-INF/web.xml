@@ -7,8 +7,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 	<filter-mapping>
 	    <filter-name>Checker</filter-name>
 	    <url-pattern>/Delete</url-pattern> 
-	    <url-pattern>/GoToHomePage</url-pattern> 
-	    <url-pattern>/Logout</url-pattern> 
+	    <url-pattern>/GoToHomePage</url-pattern>
 	</filter-mapping> 
 	
 	<filter>
@@ -17,6 +16,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 	</filter> 
 	<filter-mapping>
 	    <filter-name>CheckerAdmin</filter-name>
-	    <url-pattern>/Logout</url-pattern> 
+	    <url-pattern>/Admin/CreateProduct</url-pattern>
 	</filter-mapping> 
 </web-app>
