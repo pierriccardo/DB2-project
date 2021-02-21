@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "product", schema = "DB_project")
 @NamedQuery(name = "Product.findProduct", query = "SELECT p FROM Product p WHERE p.name = ?1")
 @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+@NamedQuery(name = "Product.findByDate", query = "SELECT p FROM Product p WHERE p.date = ?1")
 public class Product implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
