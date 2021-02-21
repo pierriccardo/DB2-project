@@ -9,31 +9,77 @@
 		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
 	<link rel="stylesheet" type="text/css" media="all"
 		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
 	<style></style>
 </head>
 <body>
-	<div class="container-xxl">
+	<nav class="navbar navbar-expand-lg navbar-set">
+		<div class="container-fluid">
+  			<h5 class="navbar-brand">Admin panel</h5>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+   			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
+					</li>
+				</ul>
+				<span class="navbar-text">
+      				<a class="nav-link" href="#" th:href="@{/Logout}">Logout</a>
+				</span>
+			</div>
+		</div>
+	</nav>
+	<div class="base-box container-xxl">
 		<div class="row">
 			<div class="col">
-				<h1>Questionnaires</h1>
+				<h1>Inspection</h1>
+			</div>
+		</div>
+		<hr class="hr-title">
+
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+			<h6 th:text="${errorMsg}"></h6>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<h1>Product</h1>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col">
-				<ul class="list-group"  th:each="questionnaire: ${questionnaires}">
-  					<li class="list-group-item" th:text="${questionnaire.getText()}"></li>
-				</ul>
-			</div>
+
+			<table class="table">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Name</th>
+			      <th scope="col">Date</th>
+			      <th scope="col">Actions</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr class="list-inline"  th:each="product: ${products}">
+			      <th scope="row">1</th>
+			      	<th class="list-inline-item" th:text="${product.getId()}"></th>
+  					<th class="list-inline-item" th:text="${product.getName()}"></th>
+  					<th class="list-inline-item" th:text="${product.getDate()}"></th>
+  					<button class="btn btn-danger">
+  						<i class="fas fa-trash-alt"></i>
+			    	</button>
+			    </tr>
+			  </tbody>
+			</table>
 		</div>
 	</div>
-	
-	<script>
-		function toggle() {
-			new bootstrap.Collapse(q_optional)
-			new bootstrap.Collapse(q_marketing)
-			
-			return true
-		}
-	</script>
 </body>
 </html>

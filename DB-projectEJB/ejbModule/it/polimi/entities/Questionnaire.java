@@ -35,6 +35,14 @@ public class Questionnaire implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<User> users;
 
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
 	@OneToMany(mappedBy = "questionnaire")
 	private List<Answer> answers;
 
