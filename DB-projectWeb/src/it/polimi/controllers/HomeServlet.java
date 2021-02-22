@@ -20,11 +20,12 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.entities.Product;
 import it.polimi.entities.Questionnaire;
+import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 import it.polimi.services.QuestionnaireService;
 
 
-@WebServlet("/HomePage")
+@WebServlet("/GoToHome")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB(name = "it.polimi.services/QuestionnaireService")
@@ -52,6 +53,15 @@ public class HomeServlet extends HttpServlet {
 		String path = "/WEB-INF/HomePage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		
+	
+		try {
+			ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+		} catch (Exception e) {
+			ctx.setVariable("errorMsg", "There are no product to review for today! ");
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
 		
 		try {
 			Product p = qService.findByDate(new Date());
