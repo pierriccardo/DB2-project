@@ -49,6 +49,15 @@ public class LeaderboardServlet extends HttpServlet {
 		String path = "/WEB-INF/Leaderboard.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		
+		try {
+			ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+		} catch (Exception e) {
+			ctx.setVariable("errorMsg", "There are no product to review for today! ");
+			templateEngine.process(path, ctx, response.getWriter());
+			return;
+		}
+		
 		ctx.setVariable("leads", leads);
 		ctx.setVariable("i", 1);
 		templateEngine.process(path, ctx, response.getWriter());
