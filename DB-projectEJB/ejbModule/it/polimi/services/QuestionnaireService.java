@@ -53,21 +53,19 @@ public class QuestionnaireService {
 		return questionnaire;
 	}
 	
-	public void addAnswer(int idQuestionnaire, int idQuestion, String text) {
+	public void fillQuestionnaire(int idQuestionnaire, List<Integer> idQuestions, List<String> answers, Boolean isSubmitted, int age, int sex, int expertise_level) {
 		Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
-		Question quest = this.findQuestionById(idQuestion);
-
-		Answer answer = new Answer();
-		answer.setQuestionnaire(questionnaire);
-		answer.setText(text);
-		answer.setQuestion(quest);
 		
-		em.persist(answer);
-		em.flush();
-	}
-	
-	public void updateQuestionnaire(int idQuestionnaire, Boolean isSubmitted, int age, int sex, int expertise_level) {
-		Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
+		for (int i=0; i < idQuestions.size(); i++) {
+			Question quest = this.findQuestionById(idQuestions.get(i));
+			
+			Answer answer = new Answer();
+			answer.setQuestionnaire(questionnaire);
+			answer.setText(answers.get(i));
+			answer.setQuestion(quest);
+			
+			em.persist(answer);
+		}
 		
 		if (age != 0)
 			questionnaire.setAge(age);
@@ -79,6 +77,7 @@ public class QuestionnaireService {
 			questionnaire.setExpertise_level(expertise_level);
 		
 		questionnaire.setSubmitted(isSubmitted);
-		//em.flush();
+		
+		em.flush();
 	}
 }

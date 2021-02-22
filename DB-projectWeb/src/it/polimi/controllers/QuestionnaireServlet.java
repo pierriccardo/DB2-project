@@ -55,10 +55,17 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		String errorMsg = "";
 		try {
+			User user;
 			try {
-				ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+				user = (User) request.getSession().getAttribute("user");
+				ctx.setVariable("username", user.getUsername());
 			} catch (Exception e) {
 				errorMsg = "Error with user session! try to logout and login.";
+				throw new Exception(errorMsg);
+			}
+			
+			if (user.isBanned()) {
+				errorMsg = "You are banned!";
 				throw new Exception(errorMsg);
 			}
 			
@@ -91,8 +98,6 @@ public class QuestionnaireServlet extends HttpServlet {
 				throw new Exception(errorMsg);
 			}
 			
-			System.out.println("ID: " + questionnaire.getId());
-			
 			ctx.setVariable("idQuest", questionnaire.getId());
 			ctx.setVariable("questions", product.getQuestions());
 		} catch (Exception e) {
@@ -109,15 +114,25 @@ public class QuestionnaireServlet extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
 		String errorMsg = "";
+		List<String> answers = null;
+		List<Integer> idQuestions = null;
+		int idQuest = -1;
 		try {
+			User user;
 			try {
-				ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+				user = (User) request.getSession().getAttribute("user");
+				ctx.setVariable("username", user.getUsername());
 			} catch (Exception e) {
 				errorMsg = "Error with user session! try to logout and login.";
 				throw new Exception(errorMsg);
 			}
 			
-			int idQuest, age, sex, expertise_level;
+			if (user.isBanned()) {
+				errorMsg = "You are banned!";
+				throw new Exception(errorMsg);
+			}
+			
+			int age, sex, expertise_level;
 			try {
 				idQuest = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idQuest")));
 				age = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("age")));
@@ -130,6 +145,9 @@ public class QuestionnaireServlet extends HttpServlet {
 			
 			ctx.setVariable("idQuest", idQuest);
 			
+			Boolean emptyAnswer = false;
+			answers = new ArrayList<String>();
+			idQuestions = new ArrayList<Integer>();
 			Iterator<String> parname = request.getParameterNames().asIterator();
 			while(parname.hasNext()) {
 				String x = parname.next();
@@ -142,14 +160,34 @@ public class QuestionnaireServlet extends HttpServlet {
 						continue;
 					}
 					
-					questionnaireService.addAnswer(idQuest, idQuestion, request.getParameter(x));
+					String answer = request.getParameter(x);
+					idQuestions.add(idQuestion);
+					answers.add(answer);
+					if (answer.length() == 0) 
+						emptyAnswer = true;
 				}
 			}
 			
-			questionnaireService.updateQuestionnaire(idQuest, true, age, sex, expertise_level);
+			if (emptyAnswer) {
+				errorMsg = "The answers are mandatory!";
+				throw new Exception(errorMsg);
+			}
+			
+			questionnaireService.fillQuestionnaire(idQuest, idQuestions, answers, true, age, sex, expertise_level);
 		} catch (Exception e) {
 			path = "/WEB-INF/Questionnaire.html";
 			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");
+			
+			if (idQuest != -1) {
+				Questionnaire questionnaire = questionnaireService.findQuestionnaireById(idQuest);
+				Product product = questionnaire.getProduct();
+
+				ctx.setVariable("questions", product.getQuestions());
+				
+				if (answers != null && product.getQuestions().size() == answers.size()) {
+					ctx.setVariable("answers", answers);
+				}
+			}
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());

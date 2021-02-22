@@ -70,9 +70,9 @@
 		<form name="Questionnaire" action="#" th:action="@{/Questionnaire}" method="post">
 			<input type="hidden" name="idQuest" th:value="${idQuest}">
 			<div id="q_marketing" class="collapse show">
-				<div class="row question-box" th:each="question: ${questions}">
+				<div class="row question-box" th:each="question,i: ${questions}">
 					<h1 th:text="${question.getText() + ': *'}">Question</h1>
-					<textarea class="form-control" th:name="${'q' + question.getId()}" placeholder="Insert the answer here" style="height: 100px"></textarea>
+					<textarea class="form-control" th:name="${'q' + question.getId()}" placeholder="Insert the answer here" style="height: 100px" th:text="${(answers != null && answers.size() > 0) ? answers.get(i.index) : ''}"></textarea>
 					<hr>
 				</div>
 				
