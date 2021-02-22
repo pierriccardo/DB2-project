@@ -59,39 +59,7 @@ public class AdminInspectionServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
-		
-		String prodName  = null;
-		String prodImageFileName  = null;
-		String prodDate = null;
-		int idProd = -1;
-		
-		try {
-			
-			prodName = StringEscapeUtils.escapeJava(request.getParameter("prodName"));
-			prodDate = request.getParameter("prodDate");
-			prodImageFileName = StringEscapeUtils.escapeJava(request.getParameter("prodImageFileName"));
-			if (prodName == null || prodName.isEmpty()) {
-				throw new Exception("You must insert product name and question");
-			}
-			idProd = adminService.CreateProduct(prodName, prodDate, prodImageFileName);
-			
-			String redirectPath;
-			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
-			response.sendRedirect(redirectPath);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-					
-			
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", e.toString());
-			String path = "/WEB-INF/AdminInspection.html";
-			templateEngine.process(path, ctx, response.getWriter());
-		}
-		
-		
+		//this.doGet(request, response);
 	}
 
 	public void destroy() {
