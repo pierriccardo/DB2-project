@@ -53,8 +53,32 @@ public class QuestionnaireService {
 		return questionnaire;
 	}
 	
-	public void persistQuestionnaire(Questionnaire questionnaire) {
-		em.persist(questionnaire);
+	public void addAnswer(int idQuestionnaire, int idQuestion, String text) {
+		Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
+		Question quest = this.findQuestionById(idQuestion);
+
+		Answer answer = new Answer();
+		answer.setQuestionnaire(questionnaire);
+		answer.setText(text);
+		answer.setQuestion(quest);
+		
+		em.persist(answer);
 		em.flush();
+	}
+	
+	public void updateQuestionnaire(int idQuestionnaire, Boolean isSubmitted, int age, int sex, int expertise_level) {
+		Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
+		
+		if (age != 0)
+			questionnaire.setAge(age);
+		
+		if (sex != -1)
+			questionnaire.setSex(sex);
+		
+		if (expertise_level != -1)
+			questionnaire.setExpertise_level(expertise_level);
+		
+		questionnaire.setSubmitted(isSubmitted);
+		//em.flush();
 	}
 }

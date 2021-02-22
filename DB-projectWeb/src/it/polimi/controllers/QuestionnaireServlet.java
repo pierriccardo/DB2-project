@@ -110,6 +110,13 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		String errorMsg = "";
 		try {
+			try {
+				ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+			} catch (Exception e) {
+				errorMsg = "Error with user session! try to logout and login.";
+				throw new Exception(errorMsg);
+			}
+			
 			int idQuest, age, sex, expertise_level;
 			try {
 				idQuest = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idQuest")));
@@ -121,47 +128,25 @@ public class QuestionnaireServlet extends HttpServlet {
 				throw new Exception(errorMsg);
 			}
 			
-			Questionnaire questionnaire = null;
-			try {
-				questionnaire = questionnaireService.findQuestionnaireById(idQuest);
-			} catch (Exception e) {
-				errorMsg = "Error during the search of the questionnaire!";
-				throw new Exception(errorMsg);
-			}
+			ctx.setVariable("idQuest", idQuest);
 			
-			questionnaire.setAge(age);
-			questionnaire.setSex(sex);
-			questionnaire.setExpertise_level(expertise_level);
-			
-			List<Answer> answers = new ArrayList<Answer>();
-			Iterator<String> parname = request.getAttributeNames().asIterator();
+			Iterator<String> parname = request.getParameterNames().asIterator();
 			while(parname.hasNext()) {
 				String x = parname.next();
+				System.out.println(x);
 				if(x.charAt(0) == 'q') {
-					Question quest;
+					int idQuestion;
 					try {
-						int idQuestion = Integer.parseInt(x.substring(1));
-						System.out.println(idQuestion);
-						
-						quest = questionnaireService.findQuestionById(idQuestion);
-					} catch (Exception e) {
-						errorMsg = "Error during the search of the question!";
-						throw new Exception(errorMsg);
+						idQuestion = Integer.parseInt(x.substring(1));
+					} catch (NumberFormatException e) {
+						continue;
 					}
 					
-					Answer answer = new Answer();
-					answer.setQuestion(quest);
-					answer.setQuestionnaire(questionnaire);
-					answer.setText(request.getParameter(x));
-					
-					answers.add(answer);
+					questionnaireService.addAnswer(idQuest, idQuestion, request.getParameter(x));
 				}
 			}
 			
-			questionnaire.setAnswers(answers);
-			
-			//questionnaireService.persistQuestionnaire(questionnaire);
-			
+			questionnaireService.updateQuestionnaire(idQuest, true, age, sex, expertise_level);
 		} catch (Exception e) {
 			path = "/WEB-INF/Questionnaire.html";
 			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");
