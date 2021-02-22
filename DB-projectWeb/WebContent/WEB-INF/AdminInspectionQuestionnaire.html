@@ -1,39 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Admin Inspection Questionnaire</title>
-	<link rel="stylesheet" type="text/css" media="all"
-		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
-	<script src="../asset/js/bootstrap.bundle.min.js" 
-		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
-	<link rel="stylesheet" type="text/css" media="all"
-		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
-	<link rel="stylesheet" type="text/css" media="all"
-		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
-	<style></style>
+<meta charset="ISO-8859-1">
+<title>Admin Inspection Questionnaire</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../asset/css/bootstrap.min.css"
+	th:href="@{/asset/css/bootstrap.min.css}" />
+<script src="../asset/js/bootstrap.bundle.min.js"
+	th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../asset/css/fontawesome.min.css"
+	th:href="@{/asset/css/fontawesome.min.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+<style></style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-set">
 		<div class="container-fluid">
-  			<h5 class="navbar-brand">Admin panel</h5>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			<h5 class="navbar-brand">Admin panel</h5>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false"
+				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
-   			</button>
+			</button>
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#" th:href="@{/Admin/Inspection}">Inspection</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#" th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/Admin/Inspection}">Inspection</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a></li>
 				</ul>
-				<span class="navbar-text">
-      				<a class="nav-link" href="#" th:href="@{/Logout}">Logout</a>
+				<span class="navbar-text"> <a class="nav-link" href="#"
+					th:href="@{/Logout}">Logout</a>
 				</span>
 			</div>
 		</div>
@@ -41,58 +44,68 @@
 	<div class="base-box container-xxl">
 		<div class="row">
 			<div class="col">
-				<h5>Questionnaire</h5>
+				<h1>Questionnaire</h1>
 			</div>
 		</div>
 		<hr class="hr-title">
 
-		<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+		<div class="alert alert-danger alert-dismissible fade show"
+			role="alert" th:if="${errorMsg}">
 			<h6 th:text="${errorMsg}"></h6>
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<button type="button" class="btn-close" data-bs-dismiss="alert"
+				aria-label="Close"></button>
 		</div>
-		
+
 		<div class="row">
-			<a th:text=${product.getName()}></a>
-			<a th:text=${product.getDate()}></a>
+			<a th:text=${product.getName()}>Product Name:</a> 
+			<a th:text=${product.getDate()}>Product Date:</a>
+
 			<!-- USERS WHO HAVE SUBMITTED -->
-			<h3>Submitted</h3>
-			<table class="table">
-			  <thead class="thead-dark">
-			    <tr>
-			      <th scope="col">user id</th>
-			      <th scope="col">Name</th>
-			      <th scope="col">Actions</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
-			      	<th th:text="${q.getId()}"></th>
-  					<th th:text="${q.getUser().getUsername()}"></th>
-  					<th>
-  						<a class="btn btn-success" href="#" th:href="@{/Admin/UserAnswers} + '?idQuestionnaire=' + ${q.getId()}">
-  							<i class="fas fa-question-circle"></i>
-						</a>
-			    	</th>
-			    </tr>
-			  </tbody>
-			</table>
+			<div class="col-md-6">
+				<h2 class="sub-header">Submitted</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th class="col">user id</th>
+								<th class="col">Name</th>
+								<th class="col">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="list-inline" th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
+								<th th:text="${q.getId()}"></th>
+								<th th:text="${q.getUser().getUsername()}"></th>
+								<th>
+									<a class="btn btn-success" href="#" th:href="@{/Admin/UserAnswers} + '?idQuestionnaire=' + ${q.getId()}">
+									<i class="fas fa-question-circle"></i>
+									</a>
+								</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<!-- USERS WHO HAVE CANCELLED -->
-			<h3>Cancelled</h3>
-			<table class="table">
-			  <thead class="thead-dark">
-			    <tr>
-			    	<th scope="col">user id</th>
-			      	<th scope="col">Name</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr class="list-inline"  th:each="q: ${questionnaire}" th:if=${!q.isSubmitted()}>
-			      	<th th:text="${q.getId()}"></th>
-  					<th th:text="${q.getUser().getUsername()}"></th>
-			    </tr>
-			  </tbody>
-			</table>
-			
+			<div class="col-md-6">
+				<h2 class="sub-header">Cancelled</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th class="col-md-1">user id</th>
+								<th class="col-md-2">name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="list-inline" th:each="q: ${questionnaire}" th:if=${!q.isSubmitted()}>
+								<th th:text="${q.getId()}"></th>
+								<th th:text="${q.getUser().getUsername()}"></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

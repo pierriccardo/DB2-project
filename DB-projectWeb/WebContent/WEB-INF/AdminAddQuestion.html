@@ -2,31 +2,68 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Create Product</title>
+<title>Admin Inspection</title>
 <link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+	href="../asset/css/bootstrap.min.css"
+	th:href="@{/asset/css/bootstrap.min.css}" />
+<script src="../asset/js/bootstrap.bundle.min.js"
+	th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../asset/css/fontawesome.min.css"
+	th:href="@{/asset/css/fontawesome.min.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+<style></style>
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-set">
+		<div class="container-fluid">
+			<h5 class="navbar-brand">Admin panel</h5>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#" th:href="@{/Admin/CreateProduct}">Creation</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/Admin/Inspection}">Inspection</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/Admin/DeleteQuestionnaire}">Deletion</a></li>
+				</ul>
+				<span class="navbar-text"> <a class="nav-link" href="#"
+					th:href="@{/Logout}">Logout</a>
+				</span>
+			</div>
+		</div>
+	</nav>
+	<div class="base-box container-xxl">
+		<div class="row">
+		<h1>Add question for the Product</h1>
+		<div class="alert alert-danger alert-dismissible fade show"
+			role="alert" th:if="${errorMsg}">
+			<h6 th:text="${errorMsg}"></h6>
+			<button type="button" class="btn-close" data-bs-dismiss="alert"
+				aria-label="Close"></button>
+		</div>
 
-	<h1>Add question for the Product</h1>
-	
-	<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
-		<fieldset>
-			<input type="hidden" name="idProd" th:value="${idProd}"/>
-			<h5>Add a question:</h5>
-			<label for="questionText"></label>
-			<input type="text" name="questionText" required />
-			<input type="submit" name="addQuestion" value="add">
-			<p th:text="${errorMsg}"></p>
-		</fieldset>
-	</form>
-	<form action="#" th:action="@{/Admin/Inspection}" method="POST">
-		<fieldset>
-			<input type="hidden" name="idProd" th:value="${idProd}"/>
-			<input type="submit" name="done" value="done">
-			<p th:text="${errorMsg}"></p>
-		</fieldset>
-	</form>
-	
+		<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
+			<fieldset>
+				<input type="hidden" name="idProd" th:value="${idProd}" />
+				<h5>Add a question:</h5>
+				<label for="questionText"></label> <input type="text"
+					name="questionText" required />
+				<button class="btn btn-info" type="submit" name="addQuestion"
+					value="add">add</button>
+				<p th:text="${errorMsg}"></p>
+			</fieldset>
+		</form>
+		<a class="btn btn-success" href="#" th:href="@{/Admin/Inspection}">Done</a>
+		</div>
+	</div>
 </body>
 </html>

@@ -64,8 +64,6 @@ public class AdminInspectionQuestionnaireServlet extends HttpServlet {
 			
 			List<Questionnaire> q = product.getQuestionnaires();
 			
-			System.out.println(q);
-			
 			ctx.setVariable("product", product);
 			ctx.setVariable("questionnaire", q);
 			

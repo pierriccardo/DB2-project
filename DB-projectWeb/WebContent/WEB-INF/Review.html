@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Review</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css" th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js" 
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css" th:href="@{/asset/css/fontawesome.min.css}" />
+</head>
+<body>
+	<div class="base-box container-xxl">
+		<div class="row">
+			<div class="col">
+				<h1>Reviews</h1>
+			</div>
+		</div>
+		<hr class="hr-title">
+
+		<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+			<h6 th:text="${errorMsg}"></h6>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<h1>Product:</h1>
+				<!--  a th:text="${product.getName()}"></a-->
+			</div>
+		</div>
+		<div class="row">
+			<table class="table">
+			  <thead class="thead-dark">
+			    <tr>
+			    <th scope="col">Review</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr class="list-inline"  th:each="review: ${reviews}">
+			      	<th th:text="${review.getText()}"></th>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
