@@ -2,6 +2,7 @@ package it.polimi.controllers;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
@@ -18,6 +19,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.polimi.entities.Product;
+import it.polimi.entities.Question;
 import it.polimi.services.AdminService;
 
 @WebServlet("/Admin/AddQuestion")
@@ -54,7 +57,11 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 			} catch (NumberFormatException e) {
 				throw new Exception("Problem with ID product!");
 			}
+			
+			List<Question> questions = adminService.findQuestions(idProd);
+						
 			ctx.setVariable("idProd", idProd);
+			ctx.setVariable("questions", questions);
 			
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", e.toString());
@@ -81,13 +88,16 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 				errorMsg = "Wrong format request! Try again!";
 				throw new Exception(errorMsg);
 			}
-			ctx.setVariable("idProd", idProd);
-						
 			if (questionText == null || questionText.isEmpty()) {
 				errorMsg = "Question cannot be empty!";
 				throw new Exception(errorMsg);
 			}
-			adminService.AddQuestion(idProd, questionText);
+			List<Question> questions = adminService.AddQuestion(idProd, questionText);
+						
+			ctx.setVariable("idProd", idProd);
+			ctx.setVariable("questions", questions);
+						
+			
 			//String redirectPath = getServletContext().getContextPath()+"/Admin/AddQuestion?idProd="+idProd;
 			//response.sendRedirect(redirectPath);
 		
