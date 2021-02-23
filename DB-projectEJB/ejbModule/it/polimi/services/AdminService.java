@@ -15,6 +15,7 @@ import it.polimi.exceptions.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.time.*;
 
 
 import java.nio.charset.StandardCharsets;
@@ -32,24 +33,28 @@ public class AdminService {
 		//constructor
 	}
 
-	public int CreateProduct(String prodName, String prodDate, String prodImageFileName) throws Exception {
+	public int CreateProduct(String prodName, String prodDate, byte[] prodImageFile) throws Exception {
 		
 		Product product = new Product();
 		product.setName(prodName);
-		product.setImageFileName(prodImageFileName);
+		product.setImageFile(prodImageFile);
 			
 		//TODO: check if the date is already busy by another product
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsed = format.parse(prodDate);
-		Date today = new Date();
-		java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+        LocalDate parsed = LocalDate.parse(prodDate);
+		LocalDate today = LocalDate.now();
 		
-		if (parsed.compareTo(today) < 0) {
+		java.sql.Date sqlDate = java.sql.Date.valueOf(parsed);
+		
+		
+		if (parsed.isBefore(today)) {
+			System.out.println(parsed.compareTo(today));
+			System.out.println(parsed);
+			System.out.println(today);
 			throw new Exception("Date must be today or in the future!");	
 		}
 		
 		System.out.println(prodDate);
-		System.out.println(prodImageFileName);
+		System.out.println(prodImageFile);
 		System.out.println(prodName);
         
 		product.setDate(sqlDate);
