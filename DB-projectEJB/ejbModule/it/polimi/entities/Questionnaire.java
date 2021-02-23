@@ -20,6 +20,18 @@ public class Questionnaire implements Serializable {
 	private int expertise_level;
 	private boolean isSubmitted;
 
+	@OneToMany(mappedBy = "questionnaire")
+	private List<Answer> answers;
+	
+
+	@ManyToOne
+	@JoinColumn(name="idProduct")
+	private Product product;
+	
+	@ManyToOne
+	@JoinColumn(name = "idUser")
+	private User user;
+	
 	
 	public boolean isSubmitted() {
 		return isSubmitted;
@@ -29,14 +41,6 @@ public class Questionnaire implements Serializable {
 		this.isSubmitted = isSubmitted;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="idProduct")
-	private Product product;
-	
-	@ManyToOne
-	@JoinColumn(name = "idUser")
-	private User user;
-
 	public Product getProduct() {
 		return product;
 	}
@@ -44,11 +48,6 @@ public class Questionnaire implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
-	@OneToMany(mappedBy = "questionnaire")
-	private List<Answer> answers;
-
-
 
 	public List<Answer> getAnswers() {
 		return answers;

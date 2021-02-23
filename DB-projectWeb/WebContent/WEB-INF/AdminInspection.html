@@ -76,6 +76,10 @@
   						<a class="btn btn-success" href="#" th:href="@{/Admin/InspectionQuestionnaire} + '?idProd=' + ${product.getId()}">
   							<i class="fas fa-eye"></i>
 			    		</a>
+			    		<a class="btn btn-primary" href="#" th:href="@{/Admin/AddQuestion} + '?idProd=' + ${product.getId()}">
+  							<i class="fas fa-plus-square"></i>
+  							add question
+			    		</a>
 			    	</th>
 			    	
 			    </tr>
