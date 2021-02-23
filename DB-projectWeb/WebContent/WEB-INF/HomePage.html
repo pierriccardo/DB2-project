@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Home Page</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/bootstrap.min.css"
-	th:href="@{/asset/css/bootstrap.min.css}" />
-<script src="../asset/js/bootstrap.bundle.min.js"
-	th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/fontawesome.min.css"
-	th:href="@{/asset/css/fontawesome.min.css}" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
-<style></style>
+	<meta charset="ISO-8859-1">
+	<title>Home Page</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css"
+		th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js"
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css"
+		th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+		
+	<style>
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-set">
@@ -55,34 +57,44 @@
 		</div>
 
 		<div class="row">
-
-			<div class="card" style="width: 18rem;">
-				<img
-					alt="Image of the product"
-					th:src="*{'data:image/png;base64,'+ product.getImageFileData()}">
-				<div class="card-body">
-					<h5 class="card-title">Product of the day</h5>
-					<p>Name</p>
-					<p class="card-text" th:text="${product.getName()}"></p>
-					<a class="btn btn-success" href="#"
-						th:href="@{/Questionnaire} + '?idProd=' + ${product.getId()}">
-						<i class="fas fa-pencil-alt"></i>
-					</a>
+			<div class="d-grid gap-2 col-3 mx-auto">
+				<div class="card" style="width: 100%;">
+					<img
+						alt="Image of the product"
+						th:src="*{'data:image/png;base64,'+ product.getImageFileData()}">
+					<div class="card-body">
+						<h5 class="card-title">Product of the day</h5>
+						<p><strong>Product name: </strong> <span th:text="${product.getName()}"></span></p>
+						<a class="btn btn-success" href="#" th:classappend="${compiled} ? 'disabled' : ''"
+							th:href="@{/Questionnaire} + '?idProd=' + ${product.getId()}" style="float: right">
+							Compile <i class="fas fa-pencil-alt"></i>
+						</a>
+					</div>
 				</div>
 			</div>
-
-			<table class="table">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Review</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="list-inline" th:each="review: ${reviews}">
-						<th th:text="${review.getText()}"></th>
-					</tr>
-				</tbody>
-			</table>
+		</div>
+		
+		<div class="row" style="margin-top: 30px;">
+			<div class="d-grid gap-2 col-1 mx-auto">
+				<h3>Review</h3>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="list-inline" th:each="review: ${reviews}">
+							<th th:text="${review.getText()}"></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

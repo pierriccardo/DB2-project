@@ -56,8 +56,10 @@ public class HomeServlet extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
 	
+		User user;
 		try {
-			ctx.setVariable("username", ((User) request.getSession().getAttribute("user")).getUsername());
+			user = ((User) request.getSession().getAttribute("user"));
+			ctx.setVariable("username", user.getUsername());
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", "There are no product to review for today! ");
 			templateEngine.process(path, ctx, response.getWriter());
@@ -69,6 +71,9 @@ public class HomeServlet extends HttpServlet {
 			List<Review> reviews = p.getReviews();
 			ctx.setVariable("product", p);
 			ctx.setVariable("reviews", reviews);
+			
+			ctx.setVariable("compiled", qService.dailyQuestionnaireCompiled(user, p));
+			//ctx.setVariable("compiled", true);
 
 		} catch(Exception e) {
 			ctx.setVariable("errorMsg", "There are no product to review for today! ");

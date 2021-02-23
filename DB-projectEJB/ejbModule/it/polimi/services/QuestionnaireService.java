@@ -97,4 +97,21 @@ public class QuestionnaireService {
 		//em.flush();
 		return user;
 	}
+	
+	public Boolean dailyQuestionnaireCompiled(User user, Product product) {
+		Questionnaire questionnaire = null;
+		try {
+			questionnaire = em.createNamedQuery("Questionnaire.getQuestionnaireByUserAndProduct", Questionnaire.class)
+					.setParameter(1, user)
+					.setParameter(2, product)
+					.getSingleResult();
+		} catch (Exception e) {
+			questionnaire = null;
+		}
+		
+		if (questionnaire == null)
+			return false;
+		
+		return questionnaire.isSubmitted();
+	}
 }
