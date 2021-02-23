@@ -63,15 +63,16 @@ public class AdminService {
 		return product.getId();
 	}
 	
-	public Boolean AddQuestion(int idProd, String questionText) throws Exception {
+	public List<Question> AddQuestion(int idProd, String questionText) throws Exception {
 		System.out.println(idProd);
 		Question question = new Question();
 		Product product = em.find(Product.class, idProd);
 		question.setProduct(product);
 		question.setText(questionText);
 		em.persist(question);
-			
-		return true;
+		em.flush();
+		em.refresh(product);
+		return product.getQuestions();
 	}
 	
 	public List<Product> findAllProducts() {
@@ -99,4 +100,7 @@ public class AdminService {
 		em.flush();
 	}
 	
+	public List<Question> findQuestions(int idProd) {
+		return em.find(Product.class, idProd).getQuestions();
+	}
 }

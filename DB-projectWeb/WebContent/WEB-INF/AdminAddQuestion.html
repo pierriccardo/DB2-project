@@ -76,8 +76,30 @@
 					</div>
 				</form>
 			</div>
+			<div class="row">
+				<div class="col-3">
+					<a class="btn btn-success done-button" href="#" th:href="@{/Admin/Inspection}">Done <i class="fas fa-check-circle"></i></a>
+				</div>
+			</div>
 			
-			<a class="btn btn-success done-button" href="#" th:href="@{/Admin/Inspection}">Done <i class="fas fa-check-circle"></i></a>
+			
+		</div>
+		<div class="row">
+			<p>Questions inserted</p>
+			<table class="table">
+			  <thead class="thead-dark">
+			    <tr>
+			    	<th scope="col">ID</th>
+			      	<th scope="col">Question</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr class="list-inline"  th:each="question: ${questions}">
+			      	<th th:text="${question.getId()}"></th>
+  					<th th:text="${question.getText()}"></th>			    	
+			    </tr>
+			  </tbody>
+			</table>
 		</div>
 		
 	</div>
