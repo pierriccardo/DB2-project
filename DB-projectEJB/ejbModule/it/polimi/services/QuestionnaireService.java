@@ -92,9 +92,9 @@ public class QuestionnaireService {
 	}
 	
 	public User banUser(User user) {
+		user = em.merge(user);
 		user.setIsBanned(true);
 		
-		//em.flush();
 		return user;
 	}
 	
