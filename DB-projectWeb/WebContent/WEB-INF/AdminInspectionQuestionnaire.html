@@ -57,11 +57,24 @@
 		</div>
 
 		<div class="row">
-			<a th:text=${product.getName()}>Product Name:</a> 
-			<a th:text=${product.getDate()}>Product Date:</a>
+			<div class="col-2">
+				<p>Product Name:</p>
+				<a th:text="${product.getName()}"></a> 
+			</div>
+			
+			<div class="col-2">
+				<p>Product Date:</p>
+				<a th:text="${product.getDate()}"></a> 
+			</div>
+			
+			<div class="col-4">
+				<a class="btn btn-primary" href="#" th:href="@{/Admin/AddQuestion} + '?idProd=' + ${product.getId()}">
+					<i class="fas fa-plus-square"></i> add question
+				</a>
+			</div>
 
 			<!-- USERS WHO HAVE SUBMITTED -->
-			<div class="col-md-6">
+			<div class="col-6">
 				<h2 class="sub-header">Submitted</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
@@ -73,32 +86,33 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="list-inline" th:each="q: ${questionnaire}" th:if=${q.isSubmitted()}>
+							<tr class="list-inline" th:each="q: ${questionnaire}"
+								th:if=${q.isSubmitted()}>
 								<th th:text="${q.getId()}"></th>
 								<th th:text="${q.getUser().getUsername()}"></th>
-								<th>
-									<a class="btn btn-success" href="#" th:href="@{/Admin/UserAnswers} + '?idQuestionnaire=' + ${q.getId()}">
-									<i class="fas fa-question-circle"></i>
-									</a>
-								</th>
+								<th><a class="btn btn-success" href="#"
+									th:href="@{/Admin/UserAnswers} + '?idQuestionnaire=' + ${q.getId()}">
+										<i class="fas fa-question-circle"></i>
+								</a></th>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<!-- USERS WHO HAVE CANCELLED -->
-			<div class="col-md-6">
+			<div class="col-6">
 				<h2 class="sub-header">Cancelled</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead class="thead-dark">
 							<tr>
-								<th class="col-md-1">user id</th>
-								<th class="col-md-2">name</th>
+								<th class="col-1">user id</th>
+								<th class="col-2">name</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="list-inline" th:each="q: ${questionnaire}" th:if=${!q.isSubmitted()}>
+							<tr class="list-inline" th:each="q: ${questionnaire}"
+								th:if=${!q.isSubmitted()}>
 								<th th:text="${q.getId()}"></th>
 								<th th:text="${q.getUser().getUsername()}"></th>
 							</tr>
