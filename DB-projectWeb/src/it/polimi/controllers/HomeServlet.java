@@ -20,6 +20,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.entities.Product;
 import it.polimi.entities.Questionnaire;
+import it.polimi.entities.Review;
 import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 import it.polimi.services.QuestionnaireService;
@@ -65,7 +66,9 @@ public class HomeServlet extends HttpServlet {
 		
 		try {
 			Product p = qService.findByDate(new Date());
+			List<Review> reviews = p.getReviews();
 			ctx.setVariable("product", p);
+			ctx.setVariable("reviews", reviews);
 
 		} catch(Exception e) {
 			ctx.setVariable("errorMsg", "There are no product to review for today! ");

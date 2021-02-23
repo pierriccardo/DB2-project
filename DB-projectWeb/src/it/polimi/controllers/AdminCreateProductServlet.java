@@ -1,16 +1,20 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import org.thymeleaf.context.WebContext;
@@ -18,9 +22,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.polimi.utils.ImageUtils;
 import it.polimi.services.AdminService;
 
 @WebServlet("/Admin/CreateProduct")
+@MultipartConfig
 public class AdminCreateProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -51,10 +57,8 @@ public class AdminCreateProductServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
 		
 		String prodName  = null;
-		String prodImageFileName  = null;
 		String prodDate = null;
 		int idProd = -1;
 		
@@ -62,11 +66,19 @@ public class AdminCreateProductServlet extends HttpServlet {
 			
 			prodName = StringEscapeUtils.escapeJava(request.getParameter("prodName"));
 			prodDate = request.getParameter("prodDate");
-			prodImageFileName = StringEscapeUtils.escapeJava(request.getParameter("prodImageFileName"));
+			Part imgFile = request.getPart("prodImageFile");
+			System.out.println(imgFile);
+			InputStream imgContent = imgFile.getInputStream();
+			System.out.println(imgContent);
+			byte[] imgByteArray = ImageUtils.readImage(imgContent);
+			
 			if (prodName == null || prodName.isEmpty()) {
 				throw new Exception("You must insert product name and question");
 			}
-			idProd = adminService.CreateProduct(prodName, prodDate, prodImageFileName);
+			
+			
+			
+			idProd = adminService.CreateProduct(prodName, prodDate, imgByteArray);
 			
 			String redirectPath;
 			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);

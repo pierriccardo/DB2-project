@@ -2,6 +2,7 @@ package it.polimi.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.*;
@@ -21,7 +22,11 @@ public class Product implements Serializable {
 	private int id;
 
 	private String name;
-	private String imageFileName;
+	
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	private byte[] imageFile;
+	
 	private Date date;
 	
 	public List<Questionnaire> getQuestionnaires() {
@@ -64,12 +69,18 @@ public class Product implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getImageFileName() {
-		return imageFileName;
+	
+	public byte[] getImageFile() {
+		return imageFile;
 	}
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
+	public void setImageFile(byte[] imageFile) {
+		this.imageFile = imageFile;
 	}
+	
+	public String getImageFileData() {
+		return Base64.getMimeEncoder().encodeToString(imageFile);
+	}
+
 	public Date getDate() {
 		return date;
 	}
