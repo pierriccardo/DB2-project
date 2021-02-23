@@ -117,22 +117,3 @@ if (SELECT count(*)
 END;$$
 
 delimiter ; 
-
-
-/*ONE PRODUCT PER DAY*/
-delimiter $$
-
-CREATE TRIGGER noMoreThanTwo
-BEFORE INSERT ON product 
-FOR EACH ROW
-BEGIN
-if (SELECT count(*)
-                FROM product
-                WHERE new.date = date) then
-
-    SIGNAL sqlstate '45001' set message_text = "There can be only one product for a day!";
-    
-    end if;
-END;$$
-
-delimiter ; 
