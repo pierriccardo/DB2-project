@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ import it.polimi.entities.Product;
 import it.polimi.entities.Question;
 import it.polimi.entities.Questionnaire;
 import it.polimi.entities.User;
+import it.polimi.exceptions.UserBannedException;
 import it.polimi.services.QuestionnaireService;
 
 @WebServlet("/Questionnaire")
@@ -185,7 +187,19 @@ public class QuestionnaireServlet extends HttpServlet {
 				throw new Exception(errorMsg);
 			}
 			
-			questionnaireService.fillQuestionnaire(idQuest, idQuestions, answers, true, age, sex, expertise_level);
+			try {
+				questionnaireService.fillQuestionnaire(idQuest, idQuestions, answers, true, age, sex, expertise_level);
+			} catch (UserBannedException e) {
+				user = questionnaireService.banUser(user);
+				request.getSession().setAttribute("user", user);
+				questionnaire = null;
+				
+				errorMsg = "You used a forbidden word! From now on you cannot fill in any other questionnaire.";
+				throw new Exception(errorMsg);
+			} catch (PersistenceException e) {
+				errorMsg = "Error during the upload of the questionnaire!";
+				throw new Exception(errorMsg);
+			}
 		} catch (Exception e) {
 			path = "/WEB-INF/Questionnaire.html";
 			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");

@@ -66,7 +66,7 @@
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 	
-	<div class="container-xxl question-container">
+	<div class="container-xxl question-container" th:if="${questions}">
 		<form name="Questionnaire" action="#" th:action="@{/Questionnaire}" method="post">
 			<input type="hidden" name="idQuest" th:value="${idQuest}">
 			<div id="q_marketing" class="collapse show">

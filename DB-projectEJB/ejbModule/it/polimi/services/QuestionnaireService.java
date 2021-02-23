@@ -7,7 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+
 import it.polimi.entities.*;
+import it.polimi.exceptions.UserBannedException;
 
 @Stateless
 public class QuestionnaireService {
@@ -53,31 +56,45 @@ public class QuestionnaireService {
 		return questionnaire;
 	}
 	
-	public void fillQuestionnaire(int idQuestionnaire, List<Integer> idQuestions, List<String> answers, Boolean isSubmitted, int age, int sex, int expertise_level) {
-		Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
-		
-		for (int i=0; i < idQuestions.size(); i++) {
-			Question quest = this.findQuestionById(idQuestions.get(i));
+	public void fillQuestionnaire(int idQuestionnaire, List<Integer> idQuestions, List<String> answers, Boolean isSubmitted, int age, int sex, int expertise_level) throws UserBannedException {
+		try {
+			Questionnaire questionnaire = this.findQuestionnaireById(idQuestionnaire);
 			
-			Answer answer = new Answer();
-			answer.setQuestionnaire(questionnaire);
-			answer.setText(answers.get(i));
-			answer.setQuestion(quest);
+			for (int i=0; i < idQuestions.size(); i++) {
+				Question quest = this.findQuestionById(idQuestions.get(i));
+				
+				Answer answer = new Answer();
+				answer.setQuestionnaire(questionnaire);
+				answer.setText(answers.get(i));
+				answer.setQuestion(quest);
+				
+				em.persist(answer);
+			}
 			
-			em.persist(answer);
+			if (age != 0)
+				questionnaire.setAge(age);
+			
+			if (sex != -1)
+				questionnaire.setSex(sex);
+			
+			if (expertise_level != -1)
+				questionnaire.setExpertise_level(expertise_level);
+			
+			questionnaire.setSubmitted(isSubmitted);
+			
+			em.flush();
+		} catch (PersistenceException e) {
+			if(e.getMessage().split("\n")[2].trim().equals("Error Code: 1644"))
+				throw new UserBannedException("The user is banned because he has used a banned word!");
+			throw e;
 		}
 		
-		if (age != 0)
-			questionnaire.setAge(age);
+	}
+	
+	public User banUser(User user) {
+		user.setIsBanned(true);
 		
-		if (sex != -1)
-			questionnaire.setSex(sex);
-		
-		if (expertise_level != -1)
-			questionnaire.setExpertise_level(expertise_level);
-		
-		questionnaire.setSubmitted(isSubmitted);
-		
-		em.flush();
+		//em.flush();
+		return user;
 	}
 }
