@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Admin Inspection</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/bootstrap.min.css"
-	th:href="@{/asset/css/bootstrap.min.css}" />
-<script src="../asset/js/bootstrap.bundle.min.js"
-	th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/fontawesome.min.css"
-	th:href="@{/asset/css/fontawesome.min.css}" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
-<style></style>
+	<meta charset="ISO-8859-1">
+	<title>Admin Inspection</title>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/bootstrap.min.css"
+		th:href="@{/asset/css/bootstrap.min.css}" />
+	<script src="../asset/js/bootstrap.bundle.min.js"
+		th:src="@{/asset/js/bootstrap.bundle.min.js}"></script>
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/fontawesome.min.css"
+		th:href="@{/asset/css/fontawesome.min.css}" />
+	<link rel="stylesheet" type="text/css" media="all"
+		href="../asset/css/template.css" th:href="@{/asset/css/template.css}" />
+
+	<style>
+		.done-button{
+			margin-top: 20px;
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-set">
@@ -41,29 +46,40 @@
 			</div>
 		</div>
 	</nav>
+	
 	<div class="base-box container-xxl">
 		<div class="row">
-		<h1>Add question for the Product</h1>
+			<div class="col">
+				<h1>Add question for the Product</h1>
+			</div>
+		</div>
+		<hr class="hr-title">
+		
 		<div class="alert alert-danger alert-dismissible fade show"
 			role="alert" th:if="${errorMsg}">
 			<h6 th:text="${errorMsg}"></h6>
 			<button type="button" class="btn-close" data-bs-dismiss="alert"
 				aria-label="Close"></button>
 		</div>
-
-		<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
-			<fieldset>
-				<input type="hidden" name="idProd" th:value="${idProd}" />
-				<h5>Add a question:</h5>
-				<label for="questionText"></label> <input type="text"
-					name="questionText" required />
-				<button class="btn btn-info" type="submit" name="addQuestion"
-					value="add">add</button>
-				<p th:text="${errorMsg}"></p>
-			</fieldset>
-		</form>
-		<a class="btn btn-success" href="#" th:href="@{/Admin/Inspection}">Done</a>
+		
+		<div class="row">
+			<div class="col">
+				<form action="#" th:action="@{/Admin/AddQuestion}" method="POST">
+					<input type="hidden" name="idProd" th:value="${idProd}" />
+					<h5>Add a question:</h5>
+					
+					<div class="input-group">
+						<input type="text" name="questionText" class="form-control" placeholder="Write a question" required>
+						
+						<button class="btn btn-primary" type="submit" name="addQuestion"
+							value="add"><i class="fas fa-plus-circle"></i> Add question</button>
+					</div>
+				</form>
+			</div>
+			
+			<a class="btn btn-success done-button" href="#" th:href="@{/Admin/Inspection}">Done <i class="fas fa-check-circle"></i></a>
 		</div>
+		
 	</div>
 </body>
 </html>
