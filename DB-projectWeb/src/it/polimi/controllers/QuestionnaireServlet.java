@@ -98,6 +98,11 @@ public class QuestionnaireServlet extends HttpServlet {
 				throw new Exception(errorMsg);
 			}
 			
+			if (questionnaire.isSubmitted()) {
+				errorMsg = "Questionnaire already compiled!";
+				throw new Exception(errorMsg);
+			}
+			
 			ctx.setVariable("idQuest", questionnaire.getId());
 			ctx.setVariable("questions", product.getQuestions());
 		} catch (Exception e) {
@@ -116,7 +121,7 @@ public class QuestionnaireServlet extends HttpServlet {
 		String errorMsg = "";
 		List<String> answers = null;
 		List<Integer> idQuestions = null;
-		int idQuest = -1;
+		Questionnaire questionnaire = null;
 		try {
 			User user;
 			try {
@@ -132,7 +137,7 @@ public class QuestionnaireServlet extends HttpServlet {
 				throw new Exception(errorMsg);
 			}
 			
-			int age, sex, expertise_level;
+			int idQuest, age, sex, expertise_level;
 			try {
 				idQuest = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idQuest")));
 				age = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("age")));
@@ -140,6 +145,13 @@ public class QuestionnaireServlet extends HttpServlet {
 				expertise_level = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("expertise_level")));
 			} catch (NumberFormatException e) {
 				errorMsg = "Wrong format request! Try again!";
+				throw new Exception(errorMsg);
+			}
+			
+			questionnaire = questionnaireService.findQuestionnaireById(idQuest);
+			
+			if (questionnaire.isSubmitted()) {
+				errorMsg = "Questionnaire already compiled!";
 				throw new Exception(errorMsg);
 			}
 			
@@ -178,8 +190,7 @@ public class QuestionnaireServlet extends HttpServlet {
 			path = "/WEB-INF/Questionnaire.html";
 			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");
 			
-			if (idQuest != -1) {
-				Questionnaire questionnaire = questionnaireService.findQuestionnaireById(idQuest);
+			if (questionnaire != null) {
 				Product product = questionnaire.getProduct();
 
 				ctx.setVariable("questions", product.getQuestions());

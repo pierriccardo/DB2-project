@@ -33,11 +33,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Log> logs;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Review> reviews;
 	
 
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private List<Questionnaire> Questionnaires;
 	
 	

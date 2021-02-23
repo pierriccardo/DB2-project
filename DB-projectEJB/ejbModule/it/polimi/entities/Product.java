@@ -24,21 +24,23 @@ public class Product implements Serializable {
 	private String imageFileName;
 	private Date date;
 	
+	@OneToMany(mappedBy="product", fetch = FetchType.LAZY)
+	private List<Questionnaire> questionnaires;
+	
+	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
+	private List<Question> questions;
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	private List<Review> reviews;
+
+
 	public List<Questionnaire> getQuestionnaires() {
 		return questionnaires;
 	}
 	public void setQuestionnaires(List<Questionnaire> questionnaires) {
 		this.questionnaires = questionnaires;
 	}
-	@OneToMany(mappedBy="product")
-	private List<Questionnaire> questionnaires;
 	
-	@OneToMany(mappedBy="product")
-	private List<Question> questions;
-	
-	@OneToMany(mappedBy = "product")
-	private List<Review> reviews;
-
 	public List<Question> getQuestions() {
 		return questions;
 	}
