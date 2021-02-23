@@ -59,7 +59,6 @@ public class LeaderboardServlet extends HttpServlet {
 		}
 		
 		ctx.setVariable("leads", leads);
-		ctx.setVariable("i", 1);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 	

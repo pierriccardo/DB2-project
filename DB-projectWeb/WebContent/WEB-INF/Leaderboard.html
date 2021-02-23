@@ -58,8 +58,8 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-					    <tr class="list-inline" th:each="leaderboard: ${leads}">
-      					  <th scope="row" th:text="${i++}"></th>
+					    <tr class="list-inline" th:each="leaderboard, i: ${leads}">
+      					  <th scope="row" th:text="${i.index+1}"></th>
 					      <td th:text="${leaderboard.getUsername()}"></td>
 					      <td th:text="${leaderboard.getScore()}"></td>
 					    </tr>
