@@ -1,92 +1,119 @@
 /*ONE POINT FOR EACH ANSWER OF SECTION 1*/
+delimiter $$
+
 CREATE TRIGGER point1
-AFTER INSERT ON ANSWER
+AFTER INSERT ON answer
 FOR EACH ROW 
 BEGIN
-    DECLARE x;
+    DECLARE x int;
     
     SELECT idUser
     INTO x
-    FROM QUESTIONNAIRE 
+    FROM questionnaire 
     WHERE new.idQuestionnaire = id ;
 
-    UPDATE USER
+    UPDATE user
     SET score = score + 1 
     WHERE id = x;
-END ;
+END;$$
+
+delimiter ; 
+
 
 /*ONE POINT FOR EACH ANSWER OF SECTION 1*/
-CREATE TRIGGER point1
-AFTER DELETE ON ANSWER
+delimiter $$
+
+CREATE TRIGGER point1Remove
+AFTER DELETE ON answer
 FOR EACH ROW 
 BEGIN
-    DECLARE x;
+    DECLARE x int;
     
     SELECT idUser
     INTO x
-    FROM QUESTIONNAIRE 
+    FROM questionnaire 
     WHERE old.idQuestionnaire = id ;
 
-    UPDATE USER
+    UPDATE user
     SET score = score - 1 
     WHERE id = x;
-END ;
+END;$$
+
+delimiter ; 
 
 
 /*ONE POINT FOR EACH ANSWER OF SECTION 2*/
+delimiter $$
+
 CREATE TRIGGER point2
-AFTER INSERT ON QUESTIONNAIRE 
+AFTER INSERT ON questionnaire 
 FOR EACH ROW 
 BEGIN
-    IF(new.sex IS NOT NULL)
-        UPDATE LEADERBOARD
+    IF(new.sex IS NOT NULL) then
+        UPDATE user
         SET score = score + 2
         WHERE id = new.idUser;
-    
-    IF(new.age IS NOT NULL)
-        UPDATE LEADERBOARD
+    end if;
+    IF(new.age IS NOT NULL) then
+        UPDATE user
         SET score = score + 2
         WHERE id = new.idUser;
-    
-    IF(new.expertise_level) IS NOT NULL)
-        UPDATE LEADERBOARD
+    end if;
+    IF(new.expertise_level IS NOT NULL) then
+        UPDATE user
         SET score = score + 2
         WHERE id = new.idUser;
-END ;
+    end if;
+END;$$
+
+delimiter ; 
+
 
 /*ONE POINT FOR EACH ANSWER OF SECTION 2*/
-CREATE TRIGGER point2
-AFTER DELETE ON QUESTIONNAIRE 
+delimiter $$
+
+CREATE TRIGGER point2Remove
+AFTER DELETE ON questionnaire 
 FOR EACH ROW 
 BEGIN
-    IF(old.sex IS NOT NULL)
-        UPDATE LEADERBOARD
+    IF(old.sex IS NOT NULL) then
+        UPDATE user
         SET score = score - 2
-        WHERE id = new.idUser;
-    
-    IF(old.age IS NOT NULL)
-        UPDATE LEADERBOARD
+        WHERE id = old.idUser;
+    end if;
+    IF(old.age IS NOT NULL) then
+        UPDATE user
         SET score = score - 2
-        WHERE id = new.idUser;
-    
-    IF(old.expertise_level) IS NOT NULL)
-        UPDATE LEADERBOARD
+        WHERE id = old.idUser;
+    end if;
+    IF(old.expertise_level IS NOT NULL) then
+        UPDATE user
         SET score = score - 2
-        WHERE id = new.idUser;
-END ;
+        WHERE id = old.idUser;
+    end if;
 
+END;$$
+
+delimiter ; 
 
 /*BANNED WORD*/
-CREATE TRIGGER banned
-BEFORE INSERT ON ANSWER 
+delimiter $$
+
+CREATE TRIGGER bannedWord
+BEFORE INSERT ON answer 
 FOR EACH ROW
-WHEN NOT EXIST (SELECT *
-                FROM BANNEDWORD
-                WHERE new.text LIKE '%' word '%')
 BEGIN
-    UPDATE USER
+if (SELECT count(*)
+                FROM blacklist_word
+                WHERE new.text LIKE CONCAT('%', word, '%')) > 0 then
+
+    UPDATE user
     SET isBanned = true 
     WHERE id = new.id;
 
     SIGNAL sqlstate '45001' set message_text = "User used a banned word!";
-END ;
+    
+    end if;
+END;$$
+
+delimiter ; 
