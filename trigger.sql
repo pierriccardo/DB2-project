@@ -130,7 +130,7 @@ if (SELECT count(*)
                 FROM product
                 WHERE new.date = date) then
 
-    SIGNAL sqlstate '45001' set message_text = "There can be only one product for a day!";
+    SIGNAL sqlstate '45002' set message_text = "There can be only one product for a day!";
     
     end if;
 END;$$
