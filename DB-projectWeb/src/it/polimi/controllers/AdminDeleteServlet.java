@@ -23,14 +23,14 @@ import it.polimi.services.QuestionnaireService;
 
 
 @WebServlet("/Admin/DeleteQuestionnaire")
-public class DeleteServlet extends HttpServlet {
+public class AdminDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB(name = "it.polimi.services/adminService")
 	private AdminService adminService;
 	private TemplateEngine templateEngine;
 
 
-	public DeleteServlet() {
+	public AdminDeleteServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

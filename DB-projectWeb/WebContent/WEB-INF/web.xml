@@ -9,6 +9,7 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 	    <url-pattern>/Delete</url-pattern> 
 	    <url-pattern>/GoToHome</url-pattern>
 	    <url-pattern>/Questionnaire</url-pattern>
+	    <url-pattern>/Leaderboard</url-pattern>
 	</filter-mapping> 
 	
 	<filter>
@@ -18,5 +19,10 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 	<filter-mapping>
 	    <filter-name>CheckerAdmin</filter-name>
 	    <url-pattern>/Admin/CreateProduct</url-pattern>
+	    <url-pattern>/Admin/AddQuestion</url-pattern>
+	    <url-pattern>/Admin/InspectionQuestionnaire</url-pattern>
+	    <url-pattern>/Admin/Inspection</url-pattern>
+	    <url-pattern>/Admin/UserAnswers</url-pattern>
+	    <url-pattern>/Admin/DeleteQuestionnaire</url-pattern>
 	</filter-mapping> 
 </web-app>
