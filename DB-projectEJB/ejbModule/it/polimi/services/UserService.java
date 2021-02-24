@@ -120,7 +120,10 @@ public class UserService {
 	}
 	
 	public List<User> getLeads(){
-		return em.createNamedQuery("User.findScore", User.class)
+		List<User> u = em.createNamedQuery("User.findScore", User.class)
 				.getResultList();
+		for (User user:u)
+			em.refresh(user);
+		return u;
 	}
 }

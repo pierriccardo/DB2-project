@@ -72,18 +72,19 @@ public class QuestionnaireService {
 				em.persist(answer);
 			}
 			
-			if (age != 0)
-				questionnaire.setAge(age);
+		
+			questionnaire.setAge(age);			
 			
-			if (sex != -1)
-				questionnaire.setSex(sex);
 			
-			if (expertise_level != -1)
-				questionnaire.setExpertise_level(expertise_level);
+			questionnaire.setSex(sex);
+			
+
+			questionnaire.setExpertise_level(expertise_level);
 			
 			questionnaire.setSubmitted(isSubmitted);
 			
 			em.flush();
+
 		} catch (PersistenceException e) {
 			if(e.getMessage().split("\n")[1].trim().split(":")[2].trim().equals("User used a banned word!"))
 				throw new UserBannedException("The user is banned because he has used a banned word!");

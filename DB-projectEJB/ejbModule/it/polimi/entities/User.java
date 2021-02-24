@@ -13,7 +13,7 @@ import java.util.List;
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
 @NamedQuery(name = "User.checkUsernames", query = "SELECT r FROM User r  WHERE r.username = ?1")
 @NamedQuery(name = "User.checkEmails", query = "SELECT r FROM User r  WHERE r.email = ?1")
-@NamedQuery(name = "User.findScore", query = "SELECT r FROM User r ORDER BY r.score DESC")
+@NamedQuery(name = "User.findScore", query = "SELECT r FROM User r WHERE r.isAdmin = 0 ORDER BY r.score DESC")
 public class User implements Serializable {
 
 

@@ -58,7 +58,7 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 				throw new Exception("Problem with ID product!");
 			}
 			
-			List<Question> questions = adminService.findQuestions(idProd);
+			List<Question> questions = adminService.findAllQuestions(idProd);
 						
 			ctx.setVariable("idProd", idProd);
 			ctx.setVariable("questions", questions);

@@ -87,18 +87,18 @@
 				<div class="row optional_row">
 					<div class="col-sm">
 						<h5>Age:</h5>
-						<input type="number" class="form-control form-control-lg" name="age" id="age" value="0" placeholder="Insert your age">
+						<input type="number" class="form-control form-control-lg" name="age" min="0" max="200" id="age" value="0" placeholder="Insert your age">
 					</div>
 					<div class="col-sm">
 						<h5>Sex:</h5>
 						<div class="btn-group btn-group-lg" role="group" aria-label="Sex:">
-							<input type="radio" class="btn-check" name="sex" value="-1" id="sex-1" autocomplete="off" checked>
+							<input type="radio" class="btn-check" name="sex" value="0" id="sex-1" autocomplete="off" checked>
 							<label class="btn btn-outline-secondary" for="sex-1"><i class="far fa-times-circle"></i></label>
 							
-							<input type="radio" class="btn-check" name="sex" value="0" id="sex0" autocomplete="off">
+							<input type="radio" class="btn-check" name="sex" value="1" id="sex0" autocomplete="off">
 							<label class="btn btn-outline-primary" for="sex0">Male</label>
 							
-							<input type="radio" class="btn-check" name="sex" value="1" id="sex1" autocomplete="off">
+							<input type="radio" class="btn-check" name="sex" value="2" id="sex1" autocomplete="off">
 							<label class="btn btn-outline-danger" for="sex1">Female</label>
 						</div>
 					</div>
@@ -109,13 +109,13 @@
 							<input type="radio" class="btn-check" name="expertise_level" value="0" id="expertise_level-1" autocomplete="off" checked>
 							<label class="btn btn-outline-secondary" for="expertise_level-1"><i class="far fa-times-circle"></i></label>
 							
-							<input type="radio" class="btn-check" name="expertise_level" value="0" id="expertise_level0" autocomplete="off">
+							<input type="radio" class="btn-check" name="expertise_level" value="1" id="expertise_level0" autocomplete="off">
 							<label class="btn btn-outline-danger" for="expertise_level0">Low</label>
 							
-							<input type="radio" class="btn-check" name="expertise_level" value="1" id="expertise_level1" autocomplete="off">
+							<input type="radio" class="btn-check" name="expertise_level" value="2" id="expertise_level1" autocomplete="off">
 							<label class="btn btn-outline-primary" for="expertise_level1">Medium</label>
 							
-							<input type="radio" class="btn-check" name="expertise_level" value="2" id="expertise_level2" autocomplete="off">
+							<input type="radio" class="btn-check" name="expertise_level" value="3" id="expertise_level2" autocomplete="off">
 							<label class="btn btn-outline-success" for="expertise_level2">High</label>
 						</div>
 					</div>
