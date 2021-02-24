@@ -49,22 +49,23 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 		String path = "/WEB-INF/AdminAddQuestion.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			
+		
+		String errorMsg = "";
 		try {
 			int idProd;
 			try {
 				idProd = Integer.parseInt(StringEscapeUtils.escapeJava(request.getParameter("idProd")));
 			} catch (NumberFormatException e) {
-				throw new Exception("Problem with ID product!");
+				errorMsg = "Problem with ID product!";
+				throw new Exception(errorMsg);
 			}
 			
 			List<Question> questions = adminService.findAllQuestions(idProd);
 						
 			ctx.setVariable("idProd", idProd);
 			ctx.setVariable("questions", questions);
-			
 		} catch (Exception e) {
-			ctx.setVariable("errorMsg", e.toString());
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request");
 		}
 		
 		templateEngine.process(path, ctx, response.getWriter());
@@ -88,6 +89,7 @@ public class AdminAddQuestionsServlet extends HttpServlet {
 				errorMsg = "Wrong format request! Try again!";
 				throw new Exception(errorMsg);
 			}
+			
 			if (questionText == null || questionText.isEmpty()) {
 				errorMsg = "Question cannot be empty!";
 				throw new Exception(errorMsg);
