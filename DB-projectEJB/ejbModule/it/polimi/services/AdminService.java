@@ -92,11 +92,15 @@ public class AdminService {
 	}
 	
 	public Questionnaire findQuestionnaire(int idQuestionnaire) {
-		return em.find(Questionnaire.class, idQuestionnaire);
+		Questionnaire q = em.find(Questionnaire.class, idQuestionnaire);
+		em.refresh(q);
+		return q;
 	}
 	
 	public User findUser(int idUser) {
-		return em.find(User.class, idUser);
+		User u = em.find(User.class, idUser);
+		em.refresh(u);
+		return u;
 	}
 	
 	public void deleteProduct(int idQ) {
@@ -109,7 +113,10 @@ public class AdminService {
 	
 	public List<Questionnaire> findAllQuestionnaires(int idProd) {
 		Product product = this.findProduct(idProd);
+		em.refresh(product);
 		List<Questionnaire> q = product.getQuestionnaires();
+		for (Questionnaire 	questionnaire:q)
+			em.refresh(questionnaire);
 		return q;
 	}
 	
@@ -120,15 +127,22 @@ public class AdminService {
 	}
 	
 	public Product findProdFromQuestionnaire(int idQuestionnaire) {
-		return em.find(Questionnaire.class, idQuestionnaire).getProduct();
+		Product p = em.find(Questionnaire.class, idQuestionnaire).getProduct();
+		em.refresh(p);
+		return p;
 	}
 	
 	public User findUserOfQuestionnaire(int idQuestionnaire) {
-		return em.find(Questionnaire.class, idQuestionnaire).getUser();
+		User u = em.find(Questionnaire.class, idQuestionnaire).getUser();
+		em.refresh(u);
+		return u;
 	}
 	
 	public List<Answer> findAllAnswers(int idQuestionnaire) {
-		return em.find(Questionnaire.class, idQuestionnaire).getAnswers();
+		List<Answer> a = em.find(Questionnaire.class, idQuestionnaire).getAnswers();
+		for (Answer answer:a)
+			em.refresh(answer);
+		return a;
 	}
 	
 }

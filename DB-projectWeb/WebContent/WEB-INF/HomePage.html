@@ -85,11 +85,13 @@
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col"></th>
+							<th scope="col">User</th>
+							<th scope="col">Review</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr class="list-inline" th:each="review: ${reviews}">
+							<th th:text="${review.getUser().getUsername}"></th>
 							<th th:text="${review.getText()}"></th>
 						</tr>
 					</tbody>

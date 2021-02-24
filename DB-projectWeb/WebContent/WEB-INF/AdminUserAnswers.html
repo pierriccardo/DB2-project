@@ -41,7 +41,7 @@
 	<div class="base-box container-xxl">
 		<div class="row">
 			<div class="col">
-				<h5>Questionnaire</h5>
+				<h1>Questionnaire</h1>
 			</div>
 		</div>
 		<hr class="hr-title">
@@ -52,11 +52,22 @@
 		</div>
 		
 		<div class="row">
-			<a th:text=${product.getName()}>Product name: </a>
-			<a th:text=${product.getDate()}>Product date: </a>
-			<a th:text=${user.getId()}>User id: </a>
+			<div class="col-3">
+				<p>Product Name:</p>
+				<a th:text=${product.getName()}></a>
+			</div>
+			<div class="col-3">
+				<p>Product Date: </p>
+				<a th:text=${product.getDate()}></a>
+			</div>
+			<div class="col-3">
+				<p>Username: </p>
+				<a th:text=${user.getUsername()}></a>
+			</div>
+			
+			
+			
 			<!-- USERS WHO HAVE SUBMITTED -->
-			<h3>Submitted</h3>
 			<table class="table">
 			  <thead class="thead-dark">
 			    <tr>

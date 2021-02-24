@@ -116,4 +116,10 @@ public class QuestionnaireService {
 		
 		return questionnaire.isSubmitted();
 	}
+	
+	public List<Question> findAllQuestions(Product product) {
+		product = em.merge(product);
+		em.refresh(product);
+		return product.getQuestions();
+	}
 }

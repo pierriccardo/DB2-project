@@ -106,7 +106,7 @@ public class QuestionnaireServlet extends HttpServlet {
 			}
 			
 			ctx.setVariable("idQuest", questionnaire.getId());
-			ctx.setVariable("questions", product.getQuestions());
+			ctx.setVariable("questions", questionnaireService.findAllQuestions(product));
 		} catch (Exception e) {
 			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request!");
 		}

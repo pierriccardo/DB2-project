@@ -17,8 +17,6 @@ public class Review implements Serializable {
 
 	private String text;	
 	
-	
-
 	@ManyToOne
 	@JoinColumn(name = "idUser")
 	private User user;
