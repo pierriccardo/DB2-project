@@ -137,7 +137,7 @@ delimiter ;
 
 
 /*
-show triggers;
+SHOW TRIGGERS;
 
 DROP TRIGGER point1;
 DROP TRIGGER point2;
