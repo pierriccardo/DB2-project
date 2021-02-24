@@ -107,9 +107,9 @@ if (SELECT count(*)
                 FROM blacklist_word
                 WHERE new.text LIKE CONCAT('%', word, '%')) > 0 then
 
-    UPDATE user
-    SET isBanned = true 
-    WHERE id = new.id;
+
+    DELETE questionnaire
+    WHERE new.idQuestionnaire = id;
 
     SIGNAL sqlstate '45001' set message_text = "User used a banned word!";
     
