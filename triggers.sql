@@ -9,7 +9,7 @@ BEGIN
 
 	SELECT idUser INTO my_idUser
 	FROM questionnaire 
-	WHERE new.idQuestionnaire = id AND new.isSubmitted = 1;
+	WHERE new.idQuestionnaire = id AND isSubmitted = 1;
 
 	UPDATE user
 	SET score = score + 1 
