@@ -23,7 +23,7 @@ delimiter ;
 delimiter $$
 
 CREATE TRIGGER point2
-AFTER INSERT ON questionnaire 
+AFTER UPDATE ON questionnaire 
 FOR EACH ROW 
 BEGIN
 	IF (new.sex > 0 AND new.isSubmitted = 1) THEN
