@@ -7,6 +7,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.NonUniqueResultException;
 
 import it.polimi.entities.User;
+import it.polimi.entities.Answer;
 import it.polimi.entities.Product;
 import it.polimi.entities.Questionnaire;
 import it.polimi.entities.Question;
@@ -100,7 +101,28 @@ public class AdminService {
 		em.flush();
 	}
 	
-	public List<Question> findQuestions(int idProd) {
-		return em.find(Product.class, idProd).getQuestions();
+	public List<Questionnaire> findAllQuestionnaires(int idProd) {
+		Product product = this.findProduct(idProd);
+		List<Questionnaire> q = product.getQuestionnaires();
+		return q;
 	}
+	
+	public List<Question> findAllQuestions(int idProd) {
+		Product p = em.find(Product.class, idProd);
+		em.refresh(p);
+		return p.getQuestions();
+	}
+	
+	public Product findProdFromQuestionnaire(int idQuestionnaire) {
+		return em.find(Questionnaire.class, idQuestionnaire).getProduct();
+	}
+	
+	public User findUserOfQuestionnaire(int idQuestionnaire) {
+		return em.find(Questionnaire.class, idQuestionnaire).getUser();
+	}
+	
+	public List<Answer> findAllAnswers(int idQuestionnaire) {
+		return em.find(Questionnaire.class, idQuestionnaire).getAnswers();
+	}
+	
 }

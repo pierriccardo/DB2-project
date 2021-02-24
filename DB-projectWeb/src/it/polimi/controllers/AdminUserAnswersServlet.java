@@ -61,15 +61,14 @@ public class AdminUserAnswersServlet extends HttpServlet {
 			} catch (NumberFormatException e) {
 				throw new Exception("Problem with ID Questionnaire!");
 			}
-			ctx.setVariable("idProd", idQuestionnaire);
+			//ctx.setVariable("idProd", idQuestionnaire);
+			
 			Questionnaire questionnaire = adminService.findQuestionnaire(idQuestionnaire);
-			Product product = questionnaire.getProduct();
-			User user = questionnaire.getUser();
-			List<Answer> answers = questionnaire.getAnswers();
-			List<Question> questions = product.getQuestions();
+			Product product = adminService.findProdFromQuestionnaire(idQuestionnaire);
+			User user = adminService.findUserOfQuestionnaire(idQuestionnaire);
+			List<Answer> answers = adminService.findAllAnswers(idQuestionnaire);
 			
 			ctx.setVariable("questionnaire", questionnaire);
-			ctx.setVariable("questions", questions);
 			ctx.setVariable("answers", answers);
 			ctx.setVariable("product", product);
 			ctx.setVariable("user", user);
