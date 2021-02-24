@@ -6,6 +6,7 @@ import java.sql.Date;
 
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,6 +24,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.utils.ImageUtils;
+import it.polimi.exceptions.SameDateException;
 import it.polimi.services.AdminService;
 
 @WebServlet("/Admin/CreateProduct")
@@ -62,6 +64,7 @@ public class AdminCreateProductServlet extends HttpServlet {
 		String prodDate = null;
 		int idProd = -1;
 		
+		String errorMsg = "";
 		try {
 			
 			prodName = StringEscapeUtils.escapeJava(request.getParameter("prodName"));
@@ -73,12 +76,20 @@ public class AdminCreateProductServlet extends HttpServlet {
 			byte[] imgByteArray = ImageUtils.readImage(imgContent);
 			
 			if (prodName == null || prodName.isEmpty()) {
-				throw new Exception("You must insert product name and question");
+				errorMsg = "You must insert product name and question";
+				throw new Exception(errorMsg);
 			}
 			
 			
-			
-			idProd = adminService.CreateProduct(prodName, prodDate, imgByteArray);
+			try {
+				idProd = adminService.CreateProduct(prodName, prodDate, imgByteArray);
+			} catch (SameDateException e) {
+				errorMsg = "A product with the same date already exists!";
+				throw new Exception(errorMsg);
+			} catch (Exception e) {
+				errorMsg = "Error during the upload of the product!";
+				throw new Exception(errorMsg);
+			}
 			
 			String redirectPath;
 			redirectPath = getServletContext().getContextPath() + "/Admin/AddQuestion?idProd=" + Integer.toString(idProd);
@@ -90,12 +101,10 @@ public class AdminCreateProductServlet extends HttpServlet {
 			
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", e.toString());
+			ctx.setVariable("errorMsg", (errorMsg.length() > 0) ? errorMsg : "Wrong request");
 			String path = "/WEB-INF/AdminCreateProduct.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		}
-		
-		
 	}
 
 	public void destroy() {

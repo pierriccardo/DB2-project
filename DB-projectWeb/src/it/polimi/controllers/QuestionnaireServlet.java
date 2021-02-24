@@ -196,7 +196,7 @@ public class QuestionnaireServlet extends HttpServlet {
 				
 				errorMsg = "You used a forbidden word! From now on you cannot fill in any other questionnaire.";
 				throw new Exception(errorMsg);
-			} catch (PersistenceException e) {
+			} catch (Exception e) {
 				errorMsg = "Error during the upload of the questionnaire!";
 				throw new Exception(errorMsg);
 			}

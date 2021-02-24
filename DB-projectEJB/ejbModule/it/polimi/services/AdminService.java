@@ -30,11 +30,9 @@ public class AdminService {
 	private EntityManager em;
 
 	public AdminService() {
-		//constructor
 	}
 
 	public int CreateProduct(String prodName, String prodDate, byte[] prodImageFile) throws Exception {
-		
 		Product product = new Product();
 		product.setName(prodName);
 		product.setImageFile(prodImageFile);
@@ -58,8 +56,16 @@ public class AdminService {
 		System.out.println(prodName);
         
 		product.setDate(sqlDate);
-		em.persist(product);
-		em.flush();
+		
+		try {
+			em.persist(product);
+			em.flush();
+		} catch (PersistenceException e) {
+			if(e.getMessage().split("\n")[1].trim().split(":")[2].trim().equals("There can be only one product for a day!"))
+				throw new SameDateException("The user is banned because he has used a banned word!");
+			throw e;
+		}
+		
 		return product.getId();
 	}
 	

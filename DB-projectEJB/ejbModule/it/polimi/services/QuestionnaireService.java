@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import it.polimi.entities.*;
+import it.polimi.exceptions.SameDateException;
 import it.polimi.exceptions.UserBannedException;
 
 @Stateless
@@ -84,7 +85,7 @@ public class QuestionnaireService {
 			
 			em.flush();
 		} catch (PersistenceException e) {
-			if(e.getMessage().split("\n")[2].trim().equals("Error Code: 1644"))
+			if(e.getMessage().split("\n")[1].trim().split(":")[2].trim().equals("User used a banned word!"))
 				throw new UserBannedException("The user is banned because he has used a banned word!");
 			throw e;
 		}
