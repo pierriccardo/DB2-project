@@ -1,0 +1,5 @@
+#Create db DB_project
+mysql -h 127.0.0.1 -u root -p <<< "create database DB_project"
+
+#Import dump base.sql
+mysql -h 127.0.0.1 -u root -p 'DB_project' < base.sql
