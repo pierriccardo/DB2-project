@@ -16,7 +16,6 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "log", schema = "DB_project")
-//@NamedQuery(name = "Log.list", query = "SELECT l FROM Log l  WHERE l.users.getUser.id = ?1")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -69,8 +68,4 @@ public class Log implements Serializable {
 	public void setTime(long time) {
 		this.time = time;
 	}
-
-	
-	
-
 }

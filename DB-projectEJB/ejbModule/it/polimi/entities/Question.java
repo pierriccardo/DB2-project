@@ -65,5 +65,4 @@ public class Question implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	
 }

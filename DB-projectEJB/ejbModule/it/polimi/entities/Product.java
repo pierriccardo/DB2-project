@@ -90,6 +90,4 @@ public class Product implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-
 }

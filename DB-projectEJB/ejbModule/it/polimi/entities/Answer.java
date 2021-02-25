@@ -7,8 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "answer", schema = "DB_project")
-//@NamedQuery(name = "Questionnaire.check", query = "SELECT * FROM Questionnaire")
-
 public class Answer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
