@@ -1,11 +1,9 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +17,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.entities.Product;
 import it.polimi.entities.Question;
 import it.polimi.services.AdminService;
 

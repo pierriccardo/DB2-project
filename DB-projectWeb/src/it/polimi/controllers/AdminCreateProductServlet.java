@@ -2,11 +2,8 @@ package it.polimi.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

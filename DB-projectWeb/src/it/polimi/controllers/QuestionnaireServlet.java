@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,9 +19,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.entities.Answer;
 import it.polimi.entities.Product;
-import it.polimi.entities.Question;
 import it.polimi.entities.Questionnaire;
 import it.polimi.entities.User;
 import it.polimi.exceptions.UserBannedException;

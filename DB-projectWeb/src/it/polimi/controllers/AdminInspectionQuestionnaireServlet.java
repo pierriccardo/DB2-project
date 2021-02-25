@@ -1,10 +1,8 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
-import java.sql.Date;
 
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +20,6 @@ import java.util.List;
 
 import it.polimi.entities.Product;
 import it.polimi.entities.Questionnaire;
-import it.polimi.entities.User;
 import it.polimi.services.AdminService;
 
 @WebServlet("/Admin/InspectionQuestionnaire")

@@ -1,8 +1,6 @@
 package it.polimi.controllers;
 
 import java.io.IOException;
-import java.security.Timestamp;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -24,7 +22,7 @@ import it.polimi.services.UserService;
 
 import javax.persistence.NonUniqueResultException;
 
-import javax.naming.*;
+
 
 @WebServlet("/Login")
 public class LoginServlet extends HttpServlet {

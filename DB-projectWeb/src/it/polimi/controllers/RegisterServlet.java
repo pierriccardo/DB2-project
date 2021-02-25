@@ -17,11 +17,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.services.UserService;
-import it.polimi.entities.User;
 import it.polimi.exceptions.CredentialsException;
-import javax.persistence.NonUniqueResultException;
 
-import javax.naming.*;
 
 @WebServlet("/Register")
 public class RegisterServlet extends HttpServlet {

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -19,7 +18,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.entities.Product;
 import it.polimi.services.AdminService;
-import it.polimi.services.QuestionnaireService;
 
 
 @WebServlet("/Admin/DeleteQuestionnaire")
