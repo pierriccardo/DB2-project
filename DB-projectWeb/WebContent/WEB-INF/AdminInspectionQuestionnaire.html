@@ -57,20 +57,14 @@
 		</div>
 
 		<div class="row">
-			<div class="col-2">
+			<div class="col-6">
 				<p>Product Name:</p>
 				<a th:text="${product.getName()}"></a> 
 			</div>
 			
-			<div class="col-2">
+			<div class="col-6">
 				<p>Product Date:</p>
 				<a th:text="${product.getDate()}"></a> 
-			</div>
-			
-			<div class="col-4">
-				<a class="btn btn-primary" href="#" th:href="@{/Admin/AddQuestion} + '?idProd=' + ${product.getId()}">
-					<i class="fas fa-plus-square"></i> add question
-				</a>
 			</div>
 
 			<!-- USERS WHO HAVE SUBMITTED -->

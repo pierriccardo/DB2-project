@@ -38,7 +38,7 @@ public class AdminService {
 		product.setName(prodName);
 		product.setImageFile(prodImageFile);
 			
-		//TODO: check if the date is already busy by another product
+		
         LocalDate parsed = LocalDate.parse(prodDate);
 		LocalDate today = LocalDate.now();
 		
@@ -46,15 +46,8 @@ public class AdminService {
 		
 		
 		if (parsed.isBefore(today)) {
-			System.out.println(parsed.compareTo(today));
-			System.out.println(parsed);
-			System.out.println(today);
 			throw new Exception("Date must be today or in the future!");	
 		}
-		
-		System.out.println(prodDate);
-		System.out.println(prodImageFile);
-		System.out.println(prodName);
         
 		product.setDate(sqlDate);
 		
@@ -71,7 +64,7 @@ public class AdminService {
 	}
 	
 	public List<Question> AddQuestion(int idProd, String questionText) throws Exception {
-		System.out.println(idProd);
+		
 		Question question = new Question();
 		Product product = em.find(Product.class, idProd);
 		question.setProduct(product);
@@ -86,6 +79,16 @@ public class AdminService {
 		return em.createNamedQuery("Product.findAll", Product.class)
 				.getResultList();
 	}
+	
+	public List<Product> findAllProductsToDelete() {
+		LocalDate today = LocalDate.now();
+		List<Product> prods = em.createNamedQuery("Product.findAllToDelete", Product.class)
+				.setParameter(1, java.sql.Date.valueOf(today))
+				.getResultList();		
+		return prods;
+	}
+	
+	
 	
 	public Product findProduct(int idProd) {
 		return em.find(Product.class, idProd);
@@ -103,11 +106,18 @@ public class AdminService {
 		return u;
 	}
 	
-	public void deleteProduct(int idQ) {
-		Product q = this.findProduct(idQ);
-		if (q == null)
+	public void deleteProduct(int idQ) throws Exception {
+		Product p = this.findProduct(idQ);
+		if (p == null)
 			return;
-		em.remove(q);
+		
+		LocalDate todelete = p.getDate().toLocalDate();
+		LocalDate today = LocalDate.now();
+		
+		if (!todelete.isBefore(today)) {
+			throw new Exception("you can delete only past questionnaires!");	
+		}
+		em.remove(p);
 		em.flush();
 	}
 	

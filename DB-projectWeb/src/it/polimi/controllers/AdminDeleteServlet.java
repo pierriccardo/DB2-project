@@ -47,7 +47,7 @@ public class AdminDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		List<Product> products = adminService.findAllProducts();		
+		List<Product> products = adminService.findAllProductsToDelete();		
 		
 		String path = "/WEB-INF/AdminDeleteQuestionnaire.html";
 		ServletContext servletContext = getServletContext();
